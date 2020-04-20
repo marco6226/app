@@ -1,0 +1,29 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="navegar('/app/home')">
+                <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>Seguimiento y control</ion-title>
+        <ion-buttons slot="end">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+    </ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+    <ion-item button (click)="navegar('/app/sec/consultaDesviaciones')" *sTienePermiso="['SEC_GET_DESV']">
+        <ion-thumbnail slot="start">
+            <div class="icon icon-inv-hallazgo"></div>
+        </ion-thumbnail>
+        <ion-label>Investigación de desviaciones</ion-label>
+    </ion-item>
+    <ion-item button (click)="navegar('/app/sec/consultaTareas')" *sTienePermiso="['SEC_GET_TAR']">
+        <ion-thumbnail slot="start">
+            <div class="icon icon-asign-tareas"></div>
+        </ion-thumbnail>
+        <ion-label>Actividades asignadas</ion-label>
+    </ion-item>
+</ion-content>

@@ -1,0 +1,99 @@
+// http://ionicframework.com/docs/theming/
+@import "~@ionic/angular/css/core.css";
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+
+ion-icon {
+    &.nostroke {
+        color: #ffffff00;
+    }
+}
+
+ion-toolbar {
+    ion-menu-button,
+    ion-button,
+    ion-back-button {
+      --color: #fff;
+    }
+}
+
+.modal-fullscreen {
+    .modal-wrapper {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+}
+
+.main-spinner{
+    margin: auto;
+    display: block;
+    margin-top: 20px;
+}
+
+
+
+.icon{
+    background-size: 30px 30px;
+    background-repeat: no-repeat;
+    padding-top: 2px;
+    padding-bottom: 5px;
+    width: 56px;
+    height: 56px;
+    background-position: center center;
+  }
+  .icon-adm{
+    background-image: url('/assets/images/adm.svg');
+  }
+  .icon-emp{
+      background-image: url('/assets/images/emp.svg');
+  }
+  .icon-inp{
+      background-image: url('/assets/images/inp.svg');
+  }
+  .icon-aue{
+      background-image: url('/assets/images/aue.svg');
+  }
+  .icon-sec{
+      background-image: url('/assets/images/sec.svg');
+  }
+  .icon-auc{
+      background-image: url('/assets/images/auc.svg');
+  }
+  .icon-rai{
+      background-image: url('/assets/images/rai.svg');
+  }
+  .icon-ado{
+      background-image: url('/assets/images/ado.svg');
+  }
+  .icon-aus{
+      background-image: url('/assets/images/aus.svg');
+  }
+  .icon-ind{
+      background-image: url('/assets/images/ind.svg');
+  }
+  .icon-ipr{
+      background-image: url('/assets/images/ipr.svg');
+  }
+  .icon-ctr{
+      background-image: url('/assets/images/ctr.svg');
+  }
+  .icon-cop{
+    background-image: url('/assets/images/cop.svg');
+  }
+  .icon-inv-hallazgo{
+    background-image: url('/assets/images/inv-hallazgos.svg');
+  }
+  .icon-asign-tareas{
+    background-image: url('/assets/images/asign-tareas.svg');
+  }
