@@ -96,7 +96,7 @@
         </ion-item>
         <ion-spinner class="main-spinner" name="dots" *ngIf="loading == true" color="primary"></ion-spinner>
 
-
+       
         <ng-container *ngFor="let desv of desviacionesList; let idx = index;">
           <ion-card *ngIf="!desv.oculto">
             <ion-card-content>
@@ -127,6 +127,7 @@
             </ion-card-content>
           </ion-card>
         </ng-container>
+        <button ion-button color="light" (click)="loadMore()" *ngIf="!this.disabled">Cargar mas</button>
 
       </div>
     </ion-slide>

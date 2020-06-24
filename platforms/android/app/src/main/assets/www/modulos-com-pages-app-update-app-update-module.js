@@ -67,7 +67,7 @@ var AppUpdatePageModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<ion-header>\n    <ion-toolbar>\n        <ion-title>Actualizar App</ion-title>\n    </ion-toolbar>\n</ion-header>\n\n<ion-content padding>\n    <h2>Existe una nueva versión de la App</h2>\n    <p>Por favor actualiza a la versión más reciente para seguir haciendo uso de la aplicación</p>\n    <p>\n        Si no puedes visualizar el boton de actualizar desde la tienda de aplicaciones, \n        desinstala la aplicación y vuelve a instalarla.\n    </p>\n    <ion-button (click)=\"redireccionar()\">\n        Actualizar\n    </ion-button>\n</ion-content>"
+module.exports = "<ion-header>\r\n    <ion-toolbar>\r\n        <ion-title>Actualizar App</ion-title>\r\n    </ion-toolbar>\r\n</ion-header>\r\n\r\n<ion-content padding>\r\n    <h2>Existe una nueva versión de la App</h2>\r\n    <p>Por favor actualiza a la versión más reciente para seguir haciendo uso de la aplicación</p>\r\n    <p>\r\n        Si no puedes visualizar el boton de actualizar desde la tienda de aplicaciones, \r\n        desinstala la aplicación y vuelve a instalarla.\r\n    </p>\r\n    <ion-button (click)=\"redireccionar()\">\r\n        Actualizar\r\n    </ion-button>\r\n</ion-content>"
 
 /***/ }),
 

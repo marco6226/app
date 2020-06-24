@@ -25,7 +25,8 @@ export class ConsultaDesviacionesPage implements OnInit {
 
   segments = { 'desviaciones': true, 'analisis': false };
   analisisCount = 0;
-
+  count = 0;
+  disabled = false;
   desviacionesList: Desviacion[];
   desvListSelect: Desviacion[];
   desviacionesFavList: Desviacion[];
@@ -83,7 +84,7 @@ export class ConsultaDesviacionesPage implements OnInit {
   //   console.log(event);
   //   this.inicializar(this.analisisDesvSyncComp.analisisDesvList, event);
   // }
-
+ 
   inicializar(analisisSyncList: AnalisisDesviacion[], refreshEvent?: any) {
     this.offlineService.queryDesviaciones()
       .then(resp => {
@@ -297,13 +298,21 @@ export class ConsultaDesviacionesPage implements OnInit {
     this.filtrar();
   }
 
+  loadMore(){
+    this.count = this.count + 3;
+    console.log(this.count,this.desviacionesList);
+    this.filtrar();
+    
+  }
+
   filtrar() {
     this.loading = true;
     let filterQuery = new FilterQuery();
     filterQuery.sortField = "modulo";
+    filterQuery.count =true;
     filterQuery.sortOrder = 1;
-    filterQuery.offset = 0;
-    filterQuery.rows = 10;
+    filterQuery.offset = 0 + this.count;
+    filterQuery.rows = 3 +  this.count;
     filterQuery.fieldList = ['hashId', 'modulo', 'aspectoCausante', 'concepto', 'area_nombre', 'analisisId'];
     filterQuery.filterList = [];
     if (this.filtModulo != null && this.filtModulo.length > 0) {
@@ -356,10 +365,14 @@ export class ConsultaDesviacionesPage implements OnInit {
     this.offlineService.queryDesviaciones(filterQuery)
       .then(resp => {
         this.desviacionesList = [];
+        let count = <number>resp['count'];
+        console.log(count);
         (<any[]>resp['data']).forEach(dto => {
           let desv: Desviacion = FilterQuery.dtoToObject(dto);
           desv['selected'] = false;
           this.desviacionesList.push(desv);
+          if (this.count >= count) this.disabled = true  ;
+          
         });
         this.loading = false;
         this.cargarSeleccionados();
