@@ -101,10 +101,10 @@ export class OfflineService {
             let areasPerm = this.sessionService.getPermisosMap()['SEC_GET_DESV'].areas;
             if (filterQuery == null) {
                 filterQuery = new FilterQuery();
-                // filterQuery.sortField = "modulo";
+                filterQuery.sortField = "modulo";
                 // filterQuery.sortOrder = 1;
                 filterQuery.offset = 0;
-                filterQuery.rows = 10;
+                filterQuery.rows = 5;
                 filterQuery.fieldList = ['hashId', 'modulo', 'aspectoCausante', 'concepto', 'area_nombre', 'analisisId'];
                 filterQuery.filterList = [
                     { criteria: Criteria.CONTAINS, field: "area.id", value1: areasPerm }

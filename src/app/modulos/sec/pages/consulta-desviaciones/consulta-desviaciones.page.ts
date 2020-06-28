@@ -299,7 +299,7 @@ export class ConsultaDesviacionesPage implements OnInit {
   }
 
   loadMore(){
-    this.count = this.count + 3;
+    this.count = this.count + 5;
     console.log(this.count,this.desviacionesList);
     this.filtrar();
     
@@ -312,7 +312,7 @@ export class ConsultaDesviacionesPage implements OnInit {
     filterQuery.count =true;
     filterQuery.sortOrder = 1;
     filterQuery.offset = 0 + this.count;
-    filterQuery.rows = 3 +  this.count;
+    filterQuery.rows = 5 +  this.count;
     filterQuery.fieldList = ['hashId', 'modulo', 'aspectoCausante', 'concepto', 'area_nombre', 'analisisId'];
     filterQuery.filterList = [];
     if (this.filtModulo != null && this.filtModulo.length > 0) {
