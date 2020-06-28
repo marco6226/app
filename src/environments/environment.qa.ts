@@ -3,9 +3,9 @@ export const environment = {
 };
 
 
-let protocol = 'https';
-let host = 'demo.sigess.app';
-let port = '5858';
+let protocol = 'http';
+let host = 'vps237705.vps.ovh.ca';
+let port = '8080';
 let path = protocol + "://" + host + ":" + port + "/sigess/api/";
 
 export const endPoints = {
