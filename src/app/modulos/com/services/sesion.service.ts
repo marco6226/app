@@ -154,7 +154,7 @@ export class SesionService {
         case 'NOMB_MOD_COP': return 'COPASST';
         case 'NOMB_MOD_SEC': return 'Seguimiento y control';
         case 'NOMB_MOD_IND': return 'Indicadores';
-        case 'NUM_MAX_FOTO_INP': return '1';
+        case 'NUM_MAX_FOTO_INP': return '3';
       }
       return null;
     } else {
@@ -167,7 +167,7 @@ export class SesionService {
       this.app_version = localStorage.getItem("app_version");
 
     if (this.app_version == null)
-      this.app_version = "1.0.218";
+      this.app_version = "1.0.220";
 
     return this.app_version;
   }
