@@ -44,7 +44,7 @@
 </ion-content>
 
 <ion-footer color="light">
-  <ion-item button (click)="actualizar()" *ngIf="versionDisponible > version">
+  <ion-item button (click)="actualizar()" *ngIf="versionDisponible >= version">
     <ion-icon slot="start" name="arrow-round-up" color="primary"></ion-icon>
     <div style="width: 100%;font-size: 14px;">
       <p style="float: left;color:#3ba2dc">Versión v{{versionDisponible}} disponible</p>
