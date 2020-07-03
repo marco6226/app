@@ -108,6 +108,7 @@ export class InspeccionFormComponent implements OnInit {
     this.offlineService.queryListaInspeccion(this.listaPk.id, this.listaPk.version)
       .then(data => {
         this.listaInspeccion = (<ListaInspeccion[]>data['data'])[0];
+        console.log(this.listaInspeccion);
         this.indexarElementos(this.listaInspeccion.elementoInspeccionList, null);
         this.loadingLI = false;
         this.listaCargada = true;

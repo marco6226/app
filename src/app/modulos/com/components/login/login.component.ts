@@ -191,6 +191,7 @@ export class LoginComponent implements OnInit {
         break;
       case 403:
         if (err.error != null && err.error.codigo == 2004) {
+          
           this.router.navigateByUrl('/appUpdate');
         } else {
           this.msgUsuarioService.showMessage({

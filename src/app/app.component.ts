@@ -40,7 +40,7 @@ export class AppComponent {
           localStorage.setItem("app_version", value);
         })
         .catch(err => {
-          alert(err);
+          console.log(err);
         });
 
       document.addEventListener("backbutton", function (e) {
