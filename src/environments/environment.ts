@@ -16,7 +16,7 @@ export const environment = {
 
 
 let protocol = 'http';
-let host = 'vps237705.vps.ovh.ca';
+let host = 'localhost';
 let port = '8080';
 let path = protocol + "://" + host + ":" + port + "/sigess/api/";
 

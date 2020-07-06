@@ -50,9 +50,12 @@ export class ConsultaDesviacionesPage implements OnInit {
     public modalController: ModalController,
     private offlineService: OfflineService,
     private router: Router,
-  ) { }
+  ) {
+    this.desviacionesList = [];
+   }
 
   ngOnInit() {
+
     this.filtDisp = this.offlineService.getOfflineMode() != true;
     this.offlineService.toggleSubject
       .subscribe(isoffline => {
@@ -60,7 +63,8 @@ export class ConsultaDesviacionesPage implements OnInit {
       });
     this.storageService.getDesviacionesFav()
       .then(resp => this.desviacionesFavList = resp['data']);
-  }
+      this.filtrar();
+    }
 
   toggleSelect(event, desv: Desviacion, idx: number) {
     desv['selected'] = event.detail.checked;
@@ -299,7 +303,7 @@ export class ConsultaDesviacionesPage implements OnInit {
   }
 
   loadMore(){
-    this.count = this.count + 1;
+    this.count = this.count + 3;
     console.log(this.count,this.desviacionesList);
     this.filtrar();
     
@@ -308,11 +312,11 @@ export class ConsultaDesviacionesPage implements OnInit {
   filtrar() {
     this.loading = true;
     let filterQuery = new FilterQuery();
-    filterQuery.sortField = "area.id";
+    filterQuery.sortField = "fechaReporte";
     filterQuery.count = true;
     filterQuery.sortOrder = 1;
     filterQuery.offset = 0 + this.count;
-    filterQuery.rows = 1 +  this.count;
+    filterQuery.rows = 3 ;
     filterQuery.fieldList = ['hashId', 'modulo', 'aspectoCausante', 'concepto', 'area_nombre','fechaReporte', 'analisisId'];
 
     filterQuery.filterList = [];
@@ -365,7 +369,7 @@ export class ConsultaDesviacionesPage implements OnInit {
     }
     this.offlineService.queryDesviaciones(filterQuery)
       .then(resp => {
-        this.desviacionesList = [];
+        //this.desviacionesList = [];
         let count = <number>resp['count'];
         console.log(count);
         (<any[]>resp['data']).forEach(dto => {
