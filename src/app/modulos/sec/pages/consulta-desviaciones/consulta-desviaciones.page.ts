@@ -63,7 +63,7 @@ export class ConsultaDesviacionesPage implements OnInit {
       });
     this.storageService.getDesviacionesFav()
       .then(resp => this.desviacionesFavList = resp['data']);
-      this.filtrar();
+      this.filtrar(false);
     }
 
   toggleSelect(event, desv: Desviacion, idx: number) {
@@ -273,43 +273,56 @@ export class ConsultaDesviacionesPage implements OnInit {
   }
 
   filtrarModulo(event) {
+    this.desviacionesList = [];
+    this.count = 0;
     this.filtModulo = event.detail.value;
-    this.filtrar();
+    this.filtrar(false);
   }
 
   filtrarInvestigado(event) {
+    this.desviacionesList = [];
+    this.count = 0;
     this.filtInvest = <boolean>event.detail.value;
-    this.filtrar();
+    this.filtrar(false);
   }
 
   filtrarConcepto(event) {
+    this.desviacionesList = [];
+    this.count = 0;
     this.filtConcepto = event.detail.value;
-    this.filtrar();
+    this.filtrar(false);
   }
 
   filtrarAspecto(event) {
+    this.desviacionesList = [];
+    this.count = 0;
     this.filtAspecto = event.detail.value;
-    this.filtrar();
+    this.filtrar(false);
   }
 
   filtrarCodigo(event) {
+    this.desviacionesList = [];
+    this.count = 0;
     this.filtCodigo = event.detail.value;
-    this.filtrar();
+    this.filtrar(false);
   }
 
   filtrarArea(event) {
+    this.desviacionesList = [];
+    this.count = 0;
     this.filtArea = event.detail.value;
-    this.filtrar();
+    this.filtrar(true);
   }
 
   loadMore(){
+    
     this.count = this.count + 3;
     console.log(this.count,this.desviacionesList);
-    this.filtrar();
-    
+    this.filtrar(false);
+    console.log(this.count);
   }
 
-  filtrar() {
+  filtrar(lm) {
     this.loading = true;
     let filterQuery = new FilterQuery();
     filterQuery.sortField = "fechaReporte";
@@ -332,7 +345,7 @@ export class ConsultaDesviacionesPage implements OnInit {
       filterQuery.filterList.push({
         criteria: this.filtInvest ? Criteria.IS_NOT_NULL : Criteria.IS_NULL,
         field: "analisisId",
-        value1: null
+        value1: null 
       });
     }
 
@@ -340,7 +353,7 @@ export class ConsultaDesviacionesPage implements OnInit {
       filterQuery.filterList.push({
         criteria: Criteria.LIKE,
         field: "aspectoCausante",
-        value1: '%' + this.filtAspecto + '%'
+        value1: '%' + this.filtAspecto.toUpperCase() + '%'
       });
     }
 
@@ -364,12 +377,12 @@ export class ConsultaDesviacionesPage implements OnInit {
       filterQuery.filterList.push({
         criteria: Criteria.LIKE,
         field: "area.nombre",
-        value1: '%' + this.filtArea + '%'
+        value1: '%' + this.filtArea.toUpperCase() + '%'
       });
     }
     this.offlineService.queryDesviaciones(filterQuery)
       .then(resp => {
-        //this.desviacionesList = [];
+         
         let count = <number>resp['count'];
         console.log(count);
         (<any[]>resp['data']).forEach(dto => {
