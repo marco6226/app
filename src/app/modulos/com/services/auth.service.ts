@@ -173,6 +173,7 @@ export class AuthService {
       ).catch(error => {
         this.setLoginFormVisible(true, true);
       })
+      alert("Lo sentimos se cerro su sesion")
       return this.loginSubmitSubject.asObservable();
     } else {
       // Si no se posee passwd, visualiza el formulario de login

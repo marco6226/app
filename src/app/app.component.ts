@@ -38,6 +38,7 @@ export class AppComponent {
       this.appVersion.getVersionNumber()
         .then(value => {
           localStorage.setItem("app_version", value);
+          console.log(value);
         })
         .catch(err => {
           console.log(err);

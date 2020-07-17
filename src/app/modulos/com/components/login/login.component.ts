@@ -68,6 +68,7 @@ export class LoginComponent implements OnInit {
     this.authService.consultarUpdateDisponible()
       .then(resp => {
         this.version = resp['versionActual'];
+        console.log(resp);
         this.versionDisponible = resp['versionDisponible'];
       });
   }
@@ -191,7 +192,7 @@ export class LoginComponent implements OnInit {
         break;
       case 403:
         if (err.error != null && err.error.codigo == 2004) {
-          
+            console.log(err);
           this.router.navigateByUrl('/appUpdate');
         } else {
           this.msgUsuarioService.showMessage({
