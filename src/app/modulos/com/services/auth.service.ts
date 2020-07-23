@@ -5,9 +5,10 @@ import { endPoints } from '../../../../environments/environment';
 import { SesionService } from './sesion.service'
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs';
-import { NavController } from '@ionic/angular';
+import { NavController, AlertController } from '@ionic/angular';
 import { timeout } from 'rxjs/operators';
 import { resolve } from 'dns';
+import { MensajeUsuarioService } from './mensaje-usuario.service';
 
 
 @Injectable()
@@ -24,11 +25,12 @@ export class AuthService {
   // store the URL so we can redirect after logging in
   redirectUrl: string = '/app/home';
 
-
+  private Alert;
 
   constructor(
     public httpInt: HttpInt,
     private sesionService: SesionService,
+    private msjUser: MensajeUsuarioService,
   ) {
 
   }
@@ -38,6 +40,7 @@ export class AuthService {
   }
 
   login(login: string, passwd: string, recordar: boolean, pin: string) {
+
     let body = login + ":" + this.createHash(passwd);
     return new Promise((resolve, reject) => {
       this.httpInt.post(this.authEndPoint + '?r=' + recordar + (pin != null ? '&pin=' + pin : ''), body)
@@ -51,8 +54,14 @@ export class AuthService {
         );
     });
   }
+  checkisLoginExist(login: string, passwd: string ){
+    let body = login + ":" + this.createHash(passwd)
+   return  this.httpInt.post(this.authEndPoint+ 'activetokens' + '?r=' + false + (false != null ? ("&pin=" + false) : ''), body).toPromise();
+  }
+
 
   logout(redirectLogin?: boolean) {
+    
     let isoffline = this.sesionService.getOfflineMode();
     this.sesionService.setOfflineMode(false);
     let refresh = this.sesionService.getRefreshToken();
@@ -173,7 +182,7 @@ export class AuthService {
       ).catch(error => {
         this.setLoginFormVisible(true, true);
       })
-      alert("Lo sentimos se cerro su sesion")
+      this.msjUser.showMessage({tipoMensaje:"info" , mensaje:"Lo sentimos se cerro su sesion", detalle:""})
       return this.loginSubmitSubject.asObservable();
     } else {
       // Si no se posee passwd, visualiza el formulario de login

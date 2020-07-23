@@ -142,7 +142,34 @@ export class LoginComponent implements OnInit {
         this.sesionService.setConfiguracionMap(mapaConfig);
       });
   }
-
+  private Alert;
+  async validate(){
+		let res:any = await this.authService.checkisLoginExist(this.form.value.email, this.form.value.passwd);
+		if(res.exit == "true"){
+      const alert = await this.alertController.create({
+        header: "Sesion",
+        subHeader: "",
+        message: "se perderan los cambios no guardados en sus otras sesiones",
+        buttons: [
+            {
+                text: 'Sí',
+                handler: () => {
+                  this.onSubmit();
+                }
+            },
+            {
+                text: 'No',
+                handler: () => {console.log("no")}
+            }
+        ]
+    });
+      await alert.present();
+   
+		}else{
+	    this.onSubmit();
+    }
+   
+	}
   onSubmit() {
     let loading = this.showLoading();
     this.authService.login(this.form.value.email, this.form.value.passwd, true, this.form.value.pin)

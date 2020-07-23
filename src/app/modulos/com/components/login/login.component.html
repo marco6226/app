@@ -1,6 +1,6 @@
 <ion-content *ngIf="visible" style="height: 100vh;">
   <div class="logo-container"></div>
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <form [formGroup]="form" (ngSubmit)="validate()">
     <ion-item *ngIf="visiblePin == false">
       <ion-label position="floating">Correo electrónico</ion-label>
       <ion-input type="text" formControlName="email"></ion-input>
