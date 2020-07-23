@@ -34,6 +34,7 @@ export class ProgramacionInspeccionesComponent implements OnInit {
       .then(resp => {
         this.programacionList = [];
         (<any[]>resp['data']).forEach(dto => {
+          console.log(resp);
           this.programacionList.push(FilterQuery.dtoToObject(dto));
         });
         this.loading = false;
@@ -43,7 +44,7 @@ export class ProgramacionInspeccionesComponent implements OnInit {
         this.loading = false;
         this.progCargada = false;
       });
-  }
+  } 
 
   actualizarProgMetadata(id: string, aumentarRealizadas: boolean, aumentarOffline: boolean) {
     let prog: Programacion;
