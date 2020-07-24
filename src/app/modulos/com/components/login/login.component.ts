@@ -145,13 +145,13 @@ export class LoginComponent implements OnInit {
   }
   private alert;
   async validate(){
-		let res:any = await this.authService.checkisLoginExist(this.form.value.email, this.form.value.passwd);
-  
+    let res;
     try {
-      await this.alertController.getTop();
+     res = await this.authService.checkisLoginExist(this.form.value.email, this.form.value.passwd);
     } catch (error) {
-    
+      if(error.status === 400) return res = {exit:"false"};
     }
+    console.log(res);
     if(res.exit == "true"){
       console.log("abrir modal");
       let  alert = await this.alertController.create({
@@ -176,7 +176,6 @@ export class LoginComponent implements OnInit {
         ]
 
     }); 
- console.log(alert);
    
  await alert.present(); 
     
