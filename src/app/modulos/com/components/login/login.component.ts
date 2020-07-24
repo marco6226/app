@@ -58,6 +58,7 @@ export class LoginComponent implements OnInit {
     this.subscription = this.authService.getLoginObservable().subscribe(param => {
       this.visible = param.visible;
       this.modal = param.modal;
+      this.router.navigateByUrl('login')
     });
     this.form = this.formBuilder.group({
       email: ['', Validators.required],
@@ -142,11 +143,18 @@ export class LoginComponent implements OnInit {
         this.sesionService.setConfiguracionMap(mapaConfig);
       });
   }
-  private Alert;
+  private alert;
   async validate(){
 		let res:any = await this.authService.checkisLoginExist(this.form.value.email, this.form.value.passwd);
-		if(res.exit == "true"){
-      const alert = await this.alertController.create({
+  
+    try {
+      await this.alertController.getTop();
+    } catch (error) {
+    
+    }
+    if(res.exit == "true"){
+      console.log("abrir modal");
+      let  alert = await this.alertController.create({
         header: "Sesion",
         subHeader: "",
         message: "se perderan los cambios no guardados en sus otras sesiones",
@@ -154,21 +162,29 @@ export class LoginComponent implements OnInit {
             {
                 text: 'Sí',
                 handler: () => {
+               
                   this.onSubmit();
+                 
                 }
             },
             {
                 text: 'No',
-                handler: () => {console.log("no")}
+                handler: () => { 
+                  this.alertController.getTop();
+                }
             }
         ]
-    });
-      await alert.present();
+
+    }); 
+ console.log(alert);
    
+ await alert.present(); 
+    
 		}else{
 	    this.onSubmit();
     }
-   
+
+    
 	}
   onSubmit() {
     let loading = this.showLoading();

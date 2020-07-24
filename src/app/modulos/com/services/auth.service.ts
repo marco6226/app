@@ -9,6 +9,8 @@ import { NavController, AlertController } from '@ionic/angular';
 import { timeout } from 'rxjs/operators';
 import { resolve } from 'dns';
 import { MensajeUsuarioService } from './mensaje-usuario.service';
+import { Route } from '@angular/compiler/src/core';
+import { Router } from '@angular/router';
 
 
 @Injectable()
@@ -28,6 +30,7 @@ export class AuthService {
   private Alert;
 
   constructor(
+    private router: Router,
     public httpInt: HttpInt,
     private sesionService: SesionService,
     private msjUser: MensajeUsuarioService,
@@ -183,7 +186,9 @@ export class AuthService {
         this.setLoginFormVisible(true, true);
       })
       this.msjUser.showMessage({tipoMensaje:"info" , mensaje:"Lo sentimos se cerro su sesion", detalle:""})
-      return this.loginSubmitSubject.asObservable();
+      localStorage.clear();
+      this.router.navigateByUrl('login');
+      return null;
     } else {
       // Si no se posee passwd, visualiza el formulario de login
       this.setLoginFormVisible(true, true);
