@@ -58,7 +58,6 @@ export class LoginComponent implements OnInit {
     this.subscription = this.authService.getLoginObservable().subscribe(param => {
       this.visible = param.visible;
       this.modal = param.modal;
-      this.router.navigateByUrl('login')
     });
     this.form = this.formBuilder.group({
       email: ['', Validators.required],

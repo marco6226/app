@@ -187,8 +187,7 @@ export class AuthService {
       })
       this.msjUser.showMessage({tipoMensaje:"info" , mensaje:"Lo sentimos se cerro su sesion", detalle:""})
       localStorage.clear();
-      this.router.navigateByUrl('login');
-      return null;
+      return this.loginSubmitSubject.asObservable();
     } else {
       // Si no se posee passwd, visualiza el formulario de login
       this.setLoginFormVisible(true, true);
