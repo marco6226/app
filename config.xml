@@ -8,7 +8,7 @@
     <name>Sigess</name>
     <description>Sistema integrado de seguridad y salud.</description>
     <author email="sistema@sigess.app" href="sigess.app">SIGESS</author>
-    <content original-src="index.html" src="http://localhost:8100" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
