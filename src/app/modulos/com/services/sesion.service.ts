@@ -167,7 +167,7 @@ export class SesionService {
       this.app_version = localStorage.getItem("app_version");
 
     if (this.app_version == null)
-      this.app_version = "1.0.224";
+      this.app_version = "1.0.225";
 
     return this.app_version;
   }
