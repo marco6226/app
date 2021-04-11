@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="co.sigess.app" version="1.0.224" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="co.sigess.app" version="1.0.225" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <access origin="*" />
     <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application" xmlns:android="http://schemas.android.com/apk/res/android">
         <application android:usesCleartextTraffic="true" />
@@ -25,6 +25,7 @@
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="3000" />
     <preference name="iosPersistentFileLocation" value="Compatibility" />
+    <preference name="WKWebViewOnly" value="true" />
     <preference name="iosExtraFilesystems" value="library,library-nosync,documents,documents-nosync,cache,bundle,root" />
     <platform name="android">
         <allow-intent href="market:*" />
@@ -50,7 +51,10 @@
     </platform>
     <platform name="ios">
         <config-file parent="NSCameraUsageDescription" platform="ios" target="*-Info.plist">
-            <string>Sigess usa la cámara de tu dispositivo para tomar la evidencia fotográfica y almacenarla como parte de la observación, inspección, acta o investigacipon</string>
+            <string>Sigess usa la cámara de tu dispositivo para tomar la evidencia fotográfica y almacenarla como parte de la observación, inspección, acta o investigación</string>
+        </config-file>
+        <config-file parent="NSPhotoLibraryUsageDescription" platform="ios" target="*-Info.plist">
+            <string>Sigess usa la galeria de fotos para la evidencia fotográfica y almacenarla como parte de la observación, inspección, acta o investigación</string>
         </config-file>
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
@@ -117,6 +121,5 @@
     <plugin name="cordova-plugin-app-version" spec="^0.1.9" />
     <plugin name="cordova-plugin-market" spec="^1.2.0" />
     <engine name="browser" spec="5.0.4" />
-    <engine name="ios" spec="^5.0.1" />
     <engine name="android" spec="8.0.0" />
 </widget>
