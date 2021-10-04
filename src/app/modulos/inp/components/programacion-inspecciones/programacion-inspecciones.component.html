@@ -8,11 +8,11 @@
   </p>
 </div>
 
-<ion-card *ngFor="let prog of programacionList">
+<ion-card *ngFor="let prog of programacionList | sortBydate">
   <ion-item>
     <ion-label>{{prog.area.nombre}} </ion-label>
     <ion-button [color]="prog.numeroRealizadas == prog.numeroInspecciones ? 'secondary':'primary'" [disabled]="prog.numeroRealizadas == prog.numeroInspecciones"
-      fill="outline" slot="end" (click)="onProgSelect(prog)" *sTienePermiso="['SEC_GET_SISTNR', 'INP_GET_LISTINP']">
+      fill="outline" slot="end" (click)="onProgSelect(prog)" *sTienePermiso="['INP_POST_INP']">
       {{prog.numeroRealizadas == prog.numeroInspecciones ? 'Finalizado':'Realizar'}}
     </ion-button>
   </ion-item>
