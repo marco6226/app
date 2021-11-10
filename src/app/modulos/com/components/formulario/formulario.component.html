@@ -35,11 +35,17 @@
             </ng-container>
 
             <ng-container *ngSwitchCase="'date'">
-              <ion-datetime display-format="DD/MM/YYYY" picker-format="YYYY MMMM DD" [formControlName]="campo.id + '_' + campo.nombre"></ion-datetime>
+              <ion-datetime cancelText="Cancelar" doneText="Ok"  max="2022" 
+              display-format="DD/MM/YYYY"
+               picker-format="DD, MMMM, YYYY"
+                monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre" 
+                [formControlName]="campo.id + '_' + campo.nombre"
+
+              ></ion-datetime>
             </ng-container>
 
             <ng-container *ngSwitchCase="'timestamp'">
-              <ion-datetime display-format="DD/MM/YYYY HH:mm" picker-format="YYYY MMMM DD HH mm" [formControlName]="campo.id + '_' + campo.nombre"></ion-datetime>
+              <ion-datetime display-format="DD/MM/YYYY HH:mm" picker-format="YYY MMM DD HH mm" montNames='ENERO, FEBRERO, MARZO, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre' [formControlName]="campo.id + '_' + campo.nombre"></ion-datetime>
             </ng-container>
 
           </ion-item>
