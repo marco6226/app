@@ -401,6 +401,7 @@ export class InspeccionFormComponent implements OnInit {
   async abrirMenu() {
     const popover = await this.popoverController.create({
       component: MenuListaComponent,
+      cssClass:'popover-content.sc-ion-popover-md',
       componentProps: { 'listaInspeccion': this.listaInspeccion }
     });
     popover.onDidDismiss()

@@ -97,3 +97,13 @@ ion-toolbar {
   .icon-asign-tareas{
     background-image: url('/assets/images/asign-tareas.svg');
   }
+
+  ion-content {
+    --min-width: 80vw !important;
+    min-width: 80vw !important;
+  }
+
+  .popover-content.sc-ion-popover-md {
+    
+    --min-width: 80% !important;
+}
