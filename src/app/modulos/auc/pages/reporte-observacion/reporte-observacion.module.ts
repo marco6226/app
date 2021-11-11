@@ -7,31 +7,22 @@ import { IonicModule } from '@ionic/angular';
 
 import { ReporteObservacionPage } from './reporte-observacion.page';
 import { ObservacionFormComponent } from '../../components/observacion-form/observacion-form.component';
-import { TreeModule } from '../../../com/components/tree/tree.component'
+import { TreeModule } from '../../../com/components/tree/tree.component';
 import { ComunModule } from '../../../com/comun.module';
 import { ObservacionSyncComponent } from '../../components/observaciones-sync/observacion-sync.component';
 import { AreaSelectorModule } from '../../../com/components/area-selector/area-selector.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: ReporteObservacionPage
-  }
+    {
+        path: '',
+        component: ReporteObservacionPage,
+    },
 ];
 
 @NgModule({
-  imports: [
-    ComunModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    IonicModule,
-    TreeModule,
-    RouterModule.forChild(routes),
-    AreaSelectorModule
-  ],
-  exports: [ComunModule],
-  entryComponents: [ObservacionFormComponent],
-  declarations: [ReporteObservacionPage, ObservacionFormComponent, ObservacionSyncComponent]
+    imports: [ComunModule, CommonModule, FormsModule, ReactiveFormsModule, IonicModule, TreeModule, RouterModule.forChild(routes), AreaSelectorModule],
+    exports: [ComunModule],
+    entryComponents: [ObservacionFormComponent],
+    declarations: [ReporteObservacionPage, ObservacionFormComponent, ObservacionSyncComponent],
 })
-export class ReporteObservacionPageModule { }
+export class ReporteObservacionPageModule {}
