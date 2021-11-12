@@ -1,3 +1,4 @@
+import { Inspeccion } from './../../inp/entities/inspeccion';
 import { ProgramacionService } from '../../inp/services/programacion.service';
 import { FilterQuery } from '../entities/filter-query';
 import { SesionService } from './sesion.service';
@@ -238,6 +239,24 @@ export class OfflineService {
 
     }
 
+    queryListaInspeccionFilter(filterQuery?: FilterQuery, completo?: boolean) {
+        console.log(filterQuery)
+        if (this.sessionService.getOfflineMode()) {
+            return this.storageService.getListasInspeccion();
+        } else {
+            let areasPerm = this.sessionService.getPermisosMap()['INP_GET_LISTINP'].areas;
+            let filterQuery = new FilterQuery();
+            let carga = "Carga";
+            filterQuery.fieldList = ['nombre'];
+            filterQuery.filterList = [
+                { criteria: Criteria.LIKE, field: "nombre", value1: carga }
+            ];
+            //filterQuery.filterList = [filterVersion];
+            console.log(Criteria,filterQuery)
+            return this.listaInspeccionService.findByFilter(filterQuery);
+        }
+    }
+
     loadData() {
 
         let permSistemaCR = this.sessionService.getPermisosMap()['SEC_GET_SCRDEF'];
@@ -287,7 +306,7 @@ export class OfflineService {
             queryManualesPorUsuario: !permManUsr.valido,
         };
         this.setOfflineMode(false);
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
 
             // Queries manuales de usuario
             if (permManUsr.valido) {

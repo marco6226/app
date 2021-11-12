@@ -1,63 +1,132 @@
 <ion-header>
-    <ion-toolbar>
-        <ion-buttons slot="start">
-            <ion-button (click)="navegar('/app/home')">
-                <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
-            </ion-button>
-        </ion-buttons>
-        <ion-title
-            (click)="cargarInspPendientes(true); cargarInspRealizadas(true);"
-        >
-            Elaboracion inspeccion
-            <ion-icon name="alert"></ion-icon>
-        </ion-title>
-        <ion-buttons slot="end">
-            <ion-menu-button></ion-menu-button>
-        </ion-buttons>
-    </ion-toolbar>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="navegar('/app/home')">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title (click)="cargarInspPendientes(true)">
+      Elaboracion inspeccion
+      <ion-icon name="alert"></ion-icon>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+
 </ion-header>
 
 <ion-content>
-    <ion-segment (ionChange)="segmentChanged($event)" value="listas">
-        <ion-segment-button value="listas">
-            <ion-label>Listas</ion-label>
-        </ion-segment-button>
-        <ion-segment-button value="prog">
-            <ion-label>Programación</ion-label>
-        </ion-segment-button>
-        <ion-segment-button value="realizadas">
-            <ion-label>Realizadas</ion-label>
-        </ion-segment-button>
-        <ion-segment-button value="insp">
-            <ion-label>
-                Sincronizar
-                <ion-badge *ngIf="inspCount > 0" color="warning"
-                    >{{inspCount}}</ion-badge
-                >
-            </ion-label>
-        </ion-segment-button>
-    </ion-segment>
+  <ion-segment (ionChange)="segmentChanged($event)" value="listas">
+    <ion-segment-button value="listas">
+      <ion-label>Listas</ion-label>      
+    </ion-segment-button>
+    <ion-segment-button value="prog">
+      <ion-label>Programación</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="realizadas">
+      <ion-label>Realizadas</ion-label>
+  </ion-segment-button>
+    <ion-segment-button value="insp">
+      <ion-label>
+        Sincronizar
+        <ion-badge *ngIf="inspCount > 0" color="warning">{{inspCount}}</ion-badge>
+      </ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  
+  <!--Filtros-->
+  <!--Listas-->
+  <ion-slides #slider [style.display]="segments['listas'] ? 'block':'none'">    
+    <div style="width: 100%;">      
+      <!--Codigo-->
+      <ion-item *ngIf="filtDisp == true">
+        <ion-icon name="search" slot="start"></ion-icon>
+        <ion-label position="stacked">
+          Código
+        </ion-label>
+        <ion-input (ionChange)="filtrarCodigo($event)" clear-input="true" debounce="500"></ion-input>
+      </ion-item>
+      <!--Version
+      <ion-item *ngIf="filtDisp == true">
+        <ion-icon name="search" slot="start"></ion-icon>
+        <ion-label position="stacked">
+          Versión
+        </ion-label>
+        <ion-input type="number" (ionChange)="filtrarVersion($event)" clear-input="true" debounce="500"></ion-input>
+      </ion-item>-->
+      <!--Nombre-->
+      <ion-item *ngIf="filtDisp == true">
+        <ion-icon name="search" slot="start"></ion-icon>
+        <ion-label position="stacked">
+          Nombre
+        </ion-label>
+        <ion-input (ionChange)="filtrarNombre($event)" clear-input="true" debounce="500"></ion-input>
+      </ion-item>
+      <!--Tipo de Lista
+      <ion-item *ngIf="filtDisp == true">
+        <ion-icon name="search" slot="start"></ion-icon>
+        <ion-label position="stacked">
+          Tipo de Lista
+        </ion-label>
+        <ion-input (ionChange)="filtrarTipoLista($event)" clear-input="true" debounce="500"></ion-input>
+      </ion-item>-->
+      <!--Descripcion-->
+      <ion-item *ngIf="filtDisp == true">
+        <ion-icon name="search" slot="start"></ion-icon>
+        <ion-label position="stacked">
+          Descripcion
+        </ion-label>
+        <ion-input (ionChange)="filtrarDescripcion($event)" clear-input="true" debounce="500"></ion-input>
+      </ion-item>
+      <!--Estado
+      <ion-item *ngIf="filtDisp == true">
+        <ion-icon name="search" slot="start"></ion-icon>
+        <ion-label position="stacked">
+          Estado
+        </ion-label>
+        <ion-select (ionChange)="filtrarEstado($event)">
+          <ion-select-option [value]="null">Todos</ion-select-option>
+          <ion-select-option value="Activo">Activo</ion-select-option>
+          <ion-select-option value="Inactivo">Inactivo</ion-select-option>
+        </ion-select>
+      </ion-item>-->
+    </div>
+</ion-slides>
 
-    <sm-inspeccionNoProgramada
-        [style.display]="segments['listas'] ? 'block':'none'"
-        (onListaSelect)="abrirInspeccion(null, $event, null)"
-    ></sm-inspeccionNoProgramada>
+<!--Programación-->
+<ion-slides #slider [style.display]="segments['prog'] ? 'block':'none'">    
+  <div style="width: 100%;">      
+    <!--Fecha-->
+    <ion-item *ngIf="filtDisp == true">
+      <ion-icon name="search" slot="start"></ion-icon>
+      <ion-label position="stacked">
+        Fecha
+      </ion-label> 
+      <ion-label position="stacked">
+        Desde
+      </ion-label> 
+      <ion-datetime cancelText="Cancelar" doneText="Ok"  max="2022"
+      displayFormat ="DD/MM/YYYY"
+      picker-format="DD, MMMM, YYYY"
+      monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre" ></ion-datetime>
+      <ion-label position="stacked">
+        Hasta
+      </ion-label> 
+      <ion-datetime cancelText="Cancelar" doneText="Ok"  max="2022"
+      displayFormat ="DD/MM/YYYY"
+      picker-format="DD, MMMM, YYYY"
+      monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre" ></ion-datetime>
+    </ion-item>   
+  </div>
+</ion-slides>
+<!--Filtros-->
 
-    <sm-programacionInspecciones
-        [style.display]="segments['prog'] ? 'block':'none'"
-        (onProgramacionSelect)="abrirInspeccion($event, null, null)"
-        #progInspComp
-    ></sm-programacionInspecciones>
+  <sm-inspeccionNoProgramada [style.display]="segments['listas'] ? 'block':'none'" (onListaSelect)="abrirInspeccion(null, $event, null)"></sm-inspeccionNoProgramada>
 
-    <sm-programacionInspecciones
-        [style.display]="segments['realizadas'] ? 'block':'none'"
-        (onProgramacionSelect)="abrirInspeccion($event, null, null)"
-        #realizadasInspComp
-    ></sm-programacionInspecciones>
+  <sm-programacionInspecciones [style.display]="segments['prog'] ? 'block':'none'" (onProgramacionSelect)="abrirInspeccion($event, null, null)"
+    #progInspComp></sm-programacionInspecciones>
 
-    <sm-inspeccionesSync
-        [style.display]="segments['insp'] ? 'block':'none'"
-        (onEvent)="onEvent($event)"
-        #inspSyncComp
-    ></sm-inspeccionesSync>
+  <sm-inspeccionesSync [style.display]="segments['insp'] ? 'block':'none'" (onEvent)="onEvent($event)" #inspSyncComp></sm-inspeccionesSync>
+
 </ion-content>
