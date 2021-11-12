@@ -1,3 +1,4 @@
+import { ListaInspeccionService } from './../../services/lista-inspeccion.service';
 import { ListaInspeccionPK } from './../../entities/lista-inspeccion-pk';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { InspeccionFormComponent } from '../../components/inspeccion-form/inspeccion-form.component'
@@ -15,6 +16,7 @@ import { ListaInspeccion } from '../../entities/lista-inspeccion';
 import { OfflineService } from '../../../com/services/offline.service';
 import { Criteria } from '../../../com/entities/filter';
 import { FilterQuery } from '../../../com/entities/filter-query';
+import { InspeccionNoProgramadaComponent } from '../../components/inspeccion-no-programada/inspeccion-no-programada.component';
 
 @Component({
   selector: 'sm-elaboracionInspeccion',
@@ -51,6 +53,7 @@ export class ElaboracionInspeccionPage implements OnInit {
     public storageService: StorageService,
     public modalController: ModalController,
     private offlineService: OfflineService,
+    private listaInspeccionService: ListaInspeccionService,
     private router: Router,
   ) { }
 
@@ -169,115 +172,18 @@ async abrirInspRealizadas(inspecciones: Inspeccion[]) {
 
   /* *********************** Filtros ******************************** */
 
-  filtrar(lm) {
-    this.loading = true;
-    let filterQuery = new FilterQuery();
-    filterQuery.sortField = "nombre";
-    filterQuery.count = true;
-    filterQuery.sortOrder = 1;
-    filterQuery.offset = 0 + this.count;
-    filterQuery.rows = 3 ;
-    filterQuery.fieldList = ['nombre','codigo','descripcion'];
-
-    filterQuery.filterList = [];
-    
-    if (this.filtCodigo != null && this.filtCodigo.length > 0) {
-      filterQuery.filterList.push({
-        criteria: Criteria.LIKE,
-        field: "codigo",
-        value1: '%' + this.filtCodigo + '%'
-      });
-      console.log(filterQuery)
-    }
-
-    if (this.filtNombre != null && this.filtNombre.length > 0) {
-      filterQuery.filterList.push({
-        criteria: Criteria.LIKE,
-        field: "nombre",
-        value1: '%' + this.filtNombre + '%'
-      });
-      console.log(filterQuery)
-    }
-
-    if (this.filtDescripcion != null && this.filtDescripcion.length > 0) {
-      filterQuery.filterList.push({
-        criteria: Criteria.LIKE,
-        field: "descripcion",
-        value1: '%' + this.filtDescripcion + '%'
-      });
-      console.log(filterQuery)
-    }
-
-/**/
-    this.offlineService.queryListaInspeccionFilter(filterQuery)
-      .then(resp => {
-        console.log(filterQuery);
-        let count = <number>resp['count'];
-        console.log(count);
-        (<any[]>resp['data']).forEach(dto => {
-          let desv: ListaInspeccion = FilterQuery.dtoToObject(dto);
-          desv['selected'] = false;
-          this.inspeccionList.push(desv);
-          if (this.count >= count) this.disabled = true  ;
-          
-        });
-        this.loading = false;
-        this.cargarSeleccionados();
-      })
-      .catch(err => this.loading = false);
-  }
-  
-
-  filtrarCodigo(event) {
-    this.inspeccionList = [];
-    this.count = 0;
-    this.filtCodigo = event.detail.value;
-    this.filtrar(false);
-  }
-
-  filtrarNombre(event) {
-    this.inspeccionList = [];
-    this.count = 0;
-    this.filtNombre = event.detail.value;
-    this.filtrar(false);
-  }
-
-  
-  filtrarDescripcion(event) {
-    this.inspeccionList = [];
-    this.count = 0;
-    this.filtDescripcion = event.detail.value;
-    this.filtrar(false);
-  }
-
  
   filtrarFechaDesde(event) {
     this.inspeccionList = [];
     this.count = 0;
     this.filtFechaDesde = event.detail.value;
-    this.filtrar(false);
+    
   }
 
   filtrarFechaHasta(event) {
     this.inspeccionList = [];
     this.count = 0;
     this.filtFechaHasta = event.detail.value;
-    this.filtrar(false);
   }
 
-
-
-
-  cargarSeleccionados() {    
-    console.log("hola")
-    console.log(this.inspListSelect)
-    for (let i = 0; i < this.inspeccionList.length; i++) {
-      for (let j = 0; j < this.inspeccionList.length; j++) {
-        if (this.inspListSelect[j].nombre == this.inspeccionList[i].nombre) {
-          this.inspeccionList[i]['selected'] = true;
-          break;
-        }
-      }
-    }
-  }
 }

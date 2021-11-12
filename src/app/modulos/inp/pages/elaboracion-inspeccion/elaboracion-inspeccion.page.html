@@ -36,63 +36,7 @@
   </ion-segment>
   
   <!--Filtros-->
-  <!--Listas-->
-  <ion-slides #slider [style.display]="segments['listas'] ? 'block':'none'">    
-    <div style="width: 100%;">      
-      <!--Codigo-->
-      <ion-item *ngIf="filtDisp == true">
-        <ion-icon name="search" slot="start"></ion-icon>
-        <ion-label position="stacked">
-          Código
-        </ion-label>
-        <ion-input (ionChange)="filtrarCodigo($event)" clear-input="true" debounce="500"></ion-input>
-      </ion-item>
-      <!--Version
-      <ion-item *ngIf="filtDisp == true">
-        <ion-icon name="search" slot="start"></ion-icon>
-        <ion-label position="stacked">
-          Versión
-        </ion-label>
-        <ion-input type="number" (ionChange)="filtrarVersion($event)" clear-input="true" debounce="500"></ion-input>
-      </ion-item>-->
-      <!--Nombre-->
-      <ion-item *ngIf="filtDisp == true">
-        <ion-icon name="search" slot="start"></ion-icon>
-        <ion-label position="stacked">
-          Nombre
-        </ion-label>
-        <ion-input (ionChange)="filtrarNombre($event)" clear-input="true" debounce="500"></ion-input>
-      </ion-item>
-      <!--Tipo de Lista
-      <ion-item *ngIf="filtDisp == true">
-        <ion-icon name="search" slot="start"></ion-icon>
-        <ion-label position="stacked">
-          Tipo de Lista
-        </ion-label>
-        <ion-input (ionChange)="filtrarTipoLista($event)" clear-input="true" debounce="500"></ion-input>
-      </ion-item>-->
-      <!--Descripcion-->
-      <ion-item *ngIf="filtDisp == true">
-        <ion-icon name="search" slot="start"></ion-icon>
-        <ion-label position="stacked">
-          Descripcion
-        </ion-label>
-        <ion-input (ionChange)="filtrarDescripcion($event)" clear-input="true" debounce="500"></ion-input>
-      </ion-item>
-      <!--Estado
-      <ion-item *ngIf="filtDisp == true">
-        <ion-icon name="search" slot="start"></ion-icon>
-        <ion-label position="stacked">
-          Estado
-        </ion-label>
-        <ion-select (ionChange)="filtrarEstado($event)">
-          <ion-select-option [value]="null">Todos</ion-select-option>
-          <ion-select-option value="Activo">Activo</ion-select-option>
-          <ion-select-option value="Inactivo">Inactivo</ion-select-option>
-        </ion-select>
-      </ion-item>-->
-    </div>
-</ion-slides>
+  
 
 <!--Programación-->
 <ion-slides #slider [style.display]="segments['prog'] ? 'block':'none'">    
@@ -126,7 +70,8 @@
 
   <sm-programacionInspecciones [style.display]="segments['prog'] ? 'block':'none'" (onProgramacionSelect)="abrirInspeccion($event, null, null)"
     #progInspComp></sm-programacionInspecciones>
-
+    
+  <sm-inspeccionesSync [style.display]="segments['realizadas'] ? 'block':'none'" (onEvent)="onEvent($event)" #inspSyncComp></sm-inspeccionesSync>
   <sm-inspeccionesSync [style.display]="segments['insp'] ? 'block':'none'" (onEvent)="onEvent($event)" #inspSyncComp></sm-inspeccionesSync>
 
 </ion-content>

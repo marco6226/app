@@ -79,9 +79,35 @@ export class OfflineService {
                     'listaInspeccionPK',
                     'nombre',
                     'codigo',
-                    'descripcion'
+                    'descripcion',
+                    'estado'
                 ];
+                filterQuery.filterList = [];
+                filterQuery.filterList.push({
+                    criteria: Criteria.NOT_EQUALS,
+                    field: "estado",
+                    value1: "inactivo"});
             }
+
+            return this.listaInspeccionService.findByFilter(filterQuery);
+        }
+    }
+
+    queryListasInspeccionFiltro(filterQuery: FilterQuery) {
+        if (this.sessionService.getOfflineMode()) {
+            return this.storageService.getListasInspeccion();
+        } else {
+            //let filterQuery = new FilterQuery();
+            filterQuery.sortField = "nombre";
+            filterQuery.sortOrder = -1;
+
+            filterQuery.fieldList = [
+                'listaInspeccionPK',
+                'nombre',
+                'codigo',
+                'descripcion',
+                'estado'
+            ];            
 
             return this.listaInspeccionService.findByFilter(filterQuery);
         }
