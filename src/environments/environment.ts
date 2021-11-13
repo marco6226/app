@@ -16,7 +16,7 @@ export const environment = {
 
 
 let protocol = 'http';
-let host = 'localhost';
+let host = '192.168.1.56';
 let port = '8080';
 let path = protocol + "://" + host + ":" + port + "/sigess/api/";
 

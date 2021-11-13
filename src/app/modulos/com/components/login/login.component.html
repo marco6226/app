@@ -1,6 +1,9 @@
 <ion-content *ngIf="visible" style="height: 100vh;">
   <div class="logo-container"></div>
   <form [formGroup]="form" (ngSubmit)="validate()">
+
+    <ion-card-content>
+      <div class="signin-btns">
     <ion-item *ngIf="visiblePin == false">
       <ion-label position="floating">Correo electrónico</ion-label>
       <ion-input type="text" formControlName="email"></ion-input>
@@ -18,8 +21,11 @@
       <ion-label position="floating">PIN</ion-label>
       <ion-input type="text" formControlName="pin" style="text-align: center;font-size: 20px;" maxlength="6"></ion-input>
     </ion-item>
+    <button ion-button color="secondary" round>Secondary Round</button>
 
-    <ion-button color="primary" expand="full" type="submit" [disabled]="!form.valid">{{visiblePin == true ? 'Validar':'Ingresar'}}</ion-button>
+    <ion-button shape="round" fill="outline" color="secondary" class="loginbtn ion-no-paddimg" type="submit" [disabled]="!form.valid">{{visiblePin == true ? 'Validar':'Ingresar'}}</ion-button>
+  </div>
+  </ion-card-content>
   </form>
 
   <div padding style="text-align: center">

@@ -25,12 +25,22 @@
     position: fixed;
     width: 100%;
 }
+.signin-btns{
+  margin-top: 25px;
+  text-align: center;
+}
+
+.loginbtn{
+  --ion-color-primary:#0d2c94aa;
+  --ion-background-color:#0d2c94aa;
+}
+
 
 
 
 .panel-login-fallidos{
 	position: absolute;
-	background-color: #FFFFFFAA;
+	background-color: #0d2c94aa;
 	width: 100%;
 	height: 150%;
   //  z-index: 1050;
