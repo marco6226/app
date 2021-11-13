@@ -19,11 +19,14 @@
 <ion-content>
   <ion-segment (ionChange)="segmentChanged($event)" value="listas">
     <ion-segment-button value="listas">
-      <ion-label>Listas</ion-label>
+      <ion-label>Listas</ion-label>      
     </ion-segment-button>
     <ion-segment-button value="prog">
       <ion-label>Programación</ion-label>
     </ion-segment-button>
+    <ion-segment-button value="realizadas">
+      <ion-label>Realizadas</ion-label>
+  </ion-segment-button>
     <ion-segment-button value="insp">
       <ion-label>
         Sincronizar
@@ -31,14 +34,44 @@
       </ion-label>
     </ion-segment-button>
   </ion-segment>
+  
+  <!--Filtros-->
+  
+
+<!--Programación-->
+<ion-slides #slider [style.display]="segments['prog'] ? 'block':'none'">    
+  <div style="width: 100%;">      
+    <!--Fecha-->
+    <ion-item *ngIf="filtDisp == true">
+      <ion-icon name="search" slot="start"></ion-icon>
+      <ion-label position="stacked">
+        Fecha
+      </ion-label> 
+      <ion-label position="stacked">
+        Desde
+      </ion-label> 
+      <ion-datetime cancelText="Cancelar" doneText="Ok"  max="2022"
+      displayFormat ="DD/MM/YYYY"
+      picker-format="DD, MMMM, YYYY"
+      monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre" ></ion-datetime>
+      <ion-label position="stacked">
+        Hasta
+      </ion-label> 
+      <ion-datetime cancelText="Cancelar" doneText="Ok"  max="2022"
+      displayFormat ="DD/MM/YYYY"
+      picker-format="DD, MMMM, YYYY"
+      monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre" ></ion-datetime>
+    </ion-item>   
+  </div>
+</ion-slides>
+<!--Filtros-->
 
   <sm-inspeccionNoProgramada [style.display]="segments['listas'] ? 'block':'none'" (onListaSelect)="abrirInspeccion(null, $event, null)"></sm-inspeccionNoProgramada>
 
   <sm-programacionInspecciones [style.display]="segments['prog'] ? 'block':'none'" (onProgramacionSelect)="abrirInspeccion($event, null, null)"
     #progInspComp></sm-programacionInspecciones>
-
+    
+  <sm-inspeccionesSync [style.display]="segments['realizadas'] ? 'block':'none'" (onEvent)="onEvent($event)" #inspSyncComp></sm-inspeccionesSync>
   <sm-inspeccionesSync [style.display]="segments['insp'] ? 'block':'none'" (onEvent)="onEvent($event)" #inspSyncComp></sm-inspeccionesSync>
-
-
 
 </ion-content>
