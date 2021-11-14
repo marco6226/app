@@ -31,8 +31,21 @@
 }
 
 .loginbtn{
-  --ion-color-primary:#0d2c94aa;
-  --ion-background-color:#0d2c94aa;
+  
+  background-color: #3ba2dc;
+  text-align: center;
+  border-radius: 20px; 
+  box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
+
+}
+
+.campos{
+  
+  background-color: #3ba2dc;
+  text-align: center;
+  border-radius: 20px;
+  
+
 }
 
 
