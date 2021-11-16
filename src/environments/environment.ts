@@ -15,8 +15,8 @@ export const environment = {
 // import 'zone.js/dist/zone-error';  // Included with Angular CLI.
 
 let protocol = 'http';
-// let host = '192.168.1.11';
-let host = 'localhost';
+ let host = '192.168.0.10';
+//let host = 'localhost';
 let port = '8080';
 let path = protocol + '://' + host + ':' + port + '/sigess/api/';
 

@@ -2,9 +2,7 @@
     // position: fixed;
     // top: -20px;
     // left: 0px;
-    background-color: #3ba2dc;
-    // margin-top: 20px;
-    // margin-bottom: 20px;
+    background-color: #3ba2dc;    
     background-size: auto 80%;
     background-repeat: no-repeat;
     // padding-top: 2px;
@@ -13,6 +11,7 @@
     height: 220px;
     background-position: center center;
     background-image: url('/assets/images/logocirculo3.png');
+    box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);
 }
 
 .login-form{
@@ -21,7 +20,7 @@
 
 .main{
     height: 100%;
-    background: white;
+    //background: white;
     position: fixed;
     width: 100%;
 }
@@ -41,12 +40,46 @@
 
 .campos{
   
-  background-color: #3ba2dc;
+  //background-color: #3ba2dc;
   text-align: center;
-  border-radius: 20px;
+  border-radius: 20px !important;
+  --background:inherit;
   
 
 }
+
+.btn-wsp{
+  size: 50px;
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  bottom: 8px;
+  left: 15px;
+  //background: #0df053;
+  //color: #fff;
+  color: #0df053;
+  background: #fff;
+  border-radius: 40px;
+  text-align: center;
+  font-size: 35px;
+  //box-shadow: 0px 1px 10px  rgba(0,0,0,0.5);
+  z-index: 100;
+
+}
+
+.btn-wsp:hover{
+  
+ text-decoration: none;
+  color: #0df053;
+  background: #fff;
+  
+
+}
+
+
+
+
 
 
 
