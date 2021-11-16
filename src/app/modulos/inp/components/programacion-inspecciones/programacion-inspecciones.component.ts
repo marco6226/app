@@ -5,6 +5,8 @@ import { FilterQuery } from '../../../com/entities/filter-query'
 import { OfflineService } from '../../../com/services/offline.service'
 import { StorageService } from '../../../com/services/storage.service';
 
+import { Criteria } from '../../../com/entities/filter';
+
 @Component({
   selector: 'sm-programacionInspecciones',
   templateUrl: './programacion-inspecciones.component.html',
@@ -18,6 +20,11 @@ export class ProgramacionInspeccionesComponent implements OnInit {
   loading: boolean;
   progCargada: boolean;
 
+  programacionLista: Programacion[];
+  count = 0;  
+  filtFechaDesde: Date = new Date();
+  filtFechaHasta: Date = new Date();
+
   constructor(
     private storageService: StorageService,
     private offlineService: OfflineService,
@@ -25,6 +32,7 @@ export class ProgramacionInspeccionesComponent implements OnInit {
 
   ngOnInit() {
     this.cargarProgramacion();
+    //this.filtFechaDesde.
   }
 
   cargarProgramacion() {
@@ -63,6 +71,76 @@ export class ProgramacionInspeccionesComponent implements OnInit {
 
   onProgSelect(prog: Programacion) {
     this.onProgramacionSelect.emit(prog);
+  }
+  /* *********************** Filtros ******************************** */
+
+ 
+  filtrarFechaDesde(event) {
+    this.programacionLista = [];
+    this.count = 0;
+    this.filtFechaDesde = event.detail.value;
+    this.filtrar();
+    
+  }
+
+  filtrarFechaHasta(event) {
+    this.programacionLista = [];
+    this.count = 0;
+    this.filtFechaHasta = event.detail.value;
+    this.filtrar();
+  }
+
+  filtrar(){
+    this.loading = true;
+    let filterQuery = new FilterQuery();
+    filterQuery.sortField = "id";
+    filterQuery.count = true;
+    filterQuery.sortOrder = 1;
+    filterQuery.offset = 0 + this.count;
+    //filterQuery.rows = 3 ;
+    
+    
+    filterQuery.fieldList = ['id',
+                              'fecha',
+                              'area_nombre',
+                              'listaInspeccion_listaInspeccionPK',
+                              'listaInspeccion_nombre',
+                              'numeroInspecciones',
+                              'numeroRealizadas'];
+
+    filterQuery.filterList = [];
+
+   
+      filterQuery.filterList.push({
+        criteria: Criteria.BETWEEN,
+        field: "fecha",
+        value1: this.filtFechaDesde.toString(), 
+        value2: this.filtFechaHasta.toString()
+      });
+    
+    console.log(filterQuery)   
+   
+    if (filterQuery.filterList.length > 0){      
+      this.cargarListasFiltro(filterQuery);
+    }else{
+      this.cargarProgramacion();
+    }
+    
+  }
+
+  cargarListasFiltro(filterQuery: FilterQuery) {
+    this.loading = true;
+    this.programacionLista = null;
+    this.offlineService.queryProgramacionListBetween(filterQuery)
+      .then(resp => {
+        this.programacionLista = resp['data'];
+        this.loading = false;
+       // this.listasCargadas = true;
+      })
+      .catch(err => {
+        this.loading = false;
+       // this.listasCargadas = false;
+      });
   }
 
 }
