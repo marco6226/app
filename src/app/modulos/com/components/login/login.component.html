@@ -1,8 +1,8 @@
-<ion-content *ngIf="visible" style="height: 100vh;">
+<ion-content class="background" *ngIf="visible" style="height: 100vh;">
   <div class="logo-container" ></div>
   <form [formGroup]="form" (ngSubmit)="validate()">
 
-    <ion-card-content style="margin-top:20px;margin-left: 20px;margin-right: 20px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+    <ion-card-content  class="" style="margin-top:20px;margin-left: 20px;margin-right: 20px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
       <div class="signin-btns">
     <ion-item  class="campos" *ngIf="visiblePin == false">
       <ion-label position="floating">
@@ -11,7 +11,7 @@
     </ion-item> 
 
     <ion-item class="campos" *ngIf="visiblePin == false">
-      <ion-label position="floating">        
+      <ion-label  class="campos"  position="floating">        
         <ion-icon name="lock"></ion-icon>  Contraseña</ion-label>
       <ion-input [type]="passwdVisible == true ? 'text':'password'" formControlName="passwd" clearOnEdit="false"></ion-input>
       <ion-button slot="end" fill="clear" (click)="togglePasswd()" [color]="passwdVisible == true ? 'primary':'medium'">
@@ -64,4 +64,8 @@
       <p style="float: right;color:#aaa;">v{{version}}</p>
     </div>
   </ion-item>
+  <a href="whatsapp://send?phone=+573006726603" class="btn-wsp" target="_blank">
+    <ion-icon name="logo-whatsapp" size="medium"></ion-icon>
+    <i class="icon ion-social-whatsapp" title="Contacto con soporte técnico" ></i>
+  </a>
 </ion-footer>
