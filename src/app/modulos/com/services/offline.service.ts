@@ -245,6 +245,26 @@ export class OfflineService {
         }
     }
 
+    queryProgramacionListBetween(filterQuery: FilterQuery) {
+        if (this.sessionService.getOfflineMode()) {
+            return this.storageService.getProgramaciones();
+        } else {            
+            /*filterQuery.sortField = 'fecha';
+            filterQuery.sortOrder = 1;
+            filterQuery.fieldList = [
+                'id',
+                'fecha',
+                'area_nombre',
+                'listaInspeccion_listaInspeccionPK',
+                'listaInspeccion_nombre',
+                'numeroInspecciones',
+                'numeroRealizadas'
+            ];*/
+            
+            return this.programacionService.findByFilter(filterQuery);
+        }
+    }
+
 
     queryListaInspeccion(idLista: string, versionLista: number) {
         if (this.sessionService.getOfflineMode()) {

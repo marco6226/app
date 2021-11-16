@@ -33,14 +33,6 @@ export class ElaboracionInspeccionPage implements OnInit {
   segments = { listas: true, prog: false, realizadas: false, insp: false };
   inspCount = 0;
 
-  filtCodigo: string;
-  filtVersion: string;
-  filtNombre: string;
-  filtTipoLista: string;
-  filtDescripcion: string;
-  filtEstado: string;
-  filtFechaDesde: String;
-  filtFechaHasta: String;
 
   count = 0;
   loading = true;
@@ -53,7 +45,6 @@ export class ElaboracionInspeccionPage implements OnInit {
     public storageService: StorageService,
     public modalController: ModalController,
     private offlineService: OfflineService,
-    private listaInspeccionService: ListaInspeccionService,
     private router: Router,
   ) { }
 
@@ -170,20 +161,5 @@ async abrirInspRealizadas(inspecciones: Inspeccion[]) {
   /* *********************** inspecciones no programadas ******************************** */
 
 
-  /* *********************** Filtros ******************************** */
-
- 
-  filtrarFechaDesde(event) {
-    this.inspeccionList = [];
-    this.count = 0;
-    this.filtFechaDesde = event.detail.value;
-    
-  }
-
-  filtrarFechaHasta(event) {
-    this.inspeccionList = [];
-    this.count = 0;
-    this.filtFechaHasta = event.detail.value;
-  }
-
+  
 }
