@@ -53,3 +53,10 @@
         </ion-card-content>
     </ion-card-header>
 </ion-card>
+
+<ion-card *ngIf="listasInspeccion.length ==0" class="NoFound">
+  <ion-icon name="search" slot="start"></ion-icon>
+  <ion-label>
+    No se encontraron registros
+  </ion-label>
+</ion-card>
