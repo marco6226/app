@@ -76,11 +76,17 @@ export class ProgramacionInspeccionesComponent implements OnInit {
   /* *********************** Filtros ********************************* */ 
   filtrarFechaDesde(event) {
     this.filtFechaDesde = event.detail.value;   
+    if(this.filtFechaHasta!=null && !this.buttonText){
+      this.filtrar();
+    }
   }
 
   filtrarFechaHasta(event) {
     
     this.filtFechaHasta = event.detail.value;
+    if(this.filtFechaDesde!=null && !this.buttonText){
+      this.filtrar();
+    }
   }
 
   filtrar(){
