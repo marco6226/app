@@ -245,11 +245,13 @@ export class OfflineService {
         }
     }
 
-    queryProgramacionListBetween(filterQuery: FilterQuery) {
+
+    queryProgramacionListBetween(desde: Date, hasta: Date) {
         if (this.sessionService.getOfflineMode()) {
             return this.storageService.getProgramaciones();
-        } else {            
-            /*filterQuery.sortField = 'fecha';
+        } else {   
+            let filterQuery = new FilterQuery();
+            filterQuery.sortField = 'fecha';
             filterQuery.sortOrder = 1;
             filterQuery.fieldList = [
                 'id',
@@ -259,7 +261,27 @@ export class OfflineService {
                 'listaInspeccion_nombre',
                 'numeroInspecciones',
                 'numeroRealizadas'
-            ];*/
+            ];         
+            let areas = this.sessionService.getPermisosMap()['INP_GET_PROG'].areas;
+            filterQuery.filterList = [
+                {
+                    criteria: Criteria.CONTAINS,
+                    field: "area.id",
+                    value1: (areas == null ? null : areas.toString())
+                },
+                {
+                    criteria: Criteria.NOT_EQUALS,
+                    field: 'numeroInspecciones',
+                    value1: 'numeroRealizadas',
+                    isExpression: true
+                },
+                {
+                    criteria: Criteria.BETWEEN,
+                    field: "fecha",
+                    value1: desde.toLocaleString(), 
+                    value2: hasta.toLocaleString()
+                },
+            ];
             
             return this.programacionService.findByFilter(filterQuery);
         }

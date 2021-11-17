@@ -1,6 +1,6 @@
 <!--Programación-->
 <ion-slides>    
-  <div style="width: 100%;">      
+  <div style="width: 100%;"> 
     <!--Fecha-->
     <ion-item>
       <ion-icon name="search" slot="start"></ion-icon>
@@ -9,7 +9,6 @@
         Desde
       </ion-label> 
       <ion-datetime
-      value = "{{filtFechaDesde | date:'yyyy-MM-dd'}}"
       cancelText="Cancelar" doneText="Ok"  max="2022"
       displayFormat ="DD/MM/YYYY"
       picker-format="DD, MMMM, YYYY"
@@ -22,14 +21,18 @@
         Hasta
       </ion-label> 
       <ion-datetime 
-      value = "{{filtFechaHasta | date:'yyyy-MM-dd'}}"
       min="{{filtFechaDesde | date:'yyyy-MM-dd'}}" max="2022"
       cancelText="Cancelar" doneText="Ok"  
       displayFormat ="DD/MM/YYYY"
       picker-format="DD, MMMM, YYYY"
       monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre" 
-      (ionChange)="filtFechaHasta($event)"></ion-datetime>
-    </ion-item>   
+      (ionChange)="filtrarFechaHasta($event)"></ion-datetime>
+    </ion-item> 
+    <ion-item>
+      <ion-button (click)="Reset()">
+        {{tituloButton}}
+      </ion-button>
+    </ion-item>  
   </div>
 </ion-slides>
 

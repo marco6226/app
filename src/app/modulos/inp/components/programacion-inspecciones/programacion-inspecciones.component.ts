@@ -22,8 +22,10 @@ export class ProgramacionInspeccionesComponent implements OnInit {
 
   programacionLista: Programacion[];
   count = 0;  
-  filtFechaDesde: Date = new Date();
-  filtFechaHasta: Date = new Date();
+  filtFechaDesde: Date;
+  filtFechaHasta: Date;
+  buttonText: boolean = true;
+  tituloButton: String = "Filtrar";
 
   constructor(
     private storageService: StorageService,
@@ -32,7 +34,6 @@ export class ProgramacionInspeccionesComponent implements OnInit {
 
   ngOnInit() {
     this.cargarProgramacion();
-    //this.filtFechaDesde.
   }
 
   cargarProgramacion() {
@@ -72,75 +73,54 @@ export class ProgramacionInspeccionesComponent implements OnInit {
   onProgSelect(prog: Programacion) {
     this.onProgramacionSelect.emit(prog);
   }
-  /* *********************** Filtros ******************************** */
-
- 
+  /* *********************** Filtros ********************************* */ 
   filtrarFechaDesde(event) {
-    this.programacionLista = [];
-    this.count = 0;
-    this.filtFechaDesde = event.detail.value;
-    this.filtrar();
-    
+    this.filtFechaDesde = event.detail.value;   
   }
 
   filtrarFechaHasta(event) {
-    this.programacionLista = [];
-    this.count = 0;
+    
     this.filtFechaHasta = event.detail.value;
-    this.filtrar();
   }
 
   filtrar(){
     this.loading = true;
-    let filterQuery = new FilterQuery();
-    filterQuery.sortField = "id";
-    filterQuery.count = true;
-    filterQuery.sortOrder = 1;
-    filterQuery.offset = 0 + this.count;
-    //filterQuery.rows = 3 ;
-    
-    
-    filterQuery.fieldList = ['id',
-                              'fecha',
-                              'area_nombre',
-                              'listaInspeccion_listaInspeccionPK',
-                              'listaInspeccion_nombre',
-                              'numeroInspecciones',
-                              'numeroRealizadas'];
-
-    filterQuery.filterList = [];
-
-   
-      filterQuery.filterList.push({
-        criteria: Criteria.BETWEEN,
-        field: "fecha",
-        value1: this.filtFechaDesde.toString(), 
-        value2: this.filtFechaHasta.toString()
-      });
-    
-    console.log(filterQuery)   
-   
-    if (filterQuery.filterList.length > 0){      
-      this.cargarListasFiltro(filterQuery);
-    }else{
-      this.cargarProgramacion();
-    }
-    
+    this.programacionLista = [];
+    this.count = 0;   
+    this.cargarListasFiltro(this.filtFechaDesde, this.filtFechaHasta)
   }
 
-  cargarListasFiltro(filterQuery: FilterQuery) {
+  cargarListasFiltro(desde: Date, hasta: Date) {
     this.loading = true;
-    this.programacionLista = null;
-    this.offlineService.queryProgramacionListBetween(filterQuery)
+    this.programacionList = [];
+    this.offlineService.queryProgramacionListBetween(desde,hasta)
       .then(resp => {
-        this.programacionLista = resp['data'];
+        this.programacionList = [];
+        (<any[]>resp['data']).forEach(dto => {
+          console.log(resp);
+          this.programacionList.push(FilterQuery.dtoToObject(dto));
+        });
         this.loading = false;
-       // this.listasCargadas = true;
+        this.progCargada = true;
       })
       .catch(err => {
         this.loading = false;
-       // this.listasCargadas = false;
+        this.progCargada = false;
       });
+  }
+
+  Reset(){
+    if(this.buttonText){      
+      if(this.filtFechaDesde!=null && this.filtFechaHasta!=null){
+        this.tituloButton = "Borrar Filtro"
+        this.buttonText = false;
+        this.filtrar();
+      }
+    }else{
+      this.tituloButton = "Filtrar"
+      this.buttonText = true;
+      this.cargarProgramacion();
+    }    
   }
 
 }
