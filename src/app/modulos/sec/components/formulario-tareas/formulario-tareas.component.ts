@@ -1,27 +1,31 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { Component, OnInit, Output, EventEmitter, Input, NgModule } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, FormsModule } from '@angular/forms';
 import { Tarea } from '../../entities/tarea';
 import { OfflineService } from '../../../com/services/offline.service';
 import { Area } from '../../../emp/entities/area';
 
-
-import { ToastController, AlertController } from '@ionic/angular';
+import { ToastController, AlertController, IonicModule } from '@ionic/angular';
+import { Empleado } from '../../../emp/entities/empleado';
+import { EmpleadoSelectorModule } from '../../../com/components/empleado-selector/empleado-selector.component';
+import { CommonModule } from '@angular/common';
+import { TreeModule } from '../../../com/components/tree/tree.component';
 
 @Component({
     selector: 'sm-formularioTareas',
     templateUrl: './formulario-tareas.component.html',
-    styleUrls: ['./formulario-tareas.component.scss']
+    styleUrls: ['./formulario-tareas.component.scss'],
 })
 export class FormularioTareasComponent implements OnInit {
-
     nombre: string;
     descripcion: string;
     tipoAccion: string;
+    jerarquia: string;
+    empResponsable: Empleado;
     fechaProyectada: Date;
     areaResp: Area;
 
     idxTareaEditar: number = -1;
-    @Output("onEvent") onEvent = new EventEmitter();
+    @Output('onEvent') onEvent = new EventEmitter();
 
     @Input('tareasList') tareasList: Tarea[];
     @Input('readOnly') readOnly: boolean;
@@ -57,13 +61,13 @@ export class FormularioTareasComponent implements OnInit {
         this.areasCargadas = null;
 
         this.offlineService.queryArea()
-            .then(res => {
+		|	.then((res) => {
                 this.areasList = [];
                 this.construirListaAreas(this.areasList, <any>res['data']);
                 this.loading = false;
                 this.areasCargadas = true;
             })
-            .catch(err => {
+            .catch((err) => {
                 this.loading = false;
                 this.areasCargadas = false;
             });
@@ -89,6 +93,8 @@ export class FormularioTareasComponent implements OnInit {
             tarea.nombre = this.nombre;
             tarea.descripcion = this.descripcion;
             tarea.tipoAccion = this.tipoAccion;
+            tarea.jerarquia = this.jerarquia;
+            tarea.empResponsable = this.empResponsable;
             tarea.fechaProyectada = this.fechaProyectada;
             tarea.areaResponsable = this.areaResp;
             tarea.estado = 'NUEVO';
@@ -103,6 +109,8 @@ export class FormularioTareasComponent implements OnInit {
         this.nombre = null;
         this.descripcion = null;
         this.tipoAccion = null;
+        this.jerarquia = null;
+        this.empResponsable = null;
         this.fechaProyectada = null;
         this.areaResp = null;
     }
@@ -114,6 +122,15 @@ export class FormularioTareasComponent implements OnInit {
         }
         if (this.tipoAccion == null) {
             this.presentToast('Debe completar el campo tipo de acción');
+            return false;
+        }
+
+        if (this.jerarquia == null) {
+            this.presentToast('Debe completar el campo jerarquía');
+            return false;
+        }
+        if (this.empResponsable == null) {
+            this.presentToast('Debe completar el campo jerarquía');
             return false;
         }
         if (this.fechaProyectada == null) {
@@ -130,7 +147,7 @@ export class FormularioTareasComponent implements OnInit {
     async presentToast(msg: string) {
         const toast = await this.toastController.create({
             message: msg,
-            duration: 2000
+            duration: 2000,
         });
         toast.present();
     }
@@ -139,11 +156,13 @@ export class FormularioTareasComponent implements OnInit {
         this.nombre = tarea.nombre;
         this.descripcion = tarea.descripcion;
         this.tipoAccion = tarea.tipoAccion;
+        this.jerarquia = tarea.jerarquia;
+        this.empResponsable = tarea.empResponsable;
         this.fechaProyectada = tarea.fechaProyectada;
         this.areaResp = tarea.areaResponsable;
         this.idxTareaEditar = idx;
         document.querySelector('#form-tareas').scrollIntoView({
-            behavior: 'smooth'
+            behavior: 'smooth',
         });
     }
 
@@ -152,11 +171,13 @@ export class FormularioTareasComponent implements OnInit {
         tarea.nombre = this.nombre;
         tarea.descripcion = this.descripcion;
         tarea.tipoAccion = this.tipoAccion;
+        tarea.jerarquia = this.jerarquia;
+        tarea.empResponsable = this.empResponsable;
         tarea.fechaProyectada = this.fechaProyectada;
         tarea.areaResponsable = this.areaResp;
         this.limpiarCampos();
         document.querySelector('#taritem_' + this.idxTareaEditar).scrollIntoView({
-            behavior: 'smooth'
+            behavior: 'smooth',
         });
         this.presentToast('Se han modificado los datos de la tarea ' + tarea.nombre);
         this.idxTareaEditar = -1;
@@ -166,7 +187,7 @@ export class FormularioTareasComponent implements OnInit {
     cancelarEdicion() {
         this.limpiarCampos();
         document.querySelector('#taritem_' + this.idxTareaEditar).scrollIntoView({
-            behavior: 'smooth'
+            behavior: 'smooth',
         });
         this.idxTareaEditar = -1;
     }
@@ -174,21 +195,30 @@ export class FormularioTareasComponent implements OnInit {
     async eliminarTarea(tarea: Tarea, idx: number) {
         const alert = await this.alertController.create({
             header: '¿Eliminar actividad?',
-            message: 'La actividad \"' + tarea.nombre + '\" será eliminada. ¿Confirma esta acción?',
-            buttons: [{
-                text: 'Si',
-                handler: () => {
-                    this.tareasList.splice(idx, 1);
-                    this.presentToast('La actividad \"' + tarea.nombre + '\" ha sido  eliminada');
-                    this.onEvent.emit({ type: 'onRemove', data: this.tareasList });
-                }
-            }, {
-                text: 'No',
-                role: 'cancel',
-                cssClass: 'No'
-            }]
+            message: 'La actividad "' + tarea.nombre + '" será eliminada. ¿Confirma esta acción?',
+            buttons: [
+                {
+                    text: 'Si',
+                    handler: () => {
+                        this.tareasList.splice(idx, 1);
+                        this.presentToast('La actividad "' + tarea.nombre + '" ha sido  eliminada');
+                        this.onEvent.emit({ type: 'onRemove', data: this.tareasList });
+                    },
+                },
+                {
+                    text: 'No',
+                    role: 'cancel',
+                    cssClass: 'No',
+                },
+            ],
         });
         await alert.present();
     }
-
 }
+
+@NgModule({
+    imports: [CommonModule, TreeModule, IonicModule, EmpleadoSelectorModule],
+    exports: [FormularioTareasComponent],
+    declarations: [FormularioTareasComponent],
+})
+export class FormulariotareasModule {}

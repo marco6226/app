@@ -34,6 +34,7 @@ export class ConsultaDesviacionesPage implements OnInit {
     filtAspecto: string;
     filtCodigo: string;
     filtArea: string;
+    //filtJerarquia: string;
     filtInvest: boolean;
 
     filtDisp: boolean;
@@ -286,12 +287,12 @@ export class ConsultaDesviacionesPage implements OnInit {
         this.filtrar(false);
     }
 
-    filtrarJerarquia(event) {
-        this.desviacionesList = [];
-        this.count = 0;
-        this.filtrarJerarquia = event.detail.value;
-        this.filtrar(false);
-    }
+    // filtrarJerarquia(event) {
+    //     this.desviacionesList = [];
+    //     this.count = 0;
+    //     this.filtrarJerarquia = event.detail.value;
+    //     this.filtrar(false);
+    // }
 
     filtrarCodigo(event) {
         this.desviacionesList = [];
@@ -348,6 +349,14 @@ export class ConsultaDesviacionesPage implements OnInit {
                 value1: '%' + this.filtAspecto.toUpperCase() + '%',
             });
         }
+
+        /* if (this.filtJerarquia != null && this.filtJerarquia.length > 0) {
+            filterQuery.filterList.push({
+                criteria: Criteria.LIKE,
+                field: 'jerarquia',
+                value1: '%' + this.filtJerarquia + '%',
+            });
+        }*/
 
         if (this.filtConcepto != null && this.filtConcepto.length > 0) {
             filterQuery.filterList.push({

@@ -10,6 +10,7 @@ import { ProgramacionInspeccionesComponent } from '../../components/programacion
 import { StorageService } from '../../../com/services/storage.service';
 import { InspeccionPendienteComponent } from '../../components/inspeccion-pendiente/inspeccion-pendiente.component';
 import { ListaInspeccion } from '../../entities/lista-inspeccion';
+import { InspeccionRealizadaComponent } from '../../components/inspeccion-realizada/inspeccion-realizada.component';
 
 @Component({
     selector: 'sm-elaboracionInspeccion',
@@ -23,15 +24,11 @@ export class ElaboracionInspeccionPage implements OnInit {
     segments = { listas: true, prog: false, realizadas: false, insp: false };
     inspCount = 0;
 
-    constructor(
-        public popoverController: PopoverController,
-        public storageService: StorageService,
-        public modalController: ModalController,
-        private router: Router
-    ) {}
+    constructor(public popoverController: PopoverController, public storageService: StorageService, public modalController: ModalController, private router: Router) {}
 
     ngOnInit() {
-        this.cargarInspPendientes();
+        //this.cargarInspPendientes();
+        this.cargarInspRealizadas();
     }
 
     cargarInspPendientes(desdeBoton?: boolean) {
@@ -68,7 +65,7 @@ export class ElaboracionInspeccionPage implements OnInit {
 
     async abrirInspRealizadas(inspecciones: Inspeccion[]) {
         const popOver = await this.popoverController.create({
-            component: InspeccionPendienteComponent,
+            component: InspeccionRealizadaComponent,
             componentProps: { inspecciones: inspecciones },
         });
         popOver.onDidDismiss().then((resp) => {
@@ -80,11 +77,7 @@ export class ElaboracionInspeccionPage implements OnInit {
         return await popOver.present();
     }
 
-    async abrirInspeccion(
-        programacion: Programacion,
-        listaInspeccion: ListaInspeccion,
-        inspeccion: Inspeccion
-    ) {
+    async abrirInspeccion(programacion: Programacion, listaInspeccion: ListaInspeccion, inspeccion: Inspeccion) {
         const modal = await this.modalController.create({
             component: InspeccionFormComponent,
             componentProps: {
@@ -95,10 +88,7 @@ export class ElaboracionInspeccionPage implements OnInit {
             cssClass: 'modal-fullscreen',
         });
         modal.onDidDismiss().then((resp) => {
-            this.onModalDismiss(
-                resp['data'],
-                programacion != null ? programacion : null
-            );
+            this.onModalDismiss(resp['data'], programacion != null ? programacion : null);
         });
         return await modal.present();
     }
@@ -107,8 +97,7 @@ export class ElaboracionInspeccionPage implements OnInit {
         if (inspeccion != null && inspeccion.id == null) {
             this.inspSyncComp.adicionarInspeccion(inspeccion);
             this.inspCount += 1;
-            if (prog != null)
-                this.progInspComp.actualizarProgMetadata(prog.id, null, true);
+            if (prog != null) this.progInspComp.actualizarProgMetadata(prog.id, null, true);
         } else if (inspeccion != null && prog != null) {
             prog.numeroRealizadas += 1;
         }
@@ -118,21 +107,11 @@ export class ElaboracionInspeccionPage implements OnInit {
         switch (event.type) {
             case 'onSync':
                 // si event.inspeccion.programacion  == null indica que es una programacion no programada
-                if (event.inspeccion.programacion != null)
-                    this.progInspComp.actualizarProgMetadata(
-                        event.inspeccion.programacion.id,
-                        true,
-                        false
-                    );
+                if (event.inspeccion.programacion != null) this.progInspComp.actualizarProgMetadata(event.inspeccion.programacion.id, true, false);
                 break;
             case 'onLocalRemove':
                 // si event.inspeccion.programacion  == null indica que es una programacion no programada
-                if (event.inspeccion.programacion != null)
-                    this.progInspComp.actualizarProgMetadata(
-                        event.inspeccion.programacion.id,
-                        null,
-                        false
-                    );
+                if (event.inspeccion.programacion != null) this.progInspComp.actualizarProgMetadata(event.inspeccion.programacion.id, null, false);
                 break;
         }
         this.inspCount = event.count;

@@ -1,44 +1,53 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit, Input, Output, EventEmitter, NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
+import { TreeModule } from '../tree/tree.component';
 
 @Component({
-  selector: 'sm-autocomplete',
-  templateUrl: './autocomplete.component.html',
-  styleUrls: ['./autocomplete.component.scss']
+    selector: 'sm-autocomplete',
+    templateUrl: './autocomplete.component.html',
+    styleUrls: ['./autocomplete.component.scss'],
 })
-class AutocompleteComponent implements OnInit {
+export class AutocompleteComponent implements OnInit {
+    @Input('options') _options: any;
+    @Input('fieldLabel') fieldLabel: string;
+    @Input('field') field: string;
+    @Input('size') size: number = 10;
+    @Input('minLength') minLength: number = 3;
+    @Output('completeMethod') completeMethod = new EventEmitter<any>();
+    inputValue: string;
+    suggestions: any[];
 
+    constructor() {}
 
-  @Input("options") _options: any;
-  @Input("fieldLabel") fieldLabel: string;
-  @Input("field") field: string;
-  @Input("size") size: number = 10;
-  @Input("minLength") minLength: number = 3;
-  @Output("completeMethod") completeMethod = new EventEmitter<any>();
-  inputValue:string;
+    ngOnInit() {
+        /*execute a function when someone clicks in the document:*/
+        document.addEventListener('click', (e) => {
+            this._options = [];
+        });
+    }
 
-  constructor() { }
+    onSearchChange(event: any) {
+        let value = <string>event.target.value;
+        if (value.length >= this.minLength) this.completeMethod.emit(value);
+    }
 
-  ngOnInit() {
-    /*execute a function when someone clicks in the document:*/
-    document.addEventListener("click", e => {
-      this._options = [];
-    });
-  }
+    onSelect(opc: any) {
+        this.inputValue = opc[this.field];
+    }
 
-  onSearchChange(event: any) {
-    let value = <string>event.target.value;
-    if (value.length >= this.minLength)
-      this.completeMethod.emit(value);
-  }
-
-  onSelect(opc:any){
-    this.inputValue = opc[this.field];
-  }
-
-  get options() {
-    return this._options;
-  }
-  set options(options: any[]) {
-    this._options = options;
-  }
+    get options() {
+        return this._options;
+    }
+    set options(options: any[]) {
+        this._options = options;
+    }
 }
+
+@NgModule({
+    imports: [CommonModule, TreeModule, IonicModule],
+    exports: [AutocompleteComponent],
+    declarations: [AutocompleteComponent],
+})
+export class AutocompleteModule {}
