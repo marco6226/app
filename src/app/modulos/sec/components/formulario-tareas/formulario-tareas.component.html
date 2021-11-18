@@ -64,8 +64,8 @@
             <ion-label position="stacked">Empleado Responsable</ion-label>
             <ion-textarea [(ngModel)]="empResponsable" maxlength="1022"></ion-textarea>
         </ion-item> -->
-
-        <sm-empleadoSelector [(ngModel)]="empResponsable" [disabled]="guardando == true" appendTo="ion-modal"></sm-empleadoSelector>
+        <ion-label>Empleado</ion-label>
+        <app-empleado-selector [(ngModel)]="empResponsable" [disabled]="guardando == true" appendTo="ion-modal"></app-empleado-selector>
 
         <ion-item>
             <ion-label position="stacked">Fecha proyectada*</ion-label>

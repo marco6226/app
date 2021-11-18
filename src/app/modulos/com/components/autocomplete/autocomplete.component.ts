@@ -44,10 +44,3 @@ export class AutocompleteComponent implements OnInit {
         this._options = options;
     }
 }
-
-@NgModule({
-    imports: [CommonModule, TreeModule, IonicModule],
-    exports: [AutocompleteComponent],
-    declarations: [AutocompleteComponent],
-})
-export class AutocompleteModule {}

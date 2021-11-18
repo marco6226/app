@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { EmpleadoSelectorComponent } from './empleado-selector.component';
+import { ObservacionConsultarComponent } from './observacion-consultar.component';
 
-describe('EmpleadoSelectorComponent', () => {
-  let component: EmpleadoSelectorComponent;
-  let fixture: ComponentFixture<EmpleadoSelectorComponent>;
+describe('ObservacionConsultarComponent', () => {
+  let component: ObservacionConsultarComponent;
+  let fixture: ComponentFixture<ObservacionConsultarComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EmpleadoSelectorComponent ],
+      declarations: [ ObservacionConsultarComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(EmpleadoSelectorComponent);
+    fixture = TestBed.createComponent(ObservacionConsultarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

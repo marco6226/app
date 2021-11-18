@@ -6,7 +6,7 @@ import { Area } from '../../../emp/entities/area';
 
 import { ToastController, AlertController, IonicModule } from '@ionic/angular';
 import { Empleado } from '../../../emp/entities/empleado';
-import { EmpleadoSelectorModule } from '../../../com/components/empleado-selector/empleado-selector.component';
+
 import { CommonModule } from '@angular/common';
 import { TreeModule } from '../../../com/components/tree/tree.component';
 
@@ -61,7 +61,7 @@ export class FormularioTareasComponent implements OnInit {
         this.areasCargadas = null;
 
         this.offlineService.queryArea()
-		|	.then((res) => {
+			.then((res) => {
                 this.areasList = [];
                 this.construirListaAreas(this.areasList, <any>res['data']);
                 this.loading = false;
@@ -217,7 +217,7 @@ export class FormularioTareasComponent implements OnInit {
 }
 
 @NgModule({
-    imports: [CommonModule, TreeModule, IonicModule, EmpleadoSelectorModule],
+    imports: [CommonModule, TreeModule, IonicModule],
     exports: [FormularioTareasComponent],
     declarations: [FormularioTareasComponent],
 })

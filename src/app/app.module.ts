@@ -25,7 +25,7 @@ import { TienePermisoDirective } from './modulos/com/directives/tiene-permiso.di
 // import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { EmpleadoService } from './modulos/com/services/empleado.service';
-import { EmpleadoSelectorModule } from './modulos/com/components/empleado-selector/empleado-selector.component';
+
 
 // class SQLiteMock {
 //   public create(config: SQLiteDatabaseConfig): Promise<SQLiteObject> {

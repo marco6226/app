@@ -1,3 +1,5 @@
+import { AutocompleteComponent } from './components/autocomplete/autocomplete.component';
+import { EmpleadoSelectorComponent } from './components/empleado-selector/empleado-selector.component';
 import { ObservacionTarjetasComponent } from './../auc/components/observacion-tarjetas/observacion-tarjetas.component';
 import { ObservacionConsultarComponent } from './../auc/components/observacion-consultar/observacion-consultar.component';
 import { NgModule } from '@angular/core';
@@ -5,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { IonicModule } from '@ionic/angular';
+
 
 import { HttpInt } from './services/http-int.service'
 import { MensajeUsuarioComponent } from './components/mensaje-usuario/mensaje-usuario.component';
@@ -29,9 +32,15 @@ import { ConfiguracionGeneralService } from './services/configuracion-general.se
 import { ActaService } from '../cop/services/acta.service'
 import { HTMLSanitizerService } from './services/html-sanitizer.service';
 import { TerminosCondicionesComponent } from './components/terminos-condiciones/terminos-condiciones.component';
-import { EmpleadoService } from './services/empleado.service';
 
 @NgModule({
+  imports: [
+    CommonModule,
+    HttpModule,
+    FormsModule,
+    IonicModule,
+    ReactiveFormsModule
+  ],
   exports: [
     FormsModule,
     ReactiveFormsModule,
@@ -44,7 +53,9 @@ import { EmpleadoService } from './services/empleado.service';
     ConfiguracionGeneralDirective,
     SafeBypassPipe,
     ObservacionConsultarComponent,
-    ObservacionTarjetasComponent
+    ObservacionTarjetasComponent,
+    EmpleadoSelectorComponent,
+    AutocompleteComponent
   ],
   declarations: [
     MensajeUsuarioComponent,
@@ -57,7 +68,9 @@ import { EmpleadoService } from './services/empleado.service';
     ConfiguracionGeneralDirective,
     SafeBypassPipe,
     ObservacionConsultarComponent,
-    ObservacionTarjetasComponent
+    ObservacionTarjetasComponent,
+    EmpleadoSelectorComponent,
+    AutocompleteComponent
   ],
   providers: [
     HttpInt,
@@ -65,7 +78,6 @@ import { EmpleadoService } from './services/empleado.service';
     InspeccionService,
     DirectorioService,
     AreaService,
-        EmpleadoService,
     SistemaCausaRaizService,
     TarjetaService,
     DesviacionService,
@@ -73,6 +85,7 @@ import { EmpleadoService } from './services/empleado.service';
     SistemaCausaAdministrativaService,
     ConfiguracionGeneralService,
     ActaService,
+    HTMLSanitizerService
   ]
 })
 export class ComunModule { }

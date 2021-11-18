@@ -12,7 +12,7 @@ import { ProgramacionInspeccionesComponent } from '../../components/programacion
 import { StorageService } from '../../../com/services/storage.service';
 import { InspeccionPendienteComponent } from '../../components/inspeccion-pendiente/inspeccion-pendiente.component';
 import { ListaInspeccion } from '../../entities/lista-inspeccion';
-import { InspeccionRealizadaComponent } from '../../components/inspeccion-realizada/inspeccion-realizada.component';
+
 
 import { OfflineService } from '../../../com/services/offline.service';
 import { Criteria } from '../../../com/entities/filter';
@@ -91,7 +91,7 @@ export class ElaboracionInspeccionPage implements OnInit {
         });
     }
     async abrirInspRealizadas(inspecciones: Inspeccion[]) {
-        const popOver = await this.popoverController.create({
+        /*const popOver = await this.popoverController.create({
             component: InspeccionRealizadaComponent,
             componentProps: { inspecciones: inspecciones },
         });
@@ -101,7 +101,7 @@ export class ElaboracionInspeccionPage implements OnInit {
                 this.abrirInspeccion(null, null, realizadas);
             }
         });
-        return await popOver.present();
+        return await popOver.present();*/
     }
 
    
@@ -114,11 +114,14 @@ export class ElaboracionInspeccionPage implements OnInit {
                 inspeccion: inspeccion,
             },
           
-      cssClass: "modal-fullscreen"
+            cssClass: "modal-fullscreen"
         });
-            );        });
+        modal.onDidDismiss()
+          .then(resp => {
+            this.onModalDismiss(resp['data'], programacion != null ? programacion : null);
+          });
         return await modal.present();
-    }
+      }
 
     onModalDismiss(inspeccion: Inspeccion, prog: Programacion) {
         if (inspeccion != null && inspeccion.id == null) {
