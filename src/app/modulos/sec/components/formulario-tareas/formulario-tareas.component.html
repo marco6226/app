@@ -1,25 +1,30 @@
 <ion-card>
     <ion-card-content>
         <div *ngFor="let tarea of tareasList; let i = index" [id]="'taritem_' + i" class="tarea-content">
-            <p style="margin-bottom: 10px;">
+            <p style="margin-bottom: 10px">
                 <ion-button slot="end" (click)="cargarTarea(tarea, i)" color="success" fill="outline" size="small" *ngIf="readOnly != true && tarea.estado == 'NUEVO'">
                     <ion-icon name="create"></ion-icon>
                     Modificar
                 </ion-button>
-                <ion-button slot="end" (click)="eliminarTarea(tarea, i)" color="medium" style="float: right;" fill="clear" size="small" *ngIf="readOnly != true && tarea.estado == 'NUEVO'">
+                <ion-button slot="end" (click)="eliminarTarea(tarea, i)" color="medium" style="float: right" fill="clear" size="small" *ngIf="readOnly != true && tarea.estado == 'NUEVO'">
                     <ion-icon name="close"></ion-icon>
                 </ion-button>
             </p>
-            <ion-badge [ngClass]="{
-                'nueva':tarea.estado == 'NUEVO', 
-                'realizada':tarea.estado == 'REALIZADA', 
-                'finalizada':tarea.estado == 'FINALIZADA'
-              }">{{tarea.estado}}</ion-badge>
-            <h2>{{tarea?.nombre}}</h2>
-            <p>Descripción: {{tarea?.descripcion}}</p>
-            <p>Tipo de acción: {{tarea?.tipoAccion}}</p>
-            <p>Fecha: {{tarea?.fechaProyectada | date: 'dd/MM/yyyy'}}</p>
-            <p>Ubicación: {{tarea.areaResponsable?.nombre}}</p>
+            <ion-badge
+                [ngClass]="{
+                    nueva: tarea.estado == 'NUEVO',
+                    realizada: tarea.estado == 'REALIZADA',
+                    finalizada: tarea.estado == 'FINALIZADA'
+                }"
+                >{{ tarea.estado }}</ion-badge
+            >
+            <h2>{{ tarea?.nombre }}</h2>
+            <p>Descripción: {{ tarea?.descripcion }}</p>
+            <p>Tipo de acción: {{ tarea?.tipoAccion }}</p>
+            <p>Jerarquia de control: {{ tarea?.jerarquia }}</p>
+            <p>Empleado responsable: {{ empResponsable?.primerNombre + empResponsable?.primerApellido }}</p>
+            <p>Fecha: {{ tarea?.fechaProyectada | date: 'dd/MM/yyyy' }}</p>
+            <p>Ubicación: {{ tarea.areaResponsable?.nombre }}</p>
         </div>
     </ion-card-content>
 </ion-card>
@@ -42,6 +47,26 @@
                 <ion-select-option value="CORRECTIVO">Correctiva</ion-select-option>
             </ion-select>
         </ion-item>
+        <ion-item>
+            <ion-label position="stacked"> Jerarquía de Control </ion-label>
+            <ion-select okText="Aceptar" cancelText="Cancelar" [(ngModel)]="jerarquia">
+                <ion-select-option [value]="null">Todos</ion-select-option>
+                <ion-select-option value="Eliminación"> Eliminación </ion-select-option>
+                <ion-select-option value="Sustitución"> Sustitución </ion-select-option>
+                <ion-select-option value="Control de ingeniería"> Control de ingeniería </ion-select-option>
+                <ion-select-option value="Controles administrativos"> Controles administrativos </ion-select-option>
+                <ion-select-option value="Elementos de proteccion personal"> Elementos de protección personal </ion-select-option>
+                <!-- ¿Tildes o no? -->
+            </ion-select>
+        </ion-item>
+
+        <!-- <ion-item>
+            <ion-label position="stacked">Empleado Responsable</ion-label>
+            <ion-textarea [(ngModel)]="empResponsable" maxlength="1022"></ion-textarea>
+        </ion-item> -->
+        <ion-label>Empleado</ion-label>
+        <app-empleado-selector [(ngModel)]="empResponsable" [disabled]="guardando == true" appendTo="ion-modal"></app-empleado-selector>
+
         <ion-item>
             <ion-label position="stacked">Fecha proyectada*</ion-label>
             <ion-datetime display-format="DD/MM/YYYY" picker-format="YYYY MMMM DD" [(ngModel)]="fechaProyectada"></ion-datetime>

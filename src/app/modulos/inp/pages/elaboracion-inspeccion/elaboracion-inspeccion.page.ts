@@ -13,25 +13,26 @@ import { StorageService } from '../../../com/services/storage.service';
 import { InspeccionPendienteComponent } from '../../components/inspeccion-pendiente/inspeccion-pendiente.component';
 import { ListaInspeccion } from '../../entities/lista-inspeccion';
 
+
 import { OfflineService } from '../../../com/services/offline.service';
 import { Criteria } from '../../../com/entities/filter';
 import { FilterQuery } from '../../../com/entities/filter-query';
 import { InspeccionNoProgramadaComponent } from '../../components/inspeccion-no-programada/inspeccion-no-programada.component';
 
 @Component({
-  selector: 'sm-elaboracionInspeccion',
-  templateUrl: './elaboracion-inspeccion.page.html',
-  styleUrls: ['./elaboracion-inspeccion.page.scss'],
+    selector: 'sm-elaboracionInspeccion',
+    templateUrl: './elaboracion-inspeccion.page.html',
+    styleUrls: ['./elaboracion-inspeccion.page.scss'],
 })
 export class ElaboracionInspeccionPage implements OnInit {
 
-  @ViewChild('inspSyncComp') inspSyncComp: InspeccionesSyncComponent;
-  @ViewChild('progInspComp') progInspComp: ProgramacionInspeccionesComponent;
+    @ViewChild('inspSyncComp') inspSyncComp: InspeccionesSyncComponent;
+    @ViewChild('progInspComp') progInspComp: ProgramacionInspeccionesComponent;
 
   filtDisp: boolean;
 
-  segments = { listas: true, prog: false, realizadas: false, insp: false };
-  inspCount = 0;
+    segments = { listas: true, prog: false, realizadas: false, insp: false };
+    inspCount = 0;
 
 
   count = 0;
@@ -48,118 +49,119 @@ export class ElaboracionInspeccionPage implements OnInit {
     private router: Router,
   ) { }
 
-  ngOnInit() {
+    ngOnInit() {
     this.filtDisp = this.offlineService.getOfflineMode() != true;
-    this.cargarInspPendientes();
-  }
+        this.cargarInspRealizadas();
+    }
 
-  cargarInspPendientes(desdeBoton?: boolean) {    
+    cargarInspPendientes(desdeBoton?: boolean) {
+        
     this.storageService.getInspeccionesPendientes()
       .then(resp => {
-        let inspPend = resp.data;
+            let inspPend = resp.data;
         console.log(resp.count)
-        if (inspPend.length > 0 || desdeBoton == true) {
-          this.abrirInspPendientes(inspPend);
-        }
-      });      
-  }
+            if (inspPend.length > 0 || desdeBoton == true) {
+                this.abrirInspPendientes(inspPend);
+            }
+        });
+    }
 
-  async abrirInspPendientes(inspecciones: Inspeccion[]) {
-    const popOver = await this.popoverController.create({
-      component: InspeccionPendienteComponent,
-      componentProps: { inspecciones: inspecciones },
-    });
+    async abrirInspPendientes(inspecciones: Inspeccion[]) {
+        const popOver = await this.popoverController.create({
+            component: InspeccionPendienteComponent,
+            componentProps: { inspecciones: inspecciones },
+        });
+
     popOver.onDidDismiss()
       .then(resp => {
-        let insp: Inspeccion = resp.data;
-        if (insp) {
-          this.abrirInspeccion(null, null, insp);
-        }
-      });      
+            let insp: Inspeccion = resp.data;
+            if (insp) {
+                this.abrirInspeccion(null, null, insp);
+            }
+        });
     console.log(Inspeccion)
-    return await popOver.present();
-  }
-  cargarInspRealizadas(desdeBoton?: boolean) {
-    this.storageService.getInspeccionesRealizadas().then((resp) => {
-        let inspRealizadas = resp.data;
-        if (inspRealizadas.length > 0 || desdeBoton == true) {
-            this.abrirInspRealizadas(inspRealizadas);
-        }
-    });
-}
-async abrirInspRealizadas(inspecciones: Inspeccion[]) {
-  const popOver = await this.popoverController.create({
-      component: InspeccionPendienteComponent,
-      componentProps: { inspecciones: inspecciones },
-  });
-  popOver.onDidDismiss().then((resp) => {
-      let realizadas: Inspeccion = resp.data;
-      if (realizadas) {
-          this.abrirInspeccion(null, null, realizadas);
-      }
-  });
-  return await popOver.present();
-}
-
-  async abrirInspeccion(programacion: Programacion, listaInspeccion: ListaInspeccion, inspeccion: Inspeccion) {
-    const modal = await this.modalController.create({
-      component: InspeccionFormComponent,
-      componentProps: {
-        programacion: programacion,
-        listaInspeccion: listaInspeccion,
-        inspeccion: inspeccion,
-      },
-      cssClass: "modal-fullscreen"
-    });
-    modal.onDidDismiss()
-      .then(resp => {
-        this.onModalDismiss(resp['data'], programacion != null ? programacion : null);
-      });
-    return await modal.present();
-  }
-
-  onModalDismiss(inspeccion: Inspeccion, prog: Programacion) {
-    if (inspeccion != null && inspeccion.id == null) {
-      this.inspSyncComp.adicionarInspeccion(inspeccion);
-      this.inspCount += 1;
-      if (prog != null)
-        this.progInspComp.actualizarProgMetadata(prog.id, null, true);
-    } else if (inspeccion != null && prog != null) {
-      prog.numeroRealizadas += 1;
+        return await popOver.present();
     }
-  }
+    cargarInspRealizadas(desdeBoton?: boolean) {
+        this.storageService.getInspeccionesRealizadas().then((resp) => {
+            let inspRealizadas = resp.data;
+            if (inspRealizadas.length > 0 || desdeBoton == true) {
+                this.abrirInspRealizadas(inspRealizadas);
+            }
+        });
+    }
+    async abrirInspRealizadas(inspecciones: Inspeccion[]) {
+        /*const popOver = await this.popoverController.create({
+            component: InspeccionRealizadaComponent,
+            componentProps: { inspecciones: inspecciones },
+        });
+        popOver.onDidDismiss().then((resp) => {
+            let realizadas: Inspeccion = resp.data;
+            if (realizadas) {
+                this.abrirInspeccion(null, null, realizadas);
+            }
+        });
+        return await popOver.present();*/
+    }
 
-  onEvent(event) {
-    switch (event.type) {
-      case 'onSync':
-        // si event.inspeccion.programacion  == null indica que es una programacion no programada
+   
+    async abrirInspeccion(programacion: Programacion, listaInspeccion: ListaInspeccion, inspeccion: Inspeccion) {
+        const modal = await this.modalController.create({
+            component: InspeccionFormComponent,
+            componentProps: {
+                programacion: programacion,
+                listaInspeccion: listaInspeccion,
+                inspeccion: inspeccion,
+            },
+          
+            cssClass: "modal-fullscreen"
+        });
+        modal.onDidDismiss()
+          .then(resp => {
+            this.onModalDismiss(resp['data'], programacion != null ? programacion : null);
+          });
+        return await modal.present();
+      }
+
+    onModalDismiss(inspeccion: Inspeccion, prog: Programacion) {
+        if (inspeccion != null && inspeccion.id == null) {
+            this.inspSyncComp.adicionarInspeccion(inspeccion);
+            this.inspCount += 1;
+  
+        } else if (inspeccion != null && prog != null) {
+            prog.numeroRealizadas += 1;
+        }
+    }
+
+    onEvent(event) {
+        switch (event.type) {
+            case 'onSync':
+                // si event.inspeccion.programacion  == null indica que es una programacion no programada
+               
         if (event.inspeccion.programacion != null)
           this.progInspComp.actualizarProgMetadata(event.inspeccion.programacion.id, true, false);
-        break;
-      case 'onLocalRemove':
-        // si event.inspeccion.programacion  == null indica que es una programacion no programada
+                break;
+            case 'onLocalRemove':
+                // si event.inspeccion.programacion  == null indica que es una programacion no programada
+                
         if (event.inspeccion.programacion != null)
           this.progInspComp.actualizarProgMetadata(event.inspeccion.programacion.id, null, false);
-        break;
+                break;
+        }
+        this.inspCount = event.count;
     }
-    this.inspCount = event.count;
-  }
 
-  navegar(url) {
-    this.router.navigate([url])
-  }
-
-  segmentChanged(event) {
-    for (var seg in this.segments) {
-      this.segments[seg] = false;
-      if (event.detail.value == seg)
-        this.segments[seg] = true;
-
+    navegar(url) {
+   
     }
-  }
 
-  /* *********************** inspecciones no programadas ******************************** */
+    segmentChanged(event) {
+        for (var seg in this.segments) {
+            this.segments[seg] = false;
+            if (event.detail.value == seg) this.segments[seg] = true;
+        }
+    }
 
+    /* *********************** inspecciones no programadas ******************************** */
 
-  
 }

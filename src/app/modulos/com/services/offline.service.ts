@@ -13,14 +13,13 @@ import { SistemaCausaRaizService } from '../../sec/services/sistema-causa-raiz.s
 import { SistemaCausaInmediataService } from '../../sec/services/sistema-causa-inmediata.service';
 import { DesviacionService } from './../../sec/services/desviacion.service';
 import { StorageService } from './storage.service';
-import { ActaService } from '../../cop/services/acta.service'
+import { ActaService } from '../../cop/services/acta.service';
 import { SistemaCausaAdministrativaService } from '../../sec/services/sistema-causa-administrativa.service';
 import { Subject } from 'rxjs';
 import { ManualService } from './manual.service';
 
 @Injectable()
 export class OfflineService {
-
     public toggleSubject = new Subject<boolean>();
     public sessionService: SesionService;
 
@@ -72,10 +71,11 @@ export class OfflineService {
             return this.storageService.getListasInspeccion();
         } else {
             let filterQuery = new FilterQuery();
-            filterQuery.sortField = "nombre";
+            filterQuery.sortField = 'nombre';
             filterQuery.sortOrder = -1;
             if (!completo) {
                 filterQuery.fieldList = [
+                    
                     'listaInspeccionPK',
                     'nombre',
                     'codigo',
@@ -154,6 +154,7 @@ export class OfflineService {
             let areas = this.sessionService.getPermisosMap()['COP_GET_ACT'].areas;
             let filterQuery = new FilterQuery();
             filterQuery.sortField = "fechaElaboracion";
+            
             filterQuery.sortOrder = 1;
             filterQuery.offset = 0;
             filterQuery.rows = 24;
@@ -178,7 +179,8 @@ export class OfflineService {
         if (this.sessionService.getOfflineMode()) {
             return this.storageService.getAreas();
         } else {
-            let fq = new FilterQuery()
+           
+            let fq = new FilterQuery();
             //fq.fieldList = ["id", "nombre"];
             fq.sortField = 'nombre';
             fq.sortOrder = -1;
@@ -240,11 +242,29 @@ export class OfflineService {
                     value1: 'numeroRealizadas',
                     isExpression: true
                 }
+               
             ];
             return this.programacionService.findByFilter(filterQuery);
         }
     }
 
+    queryInspeccionesRealizadas() {
+        if (this.sessionService.getOfflineMode()) {
+            return this.storageService.getInspeccionesRealizadas();
+        } else {
+            let filterQuery = new FilterQuery();
+            let filterId = new Filter();
+            filterId.criteria = Criteria.EQUALS;
+            filterId.field = 'listaInspeccionPK.id'; //Aqui va el campo en la tabla por el que se va a filtrar
+            //filterId.value1 = idLista; //Aqui va el valor a buscar
+			let filterVersion = new Filter();
+            filterVersion.criteria = Criteria.EQUALS;
+            filterVersion.field = 'listaInspeccionPK.version';
+            //filterVersion.value1 = '' + versionLista;
+            filterQuery.filterList = [filterId, filterVersion];
+            return this.listaInspeccionService.findByFilter(filterQuery);
+        }
+    }
 
     queryProgramacionListBetween(desde: Date, hasta: Date) {
         if (this.sessionService.getOfflineMode()) {
@@ -296,15 +316,16 @@ export class OfflineService {
             let filterId = new Filter();
             filterId.criteria = Criteria.EQUALS;
             filterId.field = "listaInspeccionPK.id";
+      
             filterId.value1 = idLista;
             let filterVersion = new Filter();
             filterVersion.criteria = Criteria.EQUALS;
             filterVersion.field = "listaInspeccionPK.version";
+
             filterVersion.value1 = '' + versionLista;
             filterQuery.filterList = [filterId, filterVersion];
             return this.listaInspeccionService.findByFilter(filterQuery);
         }
-
     }
 
     queryListaInspeccionFilter(filterQuery?: FilterQuery, completo?: boolean) {
@@ -326,7 +347,6 @@ export class OfflineService {
     }
 
     loadData() {
-
         let permSistemaCR = this.sessionService.getPermisosMap()['SEC_GET_SCRDEF'];
         permSistemaCR = permSistemaCR == null ? { valido: false } : permSistemaCR;
 
@@ -374,6 +394,7 @@ export class OfflineService {
             queryManualesPorUsuario: !permManUsr.valido,
         };
         this.setOfflineMode(false);
+
         return new Promise<void>((resolve, reject) => {
 
             // Queries manuales de usuario
@@ -509,6 +530,7 @@ export class OfflineService {
                 tipoMensaje: 'info',
                 mensaje: 'Modo online activado',
                 detalle: ''
+
             };
             this.clearLocalStorage();
             resolve(msg);
@@ -527,3 +549,4 @@ export class OfflineService {
         this.storageService.borrarManualesUsuario();
     }
 }
+
