@@ -1,3 +1,32 @@
+<!--Listas-->
+<ion-slides>    
+    <div style="width: 100%;">      
+      <!--Codigo-->
+      <ion-item>
+        <ion-icon name="search" slot="start"></ion-icon>
+        <ion-label position="stacked">
+          Código
+        </ion-label>
+        <ion-input (ionChange)="filtrarCodigo($event)" clear-input="true" debounce="500"></ion-input>
+      </ion-item>
+      <!--Nombre-->
+      <ion-item>
+        <ion-icon name="search" slot="start"></ion-icon>
+        <ion-label position="stacked">
+          Nombre
+        </ion-label>
+        <ion-input (ionChange)="filtrarNombre($event)" clear-input="true" debounce="500"></ion-input>
+      </ion-item>
+      <!--Descripcion-->
+      <ion-item>
+        <ion-icon name="search" slot="start"></ion-icon>
+        <ion-label position="stacked">
+          Descripcion
+        </ion-label>
+        <ion-input (ionChange)="filtrarDescripcion($event)" clear-input="true" debounce="500"></ion-input>
+      </ion-item>
+    </div>
+</ion-slides>
 
 <div *ngIf="loading == true">
     <ion-spinner class="main-spinner" name="dots" color="primary"></ion-spinner>
@@ -23,4 +52,12 @@
             <p>{{lista.descripcion}}</p>
         </ion-card-content>
     </ion-card-header>
+</ion-card>
+
+<ion-card *ngIf="listasInspeccion.length ==0" class="NoFound">
+  <ion-icon name="search" slot="start"></ion-icon>
+  <ion-label>
+    No se encontraron registros
+  </ion-label>
+  <ion-icon name="alert"></ion-icon>
 </ion-card>

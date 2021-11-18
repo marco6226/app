@@ -1,3 +1,41 @@
+<!--Programación-->
+<ion-slides>    
+  <div style="width: 100%;"> 
+    <!--Fecha-->
+    <ion-item>
+      <ion-icon name="search" slot="start"></ion-icon>
+      
+      <ion-label position="stacked">
+        Desde
+      </ion-label> 
+      <ion-datetime
+      cancelText="Cancelar" doneText="Ok"  max="2022"
+      displayFormat ="DD/MM/YYYY"
+      picker-format="DD, MMMM, YYYY"
+      monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre" 
+      (ionChange)="filtrarFechaDesde($event)"></ion-datetime>
+    </ion-item> 
+    <ion-item>
+      <ion-icon name="search" slot="start"></ion-icon>
+      <ion-label position="stacked">
+        Hasta
+      </ion-label> 
+      <ion-datetime 
+      min="{{filtFechaDesde | date:'yyyy-MM-dd'}}" max="2022"
+      cancelText="Cancelar" doneText="Ok"  
+      displayFormat ="DD/MM/YYYY"
+      picker-format="DD, MMMM, YYYY"
+      monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre" 
+      (ionChange)="filtrarFechaHasta($event)"></ion-datetime>
+    </ion-item> 
+    <ion-item>
+      <ion-button (click)="Reset()">
+        {{tituloButton}}
+      </ion-button>
+    </ion-item>  
+  </div>
+</ion-slides>
+
 <div *ngIf="loading == true">
   <ion-spinner class="main-spinner" name="dots" color="primary"></ion-spinner>
 </div>
@@ -27,4 +65,12 @@
       <ion-badge color="warning">{{prog.offlineDone}}</ion-badge>
     </p>
   </ion-card-content>
+</ion-card>
+
+<ion-card *ngIf="programacionList.length ==0" class="NoFound">
+  <ion-icon name="search" slot="start"></ion-icon>
+  <ion-label>
+    No se encontraron registros
+  </ion-label>
+  <ion-icon name="alert"></ion-icon>
 </ion-card>
