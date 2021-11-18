@@ -79,12 +79,6 @@
                 </ion-item>
                 <ion-spinner class="main-spinner" name="dots" *ngIf="loading == true" color="primary"></ion-spinner>
 
-                <ion-item *ngIf="filtDisp == true">
-                    <ion-icon name="search" slot="start"></ion-icon>
-                    <ion-label position="stacked"> Jerarquía de control</ion-label>
-                    <ion-input (ionChange)="filtrarArea($event)" clear-input="true" debounce="500"></ion-input>
-                </ion-item>
-
                 <ng-container *ngFor="let desv of desviacionesList; let idx = index;">
                     <ion-card *ngIf="!desv.oculto">
                         <ion-card-content>

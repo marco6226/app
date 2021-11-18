@@ -63,7 +63,7 @@
                     <ion-textarea formControlName="descripcion" maxlength="510"></ion-textarea>
                 </ion-item>
 
-                <ion-item *ngIf="false">
+                <ion-item *ngIf="idEmpresa != '16'">
                     <ion-label position="stacked">Afecta:</ion-label>
                     <ion-select okText="Aceptar" cancelText="Cancelar" formControlName="afecta" multiple="true">
                         <ion-select-option *ngFor="let a of tarjeta?.campos.afecta" [value]="a.label">{{ a.label }}</ion-select-option>

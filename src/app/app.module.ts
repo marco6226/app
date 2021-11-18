@@ -9,7 +9,7 @@ import { Camera } from '@ionic-native/camera/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { MensajeUsuarioService } from './modulos/com/services/mensaje-usuario.service'
+import { MensajeUsuarioService } from './modulos/com/services/mensaje-usuario.service';
 import { SesionService } from './modulos/com/services/sesion.service';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -24,7 +24,8 @@ import { SQLite, SQLiteDatabaseConfig, SQLiteObject } from '@ionic-native/sqlite
 import { TienePermisoDirective } from './modulos/com/directives/tiene-permiso.directive';
 // import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 import { AppVersion } from '@ionic-native/app-version/ngx';
-
+import { EmpleadoService } from './modulos/com/services/empleado.service';
+import { EmpleadoSelectorModule } from './modulos/com/components/empleado-selector/empleado-selector.component';
 
 // class SQLiteMock {
 //   public create(config: SQLiteDatabaseConfig): Promise<SQLiteObject> {
@@ -41,34 +42,27 @@ import { AppVersion } from '@ionic-native/app-version/ngx';
 // }
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  entryComponents: [],
-  imports: [
-    BrowserModule,
-    IonicModule.forRoot({ hardwareBackButton: false }),
-    AppRoutingModule,
-    ComunModule,
-    HttpClientModule
-  ],
-  providers: [
-    // FileTransfer,
-    MensajeUsuarioService,
-    CambioPasswdService,
-    SesionService,
-    StatusBar,
-    SplashScreen,
-    Camera,
-    AuthService,
-    OfflineService,
-    SQLite,
-    StorageService,
-    AppVersion,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    // { provide: SQLite, useClass: SQLiteMock },
-    { provide: HTTP_INTERCEPTORS, useClass: HttpAuthInterceptor, multi: true }
-  ],
-  bootstrap: [AppComponent]
+    declarations: [AppComponent],
+    entryComponents: [],
+    imports: [BrowserModule, IonicModule.forRoot({ hardwareBackButton: false }), AppRoutingModule, ComunModule, HttpClientModule],
+    providers: [
+        // FileTransfer,
+        MensajeUsuarioService,
+        CambioPasswdService,
+        EmpleadoService,
+        SesionService,
+        StatusBar,
+        SplashScreen,
+        Camera,
+        AuthService,
+        OfflineService,
+        SQLite,
+        StorageService,
+        AppVersion,
+        { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+        // { provide: SQLite, useClass: SQLiteMock },
+        { provide: HTTP_INTERCEPTORS, useClass: HttpAuthInterceptor, multi: true },
+    ],
+    bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

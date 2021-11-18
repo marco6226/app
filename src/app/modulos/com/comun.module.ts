@@ -6,7 +6,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { IonicModule } from '@ionic/angular';
 
-
 import { HttpInt } from './services/http-int.service'
 import { MensajeUsuarioComponent } from './components/mensaje-usuario/mensaje-usuario.component';
 import { FormularioComponent } from './components/formulario/formulario.component';
@@ -30,14 +29,9 @@ import { ConfiguracionGeneralService } from './services/configuracion-general.se
 import { ActaService } from '../cop/services/acta.service'
 import { HTMLSanitizerService } from './services/html-sanitizer.service';
 import { TerminosCondicionesComponent } from './components/terminos-condiciones/terminos-condiciones.component';
+import { EmpleadoService } from './services/empleado.service';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    HttpModule,
-    FormsModule,
-    IonicModule,
-    ReactiveFormsModule
   ],
   exports: [
     FormsModule,
@@ -72,6 +66,7 @@ import { TerminosCondicionesComponent } from './components/terminos-condiciones/
     InspeccionService,
     DirectorioService,
     AreaService,
+        EmpleadoService,
     SistemaCausaRaizService,
     TarjetaService,
     DesviacionService,
@@ -79,7 +74,6 @@ import { TerminosCondicionesComponent } from './components/terminos-condiciones/
     SistemaCausaAdministrativaService,
     ConfiguracionGeneralService,
     ActaService,
-    HTMLSanitizerService
   ]
 })
 export class ComunModule { }
