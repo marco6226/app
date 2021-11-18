@@ -18,7 +18,7 @@ export class ReporteObservacionPage implements OnInit {
   @ViewChild('obserSyncComp') obserSyncComp: ObservacionSyncComponent;
   nombreAuc: string;
   tarjetaList: Tarjeta[];
-  segments = { 'tarjeta': true, 'observ': false };
+  segments = { 'tarjeta': true, 'consultar':false, 'observ': false };
   obsCount = 0;
   loading: boolean;
   tarjetasCargadas: boolean;

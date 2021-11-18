@@ -1,3 +1,5 @@
+import { ObservacionTarjetasComponent } from './../auc/components/observacion-tarjetas/observacion-tarjetas.component';
+import { ObservacionConsultarComponent } from './../auc/components/observacion-consultar/observacion-consultar.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -47,7 +49,9 @@ import { TerminosCondicionesComponent } from './components/terminos-condiciones/
     LoginComponent,
     TienePermisoDirective,
     ConfiguracionGeneralDirective,
-    SafeBypassPipe
+    SafeBypassPipe,
+    ObservacionConsultarComponent,
+    ObservacionTarjetasComponent
   ],
   declarations: [
     MensajeUsuarioComponent,
@@ -58,7 +62,9 @@ import { TerminosCondicionesComponent } from './components/terminos-condiciones/
     InicioComponent,
     TienePermisoDirective,
     ConfiguracionGeneralDirective,
-    SafeBypassPipe
+    SafeBypassPipe,
+    ObservacionConsultarComponent,
+    ObservacionTarjetasComponent
   ],
   providers: [
     HttpInt,
