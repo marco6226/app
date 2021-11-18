@@ -32,7 +32,6 @@ import { TerminosCondicionesComponent } from './components/terminos-condiciones/
 import { EmpleadoService } from './services/empleado.service';
 
 @NgModule({
-  ],
   exports: [
     FormsModule,
     ReactiveFormsModule,

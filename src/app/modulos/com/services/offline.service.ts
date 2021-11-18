@@ -140,6 +140,8 @@ export class OfflineService {
                 filterQuery.filterList.push({ criteria: Criteria.CONTAINS, field: "area.id", value1: areasPerm });
             } else {
                 filterQuery.filterList = [
+                    { criteria: Criteria.CONTAINS, field: "area.id", value1: areasPerm }
+                ];
             }
             return this.desviacionService.findByFilter(filterQuery);
         }
