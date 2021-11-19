@@ -1,3 +1,4 @@
+import { ObservacionService } from './../../auc/services/observacion.service';
 import { Inspeccion } from './../../inp/entities/inspeccion';
 import { ProgramacionService } from '../../inp/services/programacion.service';
 import { FilterQuery } from '../entities/filter-query';
@@ -36,7 +37,8 @@ export class OfflineService {
         private SistemaCausaInmediataService: SistemaCausaInmediataService,
         // public sessionService: SesionService,
         private manualService: ManualService,
-        private actaService: ActaService
+        private actaService: ActaService,
+        private observacionService: ObservacionService
     ) {
         this.sessionService = this.storageService.getSessionService();
     }
@@ -198,6 +200,38 @@ export class OfflineService {
             return this.tarjetaService.findByFilter();
         }
     }
+
+    queryObservacion(completo?: boolean):any {
+        if (this.sessionService.getOfflineMode()) {
+            return this.storageService.getSyncObservaciones();
+        } else {
+            let filterQuery = new FilterQuery();
+            filterQuery.offset = 0;
+            //filterQuery.rows = 30
+            filterQuery.count = true;
+            filterQuery.sortField = 'tipoObservacion';
+            filterQuery.sortOrder = 1;
+            if (!completo) {
+                filterQuery.fieldList = [                    
+                    'id',
+                    'fechaObservacion',
+                    'tipoObservacion',
+                    'descripcion',
+                    'nivelRiesgo_nombre',
+                    'personasobservadas',
+                    'personasabordadas',
+                    'aceptada',
+                ];
+                filterQuery.filterList = [];
+               /* filterQuery.filterList.push({
+                    criteria: Criteria.NOT_EQUALS,
+                    field: "estado",
+                    value1: "inactivo"});*/
+            }
+            return this.observacionService.findByFilter(filterQuery);
+        }
+    }
+
 
     querySistemaNivelRiesgo() {
         if (this.sessionService.getOfflineMode()) {

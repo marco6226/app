@@ -152,7 +152,7 @@ export class ElaboracionInspeccionPage implements OnInit {
     }
 
     navegar(url) {
-   
+        this.router.navigate([url]);
     }
 
     segmentChanged(event) {
