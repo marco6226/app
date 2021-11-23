@@ -7,7 +7,8 @@ import { HttpInt } from './http-int.service';
 import { MensajeUsuarioService } from './mensaje-usuario.service';
 import { ServiceCRUD } from './service-crud.service';
 import { SesionService } from './sesion.service';
-
+import 'rxjs/operators';
+import { map } from 'rxjs/operators';
 @Injectable()
 export class EmpleadoService extends ServiceCRUD<Empleado> {
     httpInt;
@@ -57,7 +58,7 @@ export class EmpleadoService extends ServiceCRUD<Empleado> {
         return new Promise((resolve) => {
             this.httpInt
                 .get(endPoints.EmpleadoService + 'buscar/' + parametro)
-                .map((res) => res)
+                .pipe(map((res) => res))
                 .subscribe(
                     (res) => {
                         resolve(res);

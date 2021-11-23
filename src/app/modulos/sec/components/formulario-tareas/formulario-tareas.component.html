@@ -65,7 +65,7 @@
             <ion-textarea [(ngModel)]="empResponsable" maxlength="1022"></ion-textarea>
         </ion-item> -->
         <ion-label>Empleado</ion-label>
-        <app-empleado-selector [(ngModel)]="empResponsable" [disabled]="guardando == true" appendTo="ion-modal"></app-empleado-selector>
+        <sm-empleado-selector [(ngModel)]="empResponsable" [disabled]="guardando == true" appendTo="ion-modal"></sm-empleado-selector>
 
         <ion-item>
             <ion-label position="stacked">Fecha proyectada*</ion-label>
@@ -84,7 +84,7 @@
                     No fue posible cargar el listado
                     <a *ngIf="areasCargadas == false" (click)="cargarAreas()">Reintentar</a>
                 </p>
-            </div>
+            <!-- </div>
 
             <ion-select *ngIf="areasCargadas == true" okText="Aceptar" cancelText="Cancelar" [(ngModel)]="areaResp">
                 <ion-select-option *ngFor="let area of areasList" [value]="area">{{area.nombre}}</ion-select-option>

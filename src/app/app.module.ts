@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
@@ -25,7 +27,7 @@ import { TienePermisoDirective } from './modulos/com/directives/tiene-permiso.di
 // import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { EmpleadoService } from './modulos/com/services/empleado.service';
-
+import { AutoCompleteModule } from 'primeng/autocomplete';
 
 // class SQLiteMock {
 //   public create(config: SQLiteDatabaseConfig): Promise<SQLiteObject> {
@@ -44,7 +46,7 @@ import { EmpleadoService } from './modulos/com/services/empleado.service';
 @NgModule({
     declarations: [AppComponent],
     entryComponents: [],
-    imports: [BrowserModule, IonicModule.forRoot({ hardwareBackButton: false }), AppRoutingModule, ComunModule, HttpClientModule],
+    imports: [BrowserModule, BrowserAnimationsModule, IonicModule.forRoot({ hardwareBackButton: false }), AppRoutingModule, ComunModule, HttpClientModule, AutoCompleteModule],
     providers: [
         // FileTransfer,
         MensajeUsuarioService,
