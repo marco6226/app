@@ -183,7 +183,7 @@ export abstract class ServiceCRUD<T> {
       this.mensajeUsuarioService.showMessage({
         tipoMensaje: 'warn',
         mensaje: 'CONEXIÓN DEFICIENTE',
-        detalle: 'La conexión está tardando mucho tiempo en responder, la solicitud ha sido cancelada. Por favor intente mas tarde.'
+        detalle: 'La conexión está tardando mucho tiempo en responder, la solicitud ha sido cancelada. Por favor intentelo mas tarde.'
       });
       return;
     }

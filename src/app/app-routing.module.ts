@@ -36,6 +36,10 @@ const routes: Routes = [
         loadChildren: './modulos/sec/pages/consulta-tareas/consulta-tareas.module#ConsultaTareasPageModule'
       },
       {
+        path: 'sec/misTareas',
+        loadChildren: './modulos/sec/pages/mis-tareas/mis-tareas.module#MisTareasPageModule'
+      },
+      {
         path: 'sec/secInicio',
         loadChildren: './modulos/sec/pages/sec-inicio/sec-inicio.module#SecInicioPageModule'
       },
