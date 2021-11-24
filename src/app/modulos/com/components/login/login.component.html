@@ -52,6 +52,15 @@
 
 
 <ion-footer color="light" *ngIf="visible">
+  <ion-item >
+    <div style="width: 100%;font-size: 14px;">
+      <p class="none">By</p>
+      <ion-item class="divitem"  href="http://www.lerprevencion.com/" target="_blank">
+        <ion-icon  class="ler"></ion-icon>    
+           
+      </ion-item>  
+    </div>
+  </ion-item>
   <ion-item button (click)="actualizar()" *ngIf="versionDisponible > version">
     <ion-icon slot="start" name="arrow-round-up" color="primary"></ion-icon>
     <div style="width: 100%;font-size: 14px;">
