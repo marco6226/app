@@ -232,6 +232,21 @@ export class OfflineService {
         }
     }
 
+    queryObservacionSelectID(idNum: string):any {
+        if (this.sessionService.getOfflineMode()) {
+            return this.storageService.getSyncObservaciones();
+        } else {
+            let filterQuery = new FilterQuery();
+           
+                filterQuery.filterList = [{
+                    criteria: Criteria.EQUALS,
+                    field: "id",
+                    value1: idNum}];
+            console.log(filterQuery)
+            return this.observacionService.findByFilter(filterQuery);
+        }
+    }
+
 
     querySistemaNivelRiesgo() {
         if (this.sessionService.getOfflineMode()) {

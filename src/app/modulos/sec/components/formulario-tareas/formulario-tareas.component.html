@@ -60,20 +60,52 @@
             </ion-select>
         </ion-item>
 
-        <!-- <ion-item>
-            <ion-label position="stacked">Empleado Responsable</ion-label>
-            <ion-textarea [(ngModel)]="empResponsable" maxlength="1022"></ion-textarea>
-        </ion-item> -->
-        <ion-label>Empleado</ion-label>
-        <sm-empleado-selector [(ngModel)]="empResponsable" [disabled]="guardando == true" appendTo="ion-modal"></sm-empleado-selector>
+        <ion-item *ngIf="selectionEmpleado">
+            <ion-avatar slot="end">
+              <img *ngIf="!evento.usuario?.icon" name="person-circle-outline">
+              <img *ngIf="evento.usuario?.icon" [src]="evento.usuario?.icon">
+            </ion-avatar>
+            <ion-label position="stacked" style="margin-bottom: 10px;">
+              <h3>Empleado</h3>
+              <ion-label>{{nombreEmpleado}}</ion-label>
+            </ion-label>
+        </ion-item>
+            <ion-label *ngIf="!selectionEmpleado" position="stacked">
+                <h3>Empleado</h3>
+            </ion-label>
+            <sm-empleado-selector *ngIf="!selectionEmpleado" position="stacked" [(ngModel)]="empResponsable" [disabled]="guardando == true" appendTo="ion-modal" (onSelect)="onSelection($event)"></sm-empleado-selector>
+        
+       <!--  <p-autoComplete
+            placeholder="Empleado"
+            (onSelect)="onSelection($event)"
+            [suggestions]="empleadosList"
+            (completeMethod)="buscarEmpleado($event)"
+            [(ngModel)]="_value"
+            *ngIf="_value?.id == null"
+        >
+        <ng-template let-empleado pTemplate="item">
+            <div class="ui-helper-clearfix">
+                <div class="wrapper">
+                    <i *ngIf="!empleado.usuario?.icon" class="fa fa-user-circle" style="font-size: 48px" aria-hidden="true"></i>
+                    <img *ngIf="empleado.usuario?.icon" [src]="empleado.usuario?.icon" style="border-radius: 50%" #imgAvatar />
+                    <div style="margin-left: 20px">
+                        <label>{{ empleado?.primerNombre }} {{ empleado?.segundoNombre }} {{ empleado?.primerApellido }}</label>
+                        <br />
+                        {{ empleado?.numeroIdentificacion }} <br />
+                        {{ empleado?.usuario.email }}
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+            
+        </p-autoComplete> -->
 
         <ion-item>
             <ion-label position="stacked">Fecha proyectada*</ion-label>
             <ion-datetime display-format="DD/MM/YYYY" picker-format="YYYY MMMM DD" [(ngModel)]="fechaProyectada"></ion-datetime>
         </ion-item>
 
-        <sm-areaSelector *ngIf="!esProgramada" [(ngModel)]="areaResp" [disabled]="guardando == true" appendTo="ion-modal"></sm-areaSelector>
-        <!-- <ion-item>
+        <ion-item>
             <ion-label position="stacked">Area responsable*</ion-label>
 
             <div *ngIf="loading == true">
@@ -84,12 +116,15 @@
                     No fue posible cargar el listado
                     <a *ngIf="areasCargadas == false" (click)="cargarAreas()">Reintentar</a>
                 </p>
-            <!-- </div>
+            </div>
 
             <ion-select *ngIf="areasCargadas == true" okText="Aceptar" cancelText="Cancelar" [(ngModel)]="areaResp">
                 <ion-select-option *ngFor="let area of areasList" [value]="area">{{area.nombre}}</ion-select-option>
             </ion-select>
-        </ion-item> -->
+        </ion-item>
+
+        <sm-areaSelector *ngIf="!esProgramada" [(ngModel)]="areaResp" [disabled]="guardando == true" appendTo="ion-modal"></sm-areaSelector>
+        
         <ion-button *ngIf="idxTareaEditar < 0" expand="full" (click)="adicionarTarea()">Adicionar actividad</ion-button>
         <ion-button *ngIf="idxTareaEditar >= 0" (click)="modificarTarea()" color="success">
             <ion-icon name="create"></ion-icon>
