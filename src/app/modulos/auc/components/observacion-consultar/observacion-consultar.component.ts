@@ -1,6 +1,8 @@
+import { ModalController } from '@ionic/angular';
 import { Observacion } from './../../entities/observacion';
 import { OfflineService } from './../../../com/services/offline.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { ObservacionConsultarFormComponent } from '../observacion-consultar-form/observacion-consultar-form.component';
 
 @Component({
   selector: 'app-observacion-consultar',
@@ -8,6 +10,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./observacion-consultar.component.scss'],
 })
 export class ObservacionConsultarComponent implements OnInit {
+  @Output("onObservacionSelect") onObservacionSelect = new EventEmitter<Observacion>();
 
   observacionLista: Observacion[];
   loading: boolean;
@@ -15,6 +18,7 @@ export class ObservacionConsultarComponent implements OnInit {
   
   constructor(
     private offlineService: OfflineService,
+    public modalController: ModalController,
   ) { }
 
   ngOnInit() {
@@ -39,6 +43,25 @@ export class ObservacionConsultarComponent implements OnInit {
     return (date.getDate()+
     "/"+(date.getMonth()+1)+
     "/"+date.getFullYear());
+  }
+
+  async onConsultaSelect(observacion: Observacion){
+    const modal = await this.modalController.create({
+      component: ObservacionConsultarFormComponent,
+      componentProps: { value: observacion, operacion:"GET" },
+      cssClass: "modal-fullscreen"
+    });
+    modal.onDidDismiss().then(
+      resp => this.onModalDismiss(resp.data)
+    );
+    return await modal.present();
+  }
+
+  onModalDismiss(obser: Observacion) {
+    if (obser != null && obser.id == null) {
+      //this.obsCount += 1;
+      //this.obserSyncComp.adicionarObservacion(obser);
+    }
   }
 
 }

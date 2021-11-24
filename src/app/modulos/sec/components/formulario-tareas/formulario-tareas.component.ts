@@ -23,6 +23,11 @@ export class FormularioTareasComponent implements OnInit {
     empResponsable: Empleado;
     fechaProyectada: Date;
     areaResp: Area;
+    guardando: boolean = true;
+    esProgramada: boolean = false;
+    nombreEmpleado: string;
+    evento;
+    selectionEmpleado: boolean = false;
 
     idxTareaEditar: number = -1;
     @Output('onEvent') onEvent = new EventEmitter();
@@ -98,6 +103,7 @@ export class FormularioTareasComponent implements OnInit {
             tarea.fechaProyectada = this.fechaProyectada;
             tarea.areaResponsable = this.areaResp;
             tarea.estado = 'NUEVO';
+            tarea.empResponsable = this.evento;
             this.tareasList.push(tarea);
             this.limpiarCampos();
             this.presentToast('Tarea ' + tarea.nombre + ' adicionada.');
@@ -157,7 +163,7 @@ export class FormularioTareasComponent implements OnInit {
         this.descripcion = tarea.descripcion;
         this.tipoAccion = tarea.tipoAccion;
         this.jerarquia = tarea.jerarquia;
-        this.empResponsable = tarea.empResponsable;
+        this.empResponsable = this.empResponsable;
         this.fechaProyectada = tarea.fechaProyectada;
         this.areaResp = tarea.areaResponsable;
         this.idxTareaEditar = idx;
@@ -213,6 +219,26 @@ export class FormularioTareasComponent implements OnInit {
             ],
         });
         await alert.present();
+    }
+    onSelection(event){
+        console.log(event)
+        let nombre;
+        if(event.primerNombre != null){
+            nombre = event.primerNombre;
+        }
+        if(event.segundoNombre != null){
+            nombre += " " + event.segundoNombre;
+        }
+        if(event.primerApellido != null){
+            nombre += " " + event.primerApellido;
+        }
+        if(event.segundoApellidos != null){
+            nombre += " " + event.segundoApellidos;
+        }
+        this.evento = event;
+        this.empResponsable = event;
+        this.nombreEmpleado = nombre;
+        this.selectionEmpleado = true;
     }
 }
 

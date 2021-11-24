@@ -1,3 +1,4 @@
+import { ObservacionConsultarFormComponent } from './../../components/observacion-consultar-form/observacion-consultar-form.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -22,7 +23,7 @@ const routes: Routes = [
 @NgModule({
     imports: [ComunModule, CommonModule, FormsModule, ReactiveFormsModule, IonicModule, TreeModule, RouterModule.forChild(routes), AreaSelectorModule],
     exports: [ComunModule],
-    entryComponents: [ObservacionFormComponent],
-    declarations: [ReporteObservacionPage, ObservacionFormComponent, ObservacionSyncComponent],
+    entryComponents: [ObservacionFormComponent,ObservacionConsultarFormComponent],
+    declarations: [ReporteObservacionPage, ObservacionFormComponent, ObservacionSyncComponent, ObservacionConsultarFormComponent],
 })
 export class ReporteObservacionPageModule {}
