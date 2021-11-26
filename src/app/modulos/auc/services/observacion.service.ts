@@ -11,3 +11,19 @@ export class ObservacionService extends ServiceCRUD<Observacion>{
     return "ObservacionService";
   }
 }
+
+  guardarGestionObervacion(observacion: Observacion, estado: string){
+    let body = JSON.stringify(observacion);
+    return new Promise((resolve) => {
+        this.httpInt
+            .put(this.end_point + estado, body)
+            .subscribe(
+                (res) => {
+                    resolve(res);
+                },
+                (err) => this.manageError(err)
+            );
+    });
+  }
+
+}

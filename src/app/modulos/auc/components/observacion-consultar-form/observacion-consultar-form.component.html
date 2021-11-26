@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
       <ion-buttons slot="start">
-          <ion-button (click)="anterior()" >
+          <ion-button (click)="anterior()">
               <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
           </ion-button>
       </ion-buttons>
@@ -89,7 +89,7 @@
       </ion-card>
     </ion-slide>
       
-    <ion-slide *ngIf="observacion.motivo != null">
+    <ion-slide *ngIf="observacion.motivo != null && !isGestionar">
       <ion-card class="tarjeta">
         <ion-card-title>
           <ion-item>
@@ -102,11 +102,58 @@
       </ion-card>
     </ion-slide>
 
+    <ion-slide *ngIf="isGestionar">
+      <ion-card class="tarjeta">
+        <ion-card-title>
+          <ion-item>
+            <ion-label class="tarjetaTitulo" color="primary">Observaciones</ion-label>
+          </ion-item>
+        </ion-card-title>
+        <ion-card-content class="tarjetaContenido">
+          <!-- <ion-input [(ngModel)]="observacion.motivo"></ion-input> -->
+          <ion-input [(ngModel)]="motivo"></ion-input>
+          <!-- <ion-label>{{motivo}}</ion-label> -->
+          
+        </ion-card-content>   
+      </ion-card>
+    </ion-slide>
+
   </ion-slides>
 </ion-content>
 
-<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+<!-- start -->
+<ion-fab class="iconSup" vertical="bottom" horizontal="end" slot="fixed" *ngIf="!isGestionar">
   <ion-fab-button>
-      <ion-icon name="save"></ion-icon>
+    <ion-icon name="create"></ion-icon>
   </ion-fab-button>
 </ion-fab>
+
+<ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="!isGestionar">
+  <ion-fab-button>
+    <ion-icon name="checkmark-circle-outline" (click)="gestionarObservacion()"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+
+<!-- Gestionar -->
+<ion-fab vertical="bottom" horizontal="end" slot="fixed" class="iconSupD" *ngIf="isGestionar">
+  <ion-fab-button class="aprobar">
+    <ion-icon name="arrow-back" (click)="back()" color="light" ></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+
+<ion-fab class="iconSup" vertical="bottom" horizontal="end" slot="fixed" *ngIf="isGestionar">
+  <ion-fab-button color="danger">
+    <ion-icon name="close" (click)="guardarGestionObervacion('denegar')" color="light"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+
+<ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="isGestionar">
+  <ion-fab-button class="aprobar" color="success" [disabled]="CambioObs">
+    <ion-icon name="checkmark" (click)="guardarGestionObervacion('aceptar')" color="light" ></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+
+<!-- modificar -->
+
+
+<!-- *ngIf="isGestionar" -->
