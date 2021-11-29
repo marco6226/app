@@ -1,9 +1,15 @@
+import { DirectorioService } from './../../../ado/services/directorio.service';
 //import { Usuario } from 'app/modulos/empresa/entities/usuario';
 import { ObservacionService } from './../../services/observacion.service';
 import { OfflineService } from './../../../com/services/offline.service';
 import { ModalController, AlertController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { Observacion } from '../../entities/observacion';
+import { url } from 'inspector';
+import { Criteria, Filter } from '../../../com/entities/filter';
+import { FilterQuery } from '../../../com/entities/filter-query';
+import { Tarjeta } from '../../entities/tarjeta';
+import { ObservacionFormComponent } from '../observacion-form/observacion-form.component';
 
 @Component({
   selector: 'app-observacion-consultar-form',
@@ -17,10 +23,11 @@ export class ObservacionConsultarFormComponent implements OnInit {
   observacion: Observacion;
   listado: boolean=true;
   CambioObs: boolean=false;
-
+  imagenesList: any = [];
   isGestionar: boolean=false;
   motivo: string;
   msg: string;
+  domSanitizer: any;
 
   constructor(
     
@@ -28,6 +35,7 @@ export class ObservacionConsultarFormComponent implements OnInit {
     private modalController: ModalController,
     private offlineService: OfflineService,
     private observacionService: ObservacionService,
+    private directorioService: DirectorioService,
 
   ) { }
 
@@ -72,14 +80,10 @@ export class ObservacionConsultarFormComponent implements OnInit {
       this.offlineService.queryObservacion()
       .then(resp => {
         this.observacionLista = resp['data'];
-        //this.loading = false;
       })
-      .catch(err => {
-        //this.loading = false;
-      });
   }
 
-  cargaDatosLista(){
+  async cargaDatosLista(){
     //this.loading = true;this.observacion.id.toString()
     if(Number.parseInt(this.observacion.id) > 0){
       this.offlineService.queryObservacionSelectID(this.observacion.id)
@@ -87,6 +91,38 @@ export class ObservacionConsultarFormComponent implements OnInit {
           this.observacionLista = resp['data'];
         })
     }  
+
+    let filter = new Filter();
+        filter.criteria = Criteria.EQUALS;
+        filter.field = "id";
+        filter.value1 = this.observacion.id;
+        let filterQuery = new FilterQuery();
+        filterQuery.filterList = [filter];
+
+    await this.observacionService
+      .findByFilter(filterQuery)
+      .then((resp) => (this.observacion = resp["data"][0]))
+      .then((resp) => {
+          this.observacion.documentoList.forEach(async (doc) => {
+              await this.directorioService.download(doc.id).then((data) => {
+                  let urlData = this.domSanitizer.bypassSecurityTrustUrl(
+                      URL.createObjectURL(data)
+                  );
+                  this.imagenesList.push({ source: urlData });
+                  this.imagenesList = this.imagenesList.slice();
+                  console.log(urlData)
+              });
+          });
+      });
+
+      console.log(this.imagenesList)
+      /* this.observacionService.download(this.observacion.id).then((data)=>{
+        let urlData = this.domSanitizer.bypassSecurityTrustUrl(
+          URL.createObjectURL(data)          
+      ); 
+      console.log(urlData)      
+    });*/
+      
   }
 
   convertirAFecha(timestamp: number){
@@ -105,47 +141,14 @@ export class ObservacionConsultarFormComponent implements OnInit {
   }
 
   ok(){
-    console.log("ok")
-/*       console.log(this.observacionLista.usuarioReporta.email)
- */      console.log(this.observacion)
- console.log(this.observacionLista[0].usuarioReporta.email)
-    
-    this.observacionLista[0].motivo = this.motivo;
-    console.log(this.observacionLista[0].motivo)
-    //this.cargaDatosLista();
-    
-  }
-
-  guardarDenegar() {
-    console.log(this.observacionLista[0].usuarioReporta.email)
-    this.observacionLista.motivo = this.motivo;
-    this.observacionService
-        .denegarObservacion(this.observacionLista[0])
-        .then((data) => {
-            //this.visibleObservacion = false;
-          this.msg = "Se ha denegado la observación correctamente";
-          this.FinishReturn();
-/*            this.authServizce.sendNotificationObservacionDenegada(
-                this.observacion.usuarioReporta.email,
-                this.observacion
-            ); */
-        });
+    if(this.motivo.length>0){
+      this.CambioObs=true;
     }
-
-    guardarAceptar() {
-      this.observacion.motivo = this.motivo;
-      this.observacionService
-          .aceptarObservacion(this.observacion)
-          .then((data) => {
-              /* this.visibleObservacion = false;*/
-            console.log("ok")
-            this.msg = "La observación ha sido aceptada correctamente"; 
-            this.FinishReturn();
-          });      
   }
 
   back(){
     this.isGestionar = false;
+    this.CambioObs = false;
   }
 
   async FinishReturn(){
@@ -164,18 +167,34 @@ export class ObservacionConsultarFormComponent implements OnInit {
   }
 
   guardarGestionObervacion(tipoEstado: string){
-    if(this.CambioObs){
-
-    }
     this.observacion.motivo = this.motivo;
     this.observacionService
         .guardarGestionObervacion(this.observacion, tipoEstado)
         .then((data) => {
             /* this.visibleObservacion = false;*/
-          console.log("ok")
           this.msg = "La observación ha sido aceptada correctamente"; 
           this.FinishReturn();
         });      
+  }
+  
+  
+  async onTarjetaSelect(tarjeta: Tarjeta) {
+    const modal = await this.modalController.create({
+      component: ObservacionFormComponent,
+      componentProps: { value: tarjeta },
+      cssClass: "modal-fullscreen"
+    });
+    modal.onDidDismiss().then(
+      resp => this.onModalDismiss(resp.data)
+    );
+    return await modal.present();
+  }
+
+  onModalDismiss(obser: Observacion) {
+    if (obser != null && obser.id == null) {
+      //this.obsCount += 1;
+      //this.obserSyncComp.adicionarObservacion(obser);
+    }
   }
 
 }

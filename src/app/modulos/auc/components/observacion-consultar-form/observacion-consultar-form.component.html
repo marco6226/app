@@ -9,16 +9,7 @@
   </ion-toolbar>
 </ion-header>
 
-<!-- <ion-segment value="investigacion">
-  <ion-segment-button value="investigacion">
-      <ion-label>Investigación</ion-label>
-  </ion-segment-button>
-  <ion-segment-button value="plan">
-      <ion-label> Plan de trabajo </ion-label>
-  </ion-segment-button>
-</ion-segment> -->
-
-<ion-content *ngFor="let observacion of observacionLista">
+<ion-content *ngFor="let observacion of observacionLista" >
   
   <ion-card class="tarjeta">
     <ion-item>
@@ -27,12 +18,18 @@
     <ion-card-content>
       <div>
         <ion-list style="text-align: center;">
-          <!-- <div>
-            <ion-img src="camera"></ion-img>
-          </div> -->
           <div>
-            <ion-icon class="evidencia" name="camera"></ion-icon>
+            <ion-icon class="evidencia" name="camera"></ion-icon>            
           </div>
+        </ion-list>
+        <ion-img [src]="imagenesList"></ion-img>
+        <ion-list>
+          <ion-item *ngFor="let item of imagenesList">
+            <ion-thumbnail slot="start">
+              <ion-img [src]="item.src"></ion-img>
+            </ion-thumbnail>
+            <ion-label>{{item.text}}</ion-label>
+          </ion-item>
         </ion-list>
       </div>      
     </ion-card-content>   
@@ -111,7 +108,8 @@
         </ion-card-title>
         <ion-card-content class="tarjetaContenido">
           <!-- <ion-input [(ngModel)]="observacion.motivo"></ion-input> -->
-          <ion-input [(ngModel)]="motivo"></ion-input>
+          <!-- <ion-input (click)="ok()" [(ngModel)]="motivo"></ion-input> -->
+          <ion-input (click)="CambioObs='true'" [(ngModel)]="motivo"></ion-input>
           <!-- <ion-label>{{motivo}}</ion-label> -->
           
         </ion-card-content>   
@@ -123,7 +121,7 @@
 
 <!-- start -->
 <ion-fab class="iconSup" vertical="bottom" horizontal="end" slot="fixed" *ngIf="!isGestionar">
-  <ion-fab-button>
+  <ion-fab-button (click)="onTarjetaSelect()">
     <ion-icon name="create"></ion-icon>
   </ion-fab-button>
 </ion-fab>
@@ -142,13 +140,13 @@
 </ion-fab>
 
 <ion-fab class="iconSup" vertical="bottom" horizontal="end" slot="fixed" *ngIf="isGestionar">
-  <ion-fab-button color="danger">
+  <ion-fab-button color="danger" [disabled]="!CambioObs">
     <ion-icon name="close" (click)="guardarGestionObervacion('denegar')" color="light"></ion-icon>
   </ion-fab-button>
 </ion-fab>
 
 <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="isGestionar">
-  <ion-fab-button class="aprobar" color="success" [disabled]="CambioObs">
+  <ion-fab-button class="aprobar" color="success" [disabled]="!CambioObs">
     <ion-icon name="checkmark" (click)="guardarGestionObervacion('aceptar')" color="light" ></ion-icon>
   </ion-fab-button>
 </ion-fab>
