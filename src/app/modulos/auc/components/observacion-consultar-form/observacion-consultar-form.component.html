@@ -17,19 +17,14 @@
     </ion-item>
     <ion-card-content>
       <div>
-        <ion-list style="text-align: center;">
+        <ion-list *ngIf="imagenesList?.length == 0" style="text-align: center;">
           <div>
             <ion-icon class="evidencia" name="camera"></ion-icon>            
           </div>
         </ion-list>
-        <ion-img [src]="imagenesList"></ion-img>
-        <ion-list>
-          <ion-item *ngFor="let item of imagenesList">
-            <ion-thumbnail slot="start">
-              <ion-img [src]="item.src"></ion-img>
-            </ion-thumbnail>
-            <ion-label>{{item.text}}</ion-label>
-          </ion-item>
+        
+        <ion-list *ngIf="imagenesList?.length > 0">
+          <ion-img [src]="imagenesList[0].source[0]"></ion-img>
         </ion-list>
       </div>      
     </ion-card-content>   
@@ -48,12 +43,13 @@
           <ion-label>{{convertirAFecha(observacion.fechaObservacion)}}</ion-label>
           <h2 class="subtitulos">Código:</h2>
           <ion-label>OBS-{{observacion.id}}</ion-label> 
-          <h2 class="subtitulos">Tipo de reporte:</h2>
+          <h2 class="subtitulos">Tipo de observación:</h2>
           <ion-label>{{observacion.tipoObservacion}}</ion-label>
           <h2 class="subtitulos">Descripción:</h2>
           <ion-label>{{observacion.descripcion}}</ion-label>
           <h2 class="subtitulos">Categoría:</h2>
           <ion-label *ngFor="let causaRaiz of observacion.implicacionList">  -{{causaRaiz.nombre}}</ion-label>
+          <br>
           <h2 class="subtitulos">Area:</h2>
           <ion-label>{{observacion.area.nombre}}</ion-label>
         </ion-card-content>   

@@ -1,3 +1,4 @@
+import { DomSanitizer } from '@angular/platform-browser';
 import { DirectorioService } from './../../../ado/services/directorio.service';
 //import { Usuario } from 'app/modulos/empresa/entities/usuario';
 import { ObservacionService } from './../../services/observacion.service';
@@ -27,7 +28,7 @@ export class ObservacionConsultarFormComponent implements OnInit {
   isGestionar: boolean=false;
   motivo: string;
   msg: string;
-  domSanitizer: any;
+  tarjeta: Tarjeta;
 
   constructor(
     
@@ -36,6 +37,7 @@ export class ObservacionConsultarFormComponent implements OnInit {
     private offlineService: OfflineService,
     private observacionService: ObservacionService,
     private directorioService: DirectorioService,
+    private domSanitizer: DomSanitizer
 
   ) { }
 
@@ -83,7 +85,7 @@ export class ObservacionConsultarFormComponent implements OnInit {
       })
   }
 
-  async cargaDatosLista(){
+  cargaDatosLista(){
     //this.loading = true;this.observacion.id.toString()
     if(Number.parseInt(this.observacion.id) > 0){
       this.offlineService.queryObservacionSelectID(this.observacion.id)
@@ -99,30 +101,20 @@ export class ObservacionConsultarFormComponent implements OnInit {
         let filterQuery = new FilterQuery();
         filterQuery.filterList = [filter];
 
-    await this.observacionService
+    this.observacionService
       .findByFilter(filterQuery)
       .then((resp) => (this.observacion = resp["data"][0]))
       .then((resp) => {
-          this.observacion.documentoList.forEach(async (doc) => {
-              await this.directorioService.download(doc.id).then((data) => {
+          this.observacion.documentoList.forEach((doc) => {
+              this.directorioService.download(doc.id).then((data) => {
                   let urlData = this.domSanitizer.bypassSecurityTrustUrl(
                       URL.createObjectURL(data)
                   );
-                  this.imagenesList.push({ source: urlData });
+                  this.imagenesList.push({ source: Object.values(urlData) });
                   this.imagenesList = this.imagenesList.slice();
-                  console.log(urlData)
               });
           });
-      });
-
-      console.log(this.imagenesList)
-      /* this.observacionService.download(this.observacion.id).then((data)=>{
-        let urlData = this.domSanitizer.bypassSecurityTrustUrl(
-          URL.createObjectURL(data)          
-      ); 
-      console.log(urlData)      
-    });*/
-      
+      });      
   }
 
   convertirAFecha(timestamp: number){
@@ -134,16 +126,6 @@ export class ObservacionConsultarFormComponent implements OnInit {
     this.motivo = this.observacionLista.motivo;
     this.isGestionar = true;
     
-  }
-  gestionarObservacionDato(value: string){
-    console.log(value)
-    
-  }
-
-  ok(){
-    if(this.motivo.length>0){
-      this.CambioObs=true;
-    }
   }
 
   back(){
@@ -178,15 +160,20 @@ export class ObservacionConsultarFormComponent implements OnInit {
   }
   
   
-  async onTarjetaSelect(tarjeta: Tarjeta) {
+  async onTarjetaSelect() {
+    this.tarjeta = this.observacionLista[0].tarjeta;
     const modal = await this.modalController.create({
       component: ObservacionFormComponent,
-      componentProps: { value: tarjeta },
+      //componentProps: { value: this.tarjeta },
+      //componentProps: { value: this.observacion, operacion:"GET" },
+      componentProps: { value: this.tarjeta, operacion:"GET", value1: this.observacion },
       cssClass: "modal-fullscreen"
     });
     modal.onDidDismiss().then(
       resp => this.onModalDismiss(resp.data)
     );
+
+
     return await modal.present();
   }
 

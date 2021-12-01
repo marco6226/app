@@ -12,10 +12,8 @@
     <p>OBS-{{observacion.id}} </p>
     <p>{{observacion.descripcion}}</p>
     <p>{{convertirAFecha(observacion.fechaObservacion)}}</p>    
-    <ion-item>        
-      <!-- <ion-button class="stiloButton" *ngIf="observacion.aceptada != null" fill="outline" slot="end" color="primary">Consultar</ion-button>
-      <ion-button class="stiloButton" *ngIf="observacion.aceptada == null" fill="outline" slot="end" color="success">Gestionar</ion-button> -->
-      <ion-chip class="chip" slot="end" *ngIf="observacion.aceptada == null"  fill="solid" color="medium">
+    <ion-item>
+      <ion-chip class="chip" slot="end" *ngIf="observacion.aceptada == null && observacion.tipoObservacion != 'Positivas'"  fill="solid" color="medium">
         <ion-label class="chip" color="medium">
           Sin asignar
         </ion-label>      
@@ -28,6 +26,11 @@
       <ion-chip class="chip" slot="end" *ngIf="!observacion.aceptada && observacion.aceptada != null" fill="solid" color="danger">
         <ion-label class="chip" color="danger">
           Denegada
+        </ion-label>      
+      </ion-chip>
+      <ion-chip class="chip" slot="end" *ngIf="!observacion.aceptada && observacion.tipoObservacion == 'Positivas'" fill="solid" color="warning">
+        <ion-label class="chip" color="warning">
+          Segura
         </ion-label>      
       </ion-chip>
     </ion-item>

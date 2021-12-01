@@ -32,6 +32,7 @@ export class ObservacionFormComponent implements OnInit {
     idEmpresa: string;
     opcion: HTMLElement;
     labelSeleccionado: string = '';
+    consultar: boolean;
 
     options: CameraOptions = {
         quality: 75,
@@ -46,6 +47,8 @@ export class ObservacionFormComponent implements OnInit {
     guardando: boolean;
     loading: boolean;
     areasCargadas: boolean;
+
+    datosTarjeta: Observacion;
 
     constructor(
         public storageService: StorageService,
@@ -81,7 +84,7 @@ export class ObservacionFormComponent implements OnInit {
             let tarjeta = (<any>data).componentProps.value;
             this.tarjeta = JSON.parse(JSON.stringify(tarjeta));
             this.tarjeta.campos = JSON.parse(this.tarjeta.campos);
-
+            console.log(tarjeta)            
             if (this.tarjeta.usarCausaRaiz) {
                 this.offlineService.querySistemaCausaRaiz().then((data) => (this.sistemaCausaRaiz = <SistemaCausaRaiz>data));
             }
@@ -89,6 +92,9 @@ export class ObservacionFormComponent implements OnInit {
                 this.offlineService.querySistemaNivelRiesgo().then((data) => (this.sistemaNivelRiesgo = <SistemaNivelRiesgo>data['data'][0]));
             }
         });
+        //if tarjeta.id != null
+        //console.log(this.tarjeta.id)
+        this.leerObservacionSeleccionada();
     }
 
     anterior() {
@@ -257,4 +263,16 @@ export class ObservacionFormComponent implements OnInit {
             this.imagenes = imgsAux;
         }, 50);
     }
+
+      async leerObservacionSeleccionada(){
+        await this.modalController.getTop()
+        .then(data => {
+          this.consultar = (<any>data).componentProps.operacion == 'GET';
+          console.log("ok")
+          if (this.consultar == true) {
+            this.datosTarjeta = (<any>data).componentProps.value1;
+          }      
+        }); 
+        console.log(this.datosTarjeta)
+      }
 }
