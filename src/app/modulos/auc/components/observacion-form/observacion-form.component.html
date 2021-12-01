@@ -83,10 +83,8 @@
                 <ion-item *ngIf="idEmpresa != '16'">
                     <ion-label position="stacked">Recomendación:</ion-label>
                     <ion-textarea formControlName="recomendacion" maxlength="510" [value]="datosTarjeta?.recomendacion"></ion-textarea>
-                </ion-item>
-
-                <sm-areaSelector formControlName="area" [disabled]="guardando == true" appendTo="ion-modal"></sm-areaSelector>
-
+                </ion-item>                
+                <sm-areaSelector  [(ngModel)]="areaResp" [ngModelOptions]="{standalone: true}" appendTo="ion-modal"></sm-areaSelector>
                 <ion-item>
                     <ion-label position="stacked">Categorías</ion-label>
                     <sm-tree [nodes]="tarjeta?.implicacionList" field="implicacionList" label="nombre" [expanded]="true"></sm-tree>
@@ -98,7 +96,6 @@
                     <ion-label position="stacked">Causa raíz:</ion-label>
                     <sm-tree [nodes]="sistemaCausaRaiz?.causaRaizList" field="causaRaizList" label="nombre" [expanded]="true"> </sm-tree>
                 </ion-item>
-
                 <ion-item *ngIf="tarjeta?.usarNivelRiesgo">
                     <ion-label position="stacked">Nivel de riesgo:</ion-label>
                     <ion-select okText="Aceptar" cancelText="Cancelar" formControlName="nivelRiesgo">

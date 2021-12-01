@@ -33,6 +33,7 @@ export class ObservacionFormComponent implements OnInit {
     opcion: HTMLElement;
     labelSeleccionado: string = '';
     consultar: boolean;
+    areaResp: Area;
 
     options: CameraOptions = {
         quality: 75,
@@ -162,6 +163,7 @@ export class ObservacionFormComponent implements OnInit {
         observacion.implicacionList = implicacionList;
 
         observacion.area = this.form.value.area;
+        this.areaResp = this.form.value.area;
         observacion.afecta = this.form.value.afecta;
         observacion.recomendacion = this.form.value.recomendacion;
 
@@ -172,7 +174,7 @@ export class ObservacionFormComponent implements OnInit {
         observacion.personasabordadas = this.form.value.personasabordadas;
         observacion.personasobservadas = this.form.value.personasobservadas;
 
-        console.log('ABODADAS: ' + observacion.personasabordadas);
+        console.log('ABORDADAS: ' + observacion.personasabordadas);
         console.log('OBSERVADAS: ' + observacion.personasobservadas);
 
         observacion.nivelRiesgo = this.form.value.nivelRiesgo;
@@ -271,6 +273,7 @@ export class ObservacionFormComponent implements OnInit {
           console.log("ok")
           if (this.consultar == true) {
             this.datosTarjeta = (<any>data).componentProps.value1;
+            this.areaResp=this.datosTarjeta.area;
           }      
         }); 
         console.log(this.datosTarjeta)
