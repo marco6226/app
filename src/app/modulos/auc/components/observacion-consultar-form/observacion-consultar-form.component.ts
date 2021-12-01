@@ -1,7 +1,16 @@
+import { DomSanitizer } from '@angular/platform-browser';
+import { DirectorioService } from './../../../ado/services/directorio.service';
+//import { Usuario } from 'app/modulos/empresa/entities/usuario';
+import { ObservacionService } from './../../services/observacion.service';
 import { OfflineService } from './../../../com/services/offline.service';
 import { ModalController, AlertController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { Observacion } from '../../entities/observacion';
+import { url } from 'inspector';
+import { Criteria, Filter } from '../../../com/entities/filter';
+import { FilterQuery } from '../../../com/entities/filter-query';
+import { Tarjeta } from '../../entities/tarjeta';
+import { ObservacionFormComponent } from '../observacion-form/observacion-form.component';
 
 @Component({
   selector: 'app-observacion-consultar-form',
@@ -10,16 +19,25 @@ import { Observacion } from '../../entities/observacion';
 })
 export class ObservacionConsultarFormComponent implements OnInit {
 
-  observacionLista: Observacion[];
-  observacionLista2: Observacion[];
+  observacionLista: Observacion;
   consultar: boolean;
   observacion: Observacion;
   listado: boolean=true;
+  CambioObs: boolean=false;
+  imagenesList: any = [];
+  isGestionar: boolean=false;
+  motivo: string;
+  msg: string;
+  tarjeta: Tarjeta;
+
   constructor(
     
     private alertController: AlertController,
     private modalController: ModalController,
     private offlineService: OfflineService,
+    private observacionService: ObservacionService,
+    private directorioService: DirectorioService,
+    private domSanitizer: DomSanitizer
 
   ) { }
 
@@ -64,11 +82,7 @@ export class ObservacionConsultarFormComponent implements OnInit {
       this.offlineService.queryObservacion()
       .then(resp => {
         this.observacionLista = resp['data'];
-        //this.loading = false;
       })
-      .catch(err => {
-        //this.loading = false;
-      });
   }
 
   cargaDatosLista(){
@@ -79,10 +93,95 @@ export class ObservacionConsultarFormComponent implements OnInit {
           this.observacionLista = resp['data'];
         })
     }  
+
+    let filter = new Filter();
+        filter.criteria = Criteria.EQUALS;
+        filter.field = "id";
+        filter.value1 = this.observacion.id;
+        let filterQuery = new FilterQuery();
+        filterQuery.filterList = [filter];
+
+    this.observacionService
+      .findByFilter(filterQuery)
+      .then((resp) => (this.observacion = resp["data"][0]))
+      .then((resp) => {
+          this.observacion.documentoList.forEach((doc) => {
+              this.directorioService.download(doc.id).then((data) => {
+                  let urlData = this.domSanitizer.bypassSecurityTrustUrl(
+                      URL.createObjectURL(data)
+                  );
+                  this.imagenesList.push({ source: Object.values(urlData) });
+                  this.imagenesList = this.imagenesList.slice();
+              });
+          });
+      });      
   }
 
   convertirAFecha(timestamp: number){
     var date = new Date(timestamp);
     return date.toLocaleString();
   }
+
+  gestionarObservacion(){
+    this.motivo = this.observacionLista.motivo;
+    this.isGestionar = true;
+    
+  }
+
+  back(){
+    this.isGestionar = false;
+    this.CambioObs = false;
+  }
+
+  async FinishReturn(){
+    console.log(this.msg)
+    const alert = await this.alertController.create({
+      header: 'Datos Almacenados',
+      message: this.msg,
+      buttons: [{
+        text: 'Si',
+        handler: () => {
+          this.modalController.dismiss();
+        }
+      },]
+    });
+    await alert.present();
+  }
+
+  guardarGestionObervacion(tipoEstado: string){
+    this.observacion.motivo = this.motivo;
+    this.observacionService
+        .guardarGestionObervacion(this.observacion, tipoEstado)
+        .then((data) => {
+            /* this.visibleObservacion = false;*/
+          this.msg = "La observación ha sido aceptada correctamente"; 
+          this.FinishReturn();
+        });      
+  }
+  
+  
+  async onTarjetaSelect() {
+    this.tarjeta = this.observacionLista[0].tarjeta;
+    const modal = await this.modalController.create({
+      component: ObservacionFormComponent,
+      //componentProps: { value: this.tarjeta },
+      //componentProps: { value: this.observacion, operacion:"GET" },
+      componentProps: { value: this.tarjeta, operacion:"GET", value1: this.observacion },
+      cssClass: "modal-fullscreen"
+    });
+    modal.onDidDismiss().then(
+      resp => this.onModalDismiss(resp.data)
+    );
+
+
+    return await modal.present();
+  }
+
+  onModalDismiss(obser: Observacion) {
+    if (obser != null && obser.id == null) {
+      //this.obsCount += 1;
+      //this.obserSyncComp.adicionarObservacion(obser);
+    }
+  }
+
 }

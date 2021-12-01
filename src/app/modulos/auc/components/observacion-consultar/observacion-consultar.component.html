@@ -5,31 +5,34 @@
 <ion-card *ngFor="let observacion of observacionLista">
   <ion-item>
     <ion-label>{{observacion.tipoObservacion}}</ion-label>
-    <ion-chip class="chip" *ngIf="observacion.aceptada == null"  fill="solid" color="medium">
-      <ion-label class="chip" color="medium">
-        Sin asignar
-      </ion-label>      
-    </ion-chip>
-    <ion-chip class="chip" *ngIf="observacion.aceptada && observacion.aceptada != null" fill="solid" color="success">
-      <ion-label class="chip" color="success">
-        Aceptada
-      </ion-label>      
-    </ion-chip>
-    <ion-chip class="chip" *ngIf="!observacion.aceptada && observacion.aceptada != null" fill="solid" color="danger">
-      <ion-label class="chip" color="danger">
-        Denegada
-      </ion-label>      
-    </ion-chip>
+    <ion-button fill="outline" slot="end" color="primary" (click)="onConsultaSelect(observacion)" >Consultar</ion-button>
   </ion-item>
   <ion-card-content>
     <!-- <ion-item>  --> 
     <p>OBS-{{observacion.id}} </p>
     <p>{{observacion.descripcion}}</p>
     <p>{{convertirAFecha(observacion.fechaObservacion)}}</p>    
-    <ion-item>  
-      <ion-button fill="outline" slot="end" color="primary" (click)="onConsultaSelect(observacion)" >Consultar</ion-button>
-      <!-- <ion-button class="stiloButton" *ngIf="observacion.aceptada != null" fill="outline" slot="end" color="primary">Consultar</ion-button>
-      <ion-button class="stiloButton" *ngIf="observacion.aceptada == null" fill="outline" slot="end" color="success">Gestionar</ion-button> -->
+    <ion-item>
+      <ion-chip class="chip" slot="end" *ngIf="observacion.aceptada == null && observacion.tipoObservacion != 'Positivas'"  fill="solid" color="medium">
+        <ion-label class="chip" color="medium">
+          Sin asignar
+        </ion-label>      
+      </ion-chip>
+      <ion-chip class="chip" slot="end" *ngIf="observacion.aceptada && observacion.aceptada != null" fill="solid" color="success">
+        <ion-label class="chip" color="success">
+          Aceptada
+        </ion-label>      
+      </ion-chip>
+      <ion-chip class="chip" slot="end" *ngIf="!observacion.aceptada && observacion.aceptada != null" fill="solid" color="danger">
+        <ion-label class="chip" color="danger">
+          Denegada
+        </ion-label>      
+      </ion-chip>
+      <ion-chip class="chip" slot="end" *ngIf="!observacion.aceptada && observacion.tipoObservacion == 'Positivas'" fill="solid" color="warning">
+        <ion-label class="chip" color="warning">
+          Segura
+        </ion-label>      
+      </ion-chip>
     </ion-item>
   </ion-card-content>
   

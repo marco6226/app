@@ -60,7 +60,7 @@
                     <ion-label *ngIf="form.value.tipoObservacion == 'Positivas'" position="stacked">Observaciones positivas:</ion-label>
                     <ion-label *ngIf="form.value.tipoObservacion == 'Acciones a mejorar'" position="stacked">Acciones a mejorar resaltantes:</ion-label>
                     <!-- <ion-label position="stacked"></ion-label> -->
-                    <ion-textarea formControlName="descripcion" maxlength="510"></ion-textarea>
+                    <ion-textarea formControlName="descripcion" maxlength="510" [value]="datosTarjeta?.descripcion"></ion-textarea>
                 </ion-item>
 
                 <ion-item *ngIf="idEmpresa != '16'">
@@ -72,17 +72,17 @@
 
                 <ion-item *ngIf="idEmpresa == '16'">
                     <ion-label position="stacked">Personas observadas:</ion-label>
-                    <ion-input type="number" formControlName="personasobservadas"></ion-input>
+                    <ion-input type="number" formControlName="personasobservadas" [value]="datosTarjeta?.personasobservadas"></ion-input>
                 </ion-item>
 
                 <ion-item *ngIf="idEmpresa == '16'">
                     <ion-label position="stacked">Personas abordadas:</ion-label>
-                    <ion-input type="number" formControlName="personasabordadas"></ion-input>
+                    <ion-input type="number" formControlName="personasabordadas" [value]="datosTarjeta?.personasabordadas"></ion-input>
                 </ion-item>
 
                 <ion-item *ngIf="idEmpresa != '16'">
                     <ion-label position="stacked">Recomendación:</ion-label>
-                    <ion-textarea formControlName="recomendacion" maxlength="510"></ion-textarea>
+                    <ion-textarea formControlName="recomendacion" maxlength="510" [value]="datosTarjeta?.recomendacion"></ion-textarea>
                 </ion-item>
 
                 <sm-areaSelector formControlName="area" [disabled]="guardando == true" appendTo="ion-modal"></sm-areaSelector>
