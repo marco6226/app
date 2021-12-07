@@ -1,0 +1,101 @@
+<ion-content>
+   <ion-slides>
+
+      <ion-slide>
+         <ion-card>
+            <ion-item>
+               <ion-label class="title" color="primary" >Información de la desviación</ion-label>
+            </ion-item>  
+           <ion-card-content>
+              <ion-grid class="colum">
+                 <ion-row>
+                    <ion-col>
+                       <ion-label class="subTitle">Módulo</ion-label>
+                       <td class="inputText">{{datosTarea?.module}}</td>
+                    </ion-col>
+                    <ion-col>
+                       <ion-label class="subTitle">Fecha del reporte</ion-label>
+                       <td>{{datosTarea?.fecha_reporte|date:'dd-MMM-yyyy'}}</td>
+                    </ion-col>
+                 </ion-row>   
+                 <br>
+              <ion-label class="subTitle">Concepto</ion-label>
+              <td class="inputText" type="text">{{datosTarea?.concepto}}</td>   
+              <br>
+              <ion-label class="subTitle">Descripción de la desviación</ion-label>
+              <td class="inputText">{{datosTarea?.aspecto_causante}}</td>
+              </ion-grid>
+           </ion-card-content>
+         </ion-card>
+      </ion-slide>
+
+      <ion-slide class="slider">
+         <ion-card>
+            <ion-item>
+               <ion-label class="title" color="primary" >Tarea asignada</ion-label>
+            </ion-item>  
+           <ion-card-content style="width: max-content;">
+              <ion-grid class="colum">
+                 <ion-row>
+                    <ion-col>
+                       <ion-label class="subTitle">Tipo de Acción</ion-label>
+                       <td class="inputText">{{datosTarea?.tipo_accion}}</td>
+                    </ion-col>
+                    <ion-col>
+                       <ion-label class="subTitle">Fecha de cierre</ion-label>
+                       <td>{{datosTarea?.fecha_proyectada|date:'dd-MMM-yyyy'}}</td>
+                    </ion-col>
+                 </ion-row> 
+                 <ion-row>
+                  <ion-col>
+                     <ion-label class="subTitle">Regional</ion-label>
+                     <td class="inputText">{{datosTarea?.Regional}}</td>
+                  </ion-col>
+                  <ion-col>
+                     <ion-label class="subTitle">Sede</ion-label>
+                     <td>{{datosTarea?.Sede}}</td>
+                  </ion-col>
+               </ion-row> 
+               <ion-row>
+                  <ion-col>
+                     <ion-label class="subTitle">Responsable</ion-label>
+                     <td class="inputText">{{datosTarea?.Responsable}}</td>
+                  </ion-col>
+                  <ion-col>
+                     <ion-label class="subTitle">Correo</ion-label>
+                     <td>{{datosTarea?.Correo}}</td>
+                  </ion-col>
+               </ion-row>    
+                 <br>
+              <ion-label class="subTitle">Jerarquia de control</ion-label>
+              <td class="inputText" type="text">{{datosTarea?.Jerarquia}}</td>   
+              <br>
+              <ion-label class="subTitle">Descripción de la actividad</ion-label>
+              <td class="inputText">{{datosTarea?.descripcion}}</td>
+              </ion-grid>
+           </ion-card-content>
+         </ion-card>
+      </ion-slide>
+
+      <ion-slide>
+         <ion-card>
+            <ion-item>
+               <ion-label class="title" color="primary" >Evidencias</ion-label>
+            </ion-item>  
+           <ion-card-content>
+              <ion-grid class="colum">
+                 <ion-row>
+                    <ion-col>
+                       <ion-label class="subTitle">Módulo</ion-label>
+                       <td class="inputText">{{datosTarea?.module}}</td>
+                    </ion-col>
+                  </ion-row>   
+                 <br>
+              </ion-grid>
+           </ion-card-content>
+         </ion-card>
+      </ion-slide>
+     
+   </ion-slides> 
+</ion-content>
+

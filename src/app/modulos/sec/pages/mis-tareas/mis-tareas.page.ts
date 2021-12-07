@@ -1,3 +1,5 @@
+import { TareaComponent } from './../../components/tarea/tarea.component';
+import { TareaPage } from './../tarea/tarea.page';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { SesionService } from '../../../com/services/sesion.service';
@@ -5,7 +7,7 @@ import { FilterQuery } from '../../../com/entities/filter-query';
 import { TareaService } from '../../services/tarea.service';
 import { Tarea } from '../../entities/tarea';
 import { Criteria } from '../../../com/entities/filter';
-import { AlertController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { MensajeUsuarioService } from '../../../com/services/mensaje-usuario.service';
 import { ReporteObservacionPage } from '../../../auc/pages/reporte-observacion/reporte-observacion.page';
 import * as moment from "moment";
@@ -29,7 +31,8 @@ export class MisTareasPage implements OnInit {
     private alertController: AlertController,
     private tareaService: TareaService,
     private sesionService: SesionService,
-    private router: Router
+    private router: Router,
+    public modalController: ModalController,
   ) { }
 
   ngOnInit() {
@@ -125,6 +128,34 @@ export class MisTareasPage implements OnInit {
     this.reportar(tarea, repCump, idx);
   }
 
+  async abrirTarea(tarea: Tarea){
+    const modal = await this.modalController.create({
+      component: TareaPage,
+      //component: TareaComponent,
+      componentProps: { value: tarea },
+      cssClass: "modal-fullscreen"
+    });
+    return await modal.present();
+  }
+
+  /* async abrirTarea2(){
+    const modal = await this.modalController.create({
+      //component: TareaPage,
+      component: TareaComponent,
+      componentProps: { value: 1 },
+      cssClass: "modal-fullscreen"
+    });
+    return await modal.present();
+  } */
+
+  onModalDismiss(obser: TareaComponent) {
+    /* if (obser != null && obser.observacion == null) {
+      //this.obsCount += 1;
+      //this.obserSyncComp.adicionarObservacion(obser);
+    } */
+  }
+
+  
   // async confirmarTarea(tarea: Tarea, idx: number, repCump: boolean) {
   //   let accion = repCump ? 'cumplimiento' : 'verificación';
   //   let alert = await this.alertController.create({
@@ -152,7 +183,8 @@ export class MisTareasPage implements OnInit {
   // }
 
   reportar(tarea: Tarea, repCump: boolean, idx: number): any {
-    tarea['loading'] = true;
+    this.msgService.showMessage({tipoMensaje:"info" , mensaje:"Lo sentimos se cerro su sesion", detalle:""})
+    /* tarea['loading'] = true;
     if (repCump == true) {
       this.tareaService.reportarCumplimiento(tarea)
         .then((resp: Tarea) => {
@@ -181,7 +213,7 @@ export class MisTareasPage implements OnInit {
         .catch(err => {
           tarea['loading'] = false;
         });;
-    }
+    } */
   }
 
 

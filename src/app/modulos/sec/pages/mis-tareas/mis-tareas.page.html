@@ -18,7 +18,6 @@
   <div>
     <ion-spinner slot="start" class="main-spinner" name="dots" color="primary" *ngIf="loading == true"></ion-spinner>
   </div>
-
   <ion-card *ngFor="let tarea of tareasList; let i = index">
     
 
@@ -71,8 +70,8 @@
         </ion-row>
 
       </ion-grid> 
-      <ion-button shape="round" size="small" color="tertiary" (click)="abrirDlg(tarea, i, true)">Consultar<ion-icon slot="icon-only" name="search" ></ion-icon></ion-button>
-       
+      <!-- <ion-button shape="round" size="small" color="tertiary" (click)="abrirTarea2()">Consultar<ion-icon slot="icon-only" name="search" ></ion-icon></ion-button> -->
+      <ion-button shape="round" size="small" color="tertiary" slot="end" (click)="abrirTarea(tarea)">Consultar<ion-icon slot="icon-only" name="search" ></ion-icon></ion-button>
     </ion-card-content>
   </ion-card>
 </ion-content>

@@ -1,3 +1,8 @@
+import { TareaSeguimientoComponent } from './../../components/tarea-seguimiento/tarea-seguimiento.component';
+import { TareaCierreComponent } from './../../components/tarea-cierre/tarea-cierre.component';
+import { TareaGeneralComponent } from './../../components/tarea-general/tarea-general.component';
+import { TareaPage } from './../tarea/tarea.page';
+import { TareaComponent } from './../../components/tarea/tarea.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -20,14 +25,25 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
   ],
-  exports: [ComunModule],
+  exports: [],
   providers: [],
-  entryComponents: [],
+  entryComponents: [
+    TareaComponent, 
+    TareaPage, 
+    TareaGeneralComponent, 
+    TareaCierreComponent,
+    TareaSeguimientoComponent
+  ],
   declarations: [
-    MisTareasPage
-  ]
+    MisTareasPage,
+    TareaComponent,
+    TareaPage,
+    TareaGeneralComponent,
+    TareaCierreComponent,
+    TareaSeguimientoComponent
+  ],
 })
 export class MisTareasPageModule {
 
