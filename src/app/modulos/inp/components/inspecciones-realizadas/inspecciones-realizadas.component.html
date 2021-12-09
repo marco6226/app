@@ -1,11 +1,21 @@
-<!--Programación-->
+<div *ngIf="loading == true">
+    <ion-spinner class="main-spinner" name="dots" color="primary"></ion-spinner>
+</div>
+<div *ngIf="inspCargadas == false">
+    <p style="color: #888; padding: 25px">
+        No fue posible cargar la programación de inspecciones.
+        <a *ngIf="inspCargadas == false" (click)="this.cargarRealizadas()">Reintentar</a>
+    </p>
+</div>
+
 <ion-slides>
     <div style="width: 100%">
         <!--Fecha-->
+        <ion-label position="stacked"> <ion-card-subtitle style="margin-left: 3%">Filtrar por fecha</ion-card-subtitle> </ion-label>
         <ion-item>
             <ion-icon name="search" slot="start"></ion-icon>
 
-            <ion-label position="stacked"> Desde </ion-label>
+            <ion-label position="stacked"> Desde: </ion-label>
             <ion-datetime
                 cancelText="Cancelar"
                 doneText="Ok"
@@ -18,7 +28,7 @@
         </ion-item>
         <ion-item>
             <ion-icon name="search" slot="start"></ion-icon>
-            <ion-label position="stacked"> Hasta </ion-label>
+            <ion-label position="stacked"> Hasta: </ion-label>
             <ion-datetime
                 min="{{ filtFechaDesde | date: 'yyyy-MM-dd' }}"
                 max="2022"
@@ -37,47 +47,31 @@
         </ion-item>
     </div>
 </ion-slides>
-
-<div *ngIf="loading == true">
-    <ion-spinner class="main-spinner" name="dots" color="primary"></ion-spinner>
-</div>
-<div *ngIf="progCargada == false">
-    <p style="color: #888; padding: 25px">
-        No fue posible cargar la programación de inspecciones.
-        <a *ngIf="progCargada == false" (click)="cargarProgramacion()">Reintentar</a>
-    </p>
-</div>
-
-<ion-card *ngFor="let prog of programacionList">
+<ion-card *ngFor="let inspeccion of inspList">
     <ion-item>
-        <ion-label>{{ prog.area.nombre }} </ion-label>
-        <ion-button
-            [color]="prog.numeroRealizadas == prog.numeroInspecciones ? 'secondary' : 'primary'"
-            [disabled]="prog.numeroRealizadas == prog.numeroInspecciones"
-            fill="outline"
-            slot="end"
-            (click)="onProgSelect(prog)"
+        <ion-label>{{ inspeccion.area.nombre }} </ion-label>
+        <!-- <ion-button [color]="'secondary'" [disabled]="true" fill="outline" slot="end">
             *sTienePermiso="['INP_POST_INP']"
-        >
-            {{ prog.numeroRealizadas == prog.numeroInspecciones ? 'Finalizado' : 'Realizar' }}
-        </ion-button>
+            {{ inspeccion.numeroRealizadas == inspeccion.numeroInspecciones ? 'Finalizado' : 'Realizar' }}
+        </ion-button> -->
     </ion-item>
     <ion-card-header>
-        <ion-card-title>{{ prog.numeroRealizadas }}/{{ prog.numeroInspecciones }} </ion-card-title>
-        <ion-card-subtitle
-            >{{ prog.listaInspeccion.nombre }} <br />
-            {{ prog.fecha | date: 'dd/MM/yyyy' }}
+        <ion-card-title>INP-{{ inspeccion.id }}</ion-card-title>
+        <ion-card-subtitle>
+            {{ inspeccion.listaInspeccion.nombre }} <br />
+            Usuario Realiza: {{ inspeccion.usuarioRegistra.email }} <br />
+            Realizada: {{ inspeccion.fechaRealizada | date: 'dd/MM/yyyy HH:mm' }}
         </ion-card-subtitle>
     </ion-card-header>
-    <ion-card-content *ngIf="prog.offlineDone > 0">
+    <!-- <ion-card-content *ngIf="inspeccion.offlineDone > 0">
         <p>
             Pdte sincronizar:
-            <ion-badge color="warning">{{ prog.offlineDone }}</ion-badge>
+            <ion-badge color="warning">{{ inspeccion.offlineDone }}</ion-badge>
         </p>
-    </ion-card-content>
+    </ion-card-content> -->
 </ion-card>
 
-<ion-card *ngIf="programacionList.length == 0" class="NoFound">
+<ion-card *ngIf="inspList.length == 0" class="NoFound">
     <ion-icon name="search" slot="start"></ion-icon>
     <ion-label> No se encontraron registros </ion-label>
     <ion-icon name="alert"></ion-icon>

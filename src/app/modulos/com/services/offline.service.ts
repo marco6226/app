@@ -18,6 +18,7 @@ import { ActaService } from '../../cop/services/acta.service';
 import { SistemaCausaAdministrativaService } from '../../sec/services/sistema-causa-administrativa.service';
 import { Subject } from 'rxjs';
 import { ManualService } from './manual.service';
+import { InspeccionService } from '../../inp/services/inspeccion.service';
 
 @Injectable()
 export class OfflineService {
@@ -38,7 +39,8 @@ export class OfflineService {
         // public sessionService: SesionService,
         private manualService: ManualService,
         private actaService: ActaService,
-        private observacionService: ObservacionService
+        private observacionService: ObservacionService,
+        private inspeccionService: InspeccionService
     ) {
         this.sessionService = this.storageService.getSessionService();
     }
@@ -76,19 +78,13 @@ export class OfflineService {
             filterQuery.sortField = 'nombre';
             filterQuery.sortOrder = -1;
             if (!completo) {
-                filterQuery.fieldList = [
-                    
-                    'listaInspeccionPK',
-                    'nombre',
-                    'codigo',
-                    'descripcion',
-                    'estado'
-                ];
+                filterQuery.fieldList = ['listaInspeccionPK', 'nombre', 'codigo', 'descripcion', 'estado'];
                 filterQuery.filterList = [];
                 filterQuery.filterList.push({
                     criteria: Criteria.NOT_EQUALS,
-                    field: "estado",
-                    value1: "inactivo"});
+                    field: 'estado',
+                    value1: 'inactivo',
+                });
             }
 
             return this.listaInspeccionService.findByFilter(filterQuery);
@@ -100,16 +96,10 @@ export class OfflineService {
             return this.storageService.getListasInspeccion();
         } else {
             //let filterQuery = new FilterQuery();
-            filterQuery.sortField = "nombre";
+            filterQuery.sortField = 'nombre';
             filterQuery.sortOrder = -1;
 
-            filterQuery.fieldList = [
-                'listaInspeccionPK',
-                'nombre',
-                'codigo',
-                'descripcion',
-                'estado'
-            ];            
+            filterQuery.fieldList = ['listaInspeccionPK', 'nombre', 'codigo', 'descripcion', 'estado'];
 
             return this.listaInspeccionService.findByFilter(filterQuery);
         }
@@ -130,20 +120,16 @@ export class OfflineService {
             let areasPerm = this.sessionService.getPermisosMap()['SEC_GET_DESV'].areas;
             if (filterQuery == null) {
                 filterQuery = new FilterQuery();
-                filterQuery.sortField = "modulo";
+                filterQuery.sortField = 'modulo';
                 // filterQuery.sortOrder = 1;
                 filterQuery.offset = 0;
                 filterQuery.rows = 5;
                 filterQuery.fieldList = ['hashId', 'modulo', 'aspectoCausante', 'concepto', 'area_nombre', 'analisisId'];
-                filterQuery.filterList = [
-                    { criteria: Criteria.CONTAINS, field: "area.id", value1: areasPerm }
-                ];
+                filterQuery.filterList = [{ criteria: Criteria.CONTAINS, field: 'area.id', value1: areasPerm }];
             } else if (filterQuery.filterList != null) {
-                filterQuery.filterList.push({ criteria: Criteria.CONTAINS, field: "area.id", value1: areasPerm });
+                filterQuery.filterList.push({ criteria: Criteria.CONTAINS, field: 'area.id', value1: areasPerm });
             } else {
-                filterQuery.filterList = [
-                    { criteria: Criteria.CONTAINS, field: "area.id", value1: areasPerm }
-                ];
+                filterQuery.filterList = [{ criteria: Criteria.CONTAINS, field: 'area.id', value1: areasPerm }];
             }
             return this.desviacionService.findByFilter(filterQuery);
         }
@@ -155,15 +141,13 @@ export class OfflineService {
         } else {
             let areas = this.sessionService.getPermisosMap()['COP_GET_ACT'].areas;
             let filterQuery = new FilterQuery();
-            filterQuery.sortField = "fechaElaboracion";
-            
+            filterQuery.sortField = 'fechaElaboracion';
+
             filterQuery.sortOrder = 1;
             filterQuery.offset = 0;
             filterQuery.rows = 24;
             filterQuery.count = true;
-            filterQuery.filterList = [
-                { field: 'area.id', value1: areas, criteria: Criteria.CONTAINS }
-            ];
+            filterQuery.filterList = [{ field: 'area.id', value1: areas, criteria: Criteria.CONTAINS }];
             //filterQuery.fieldList = ['id', 'nombre', 'fechaElaboracion', 'descripcion', 'area_id', 'area_nombre', 'documentosList_id', 'documentosList_nombre'];
             return this.actaService.findByFilter(filterQuery);
         }
@@ -181,14 +165,11 @@ export class OfflineService {
         if (this.sessionService.getOfflineMode()) {
             return this.storageService.getAreas();
         } else {
-           
             let fq = new FilterQuery();
             //fq.fieldList = ["id", "nombre"];
             fq.sortField = 'nombre';
             fq.sortOrder = -1;
-            fq.filterList = [
-                { field: 'areaPadre.id', criteria: Criteria.IS_NULL, value1: null }
-            ]
+            fq.filterList = [{ field: 'areaPadre.id', criteria: Criteria.IS_NULL, value1: null }];
             return this.areaService.buscarPorFiltro(fq, false);
         }
     }
@@ -201,7 +182,7 @@ export class OfflineService {
         }
     }
 
-    queryObservacion(completo?: boolean):any {
+    queryObservacion(completo?: boolean): any {
         if (this.sessionService.getOfflineMode()) {
             return this.storageService.getSyncObservaciones();
         } else {
@@ -209,21 +190,12 @@ export class OfflineService {
             filterQuery.offset = 0;
             //filterQuery.rows = 30
             filterQuery.count = true;
-            filterQuery.sortField = 'tipoObservacion';
+            filterQuery.sortField = 'fechaObservacion';
             filterQuery.sortOrder = 1;
             if (!completo) {
-                filterQuery.fieldList = [                    
-                    'id',
-                    'fechaObservacion',
-                    'tipoObservacion',
-                    'descripcion',
-                    'nivelRiesgo_nombre',
-                    'personasobservadas',
-                    'personasabordadas',
-                    'aceptada',
-                ];
+                filterQuery.fieldList = ['id', 'fechaObservacion', 'tipoObservacion', 'descripcion', 'nivelRiesgo_nombre', 'personasobservadas', 'personasabordadas', 'aceptada'];
                 filterQuery.filterList = [];
-               /* filterQuery.filterList.push({
+                /* filterQuery.filterList.push({
                     criteria: Criteria.NOT_EQUALS,
                     field: "estado",
                     value1: "inactivo"});*/
@@ -232,21 +204,23 @@ export class OfflineService {
         }
     }
 
-    queryObservacionSelectID(idNum: string):any {
+    queryObservacionSelectID(idNum: string): any {
         if (this.sessionService.getOfflineMode()) {
             return this.storageService.getSyncObservaciones();
         } else {
             let filterQuery = new FilterQuery();
-           
-                filterQuery.filterList = [{
+
+            filterQuery.filterList = [
+                {
                     criteria: Criteria.EQUALS,
-                    field: "id",
-                    value1: idNum}];
-            console.log(filterQuery)
+                    field: 'id',
+                    value1: idNum,
+                },
+            ];
+            console.log(filterQuery);
             return this.observacionService.findByFilter(filterQuery);
         }
     }
-
 
     querySistemaNivelRiesgo() {
         if (this.sessionService.getOfflineMode()) {
@@ -269,93 +243,126 @@ export class OfflineService {
             let filterQuery = new FilterQuery();
             filterQuery.sortField = 'fecha';
             filterQuery.sortOrder = 1;
-            filterQuery.fieldList = [
-                'id',
-                'fecha',
-                'area_nombre',
-                'listaInspeccion_listaInspeccionPK',
-                'listaInspeccion_nombre',
-                'numeroInspecciones',
-                'numeroRealizadas'
-            ];
+            filterQuery.fieldList = ['id', 'fecha', 'area_nombre', 'listaInspeccion_listaInspeccionPK', 'listaInspeccion_nombre', 'numeroInspecciones', 'numeroRealizadas'];
             let areas = this.sessionService.getPermisosMap()['INP_GET_PROG'].areas;
             filterQuery.filterList = [
                 {
                     criteria: Criteria.CONTAINS,
-                    field: "area.id",
-                    value1: (areas == null ? null : areas.toString())
+                    field: 'area.id',
+                    value1: areas == null ? null : areas.toString(),
                 },
                 {
                     criteria: Criteria.NOT_EQUALS,
                     field: 'numeroInspecciones',
                     value1: 'numeroRealizadas',
-                    isExpression: true
-                }
-               
+                    isExpression: true,
+                },
             ];
             return this.programacionService.findByFilter(filterQuery);
-        }
-    }
-
-    queryInspeccionesRealizadas() {
-        if (this.sessionService.getOfflineMode()) {
-            return this.storageService.getInspeccionesRealizadas();
-        } else {
-            let filterQuery = new FilterQuery();
-            let filterId = new Filter();
-            filterId.criteria = Criteria.EQUALS;
-            filterId.field = 'listaInspeccionPK.id'; //Aqui va el campo en la tabla por el que se va a filtrar
-            //filterId.value1 = idLista; //Aqui va el valor a buscar
-			let filterVersion = new Filter();
-            filterVersion.criteria = Criteria.EQUALS;
-            filterVersion.field = 'listaInspeccionPK.version';
-            //filterVersion.value1 = '' + versionLista;
-            filterQuery.filterList = [filterId, filterVersion];
-            return this.listaInspeccionService.findByFilter(filterQuery);
         }
     }
 
     queryProgramacionListBetween(desde: Date, hasta: Date) {
         if (this.sessionService.getOfflineMode()) {
             return this.storageService.getProgramaciones();
-        } else {   
+        } else {
             let filterQuery = new FilterQuery();
             filterQuery.sortField = 'fecha';
             filterQuery.sortOrder = 1;
-            filterQuery.fieldList = [
-                'id',
-                'fecha',
-                'area_nombre',
-                'listaInspeccion_listaInspeccionPK',
-                'listaInspeccion_nombre',
-                'numeroInspecciones',
-                'numeroRealizadas'
-            ];         
+            filterQuery.fieldList = ['id', 'fecha', 'area_nombre', 'listaInspeccion_listaInspeccionPK', 'listaInspeccion_nombre', 'numeroInspecciones', 'numeroRealizadas'];
             let areas = this.sessionService.getPermisosMap()['INP_GET_PROG'].areas;
             filterQuery.filterList = [
                 {
                     criteria: Criteria.CONTAINS,
-                    field: "area.id",
-                    value1: (areas == null ? null : areas.toString())
+                    field: 'area.id',
+                    value1: areas == null ? null : areas.toString(),
                 },
                 {
                     criteria: Criteria.NOT_EQUALS,
                     field: 'numeroInspecciones',
                     value1: 'numeroRealizadas',
-                    isExpression: true
+                    isExpression: true,
                 },
                 {
                     criteria: Criteria.BETWEEN,
-                    field: "fecha",
-                    value1: desde.toLocaleString(), 
-                    value2: hasta.toLocaleString()
+                    field: 'fecha',
+                    value1: desde.toLocaleString(),
+                    value2: hasta.toLocaleString(),
                 },
             ];
-            
+
             return this.programacionService.findByFilter(filterQuery);
         }
     }
 
+    queryInspeccionesRealizadas() {
+        // if (this.sessionService.getOfflineMode()) {
+        //     return this.storageService.getInspeccionesRealizadas();
+        // } else {
+        let filterQuery = new FilterQuery();
+        filterQuery.offset = 0;
+        //filterQuery.rows = 30
+        filterQuery.count = true;
+        filterQuery.sortField = 'fechaRealizada';
+        filterQuery.sortOrder = 1;
+        filterQuery.fieldList = [
+            'id',
+            'fechaRealizada',
+            'observacion',
+            'lugar',
+            'equipo',
+            'descripcion',
+            'fechaModificacion',
+            'area_nombre',
+            'listaInspeccion_nombre',
+            'empresa_nombreComercial',
+            'usuarioRegistra_email',
+        ];
+        filterQuery.filterList = [
+            {
+                criteria: Criteria.GREATER_THAN,
+                field: 'id',
+                value1: '0',
+                // isExpression: true,
+            },
+        ];
+        return this.inspeccionService.findByFilter(filterQuery);
+        // }
+    }
+
+    queryRealizadasListBetween(desde: Date, hasta: Date) {
+        if (this.sessionService.getOfflineMode()) {
+            return this.storageService.getProgramaciones();
+        } else {
+            let filterQuery = new FilterQuery();
+            filterQuery.sortField = 'fecha';
+            filterQuery.sortOrder = 1;
+            filterQuery.fieldList = [
+                'id',
+                'fechaRealizada',
+                'observacion',
+                'lugar',
+                'equipo',
+                'descripcion',
+                'fechaModificacion',
+                'area_nombre',
+                'listaInspeccion_nombre',
+                'empresa_nombreComercial',
+                'usuarioRegistra_email',
+            ];
+            // let areas = this.sessionService.getPermisosMap()['INP_GET_PROG'].areas;
+            filterQuery.filterList = [
+                {
+                    criteria: Criteria.BETWEEN,
+                    field: 'fecha',
+                    value1: desde.toLocaleString(),
+                    value2: hasta.toLocaleString(),
+                },
+            ];
+
+            return this.inspeccionService.findByFilter(filterQuery);
+        }
+    }
 
     queryListaInspeccion(idLista: string, versionLista: number) {
         if (this.sessionService.getOfflineMode()) {
@@ -364,12 +371,12 @@ export class OfflineService {
             let filterQuery = new FilterQuery();
             let filterId = new Filter();
             filterId.criteria = Criteria.EQUALS;
-            filterId.field = "listaInspeccionPK.id";
-      
+            filterId.field = 'listaInspeccionPK.id';
+
             filterId.value1 = idLista;
             let filterVersion = new Filter();
             filterVersion.criteria = Criteria.EQUALS;
-            filterVersion.field = "listaInspeccionPK.version";
+            filterVersion.field = 'listaInspeccionPK.version';
 
             filterVersion.value1 = '' + versionLista;
             filterQuery.filterList = [filterId, filterVersion];
@@ -378,19 +385,17 @@ export class OfflineService {
     }
 
     queryListaInspeccionFilter(filterQuery?: FilterQuery, completo?: boolean) {
-        console.log(filterQuery)
+        console.log(filterQuery);
         if (this.sessionService.getOfflineMode()) {
             return this.storageService.getListasInspeccion();
         } else {
             let areasPerm = this.sessionService.getPermisosMap()['INP_GET_LISTINP'].areas;
             let filterQuery = new FilterQuery();
-            let carga = "Carga";
+            let carga = 'Carga';
             filterQuery.fieldList = ['nombre'];
-            filterQuery.filterList = [
-                { criteria: Criteria.LIKE, field: "nombre", value1: carga }
-            ];
+            filterQuery.filterList = [{ criteria: Criteria.LIKE, field: 'nombre', value1: carga }];
             //filterQuery.filterList = [filterVersion];
-            console.log(Criteria,filterQuery)
+            console.log(Criteria, filterQuery);
             return this.listaInspeccionService.findByFilter(filterQuery);
         }
     }
@@ -445,120 +450,115 @@ export class OfflineService {
         this.setOfflineMode(false);
 
         return new Promise<void>((resolve, reject) => {
-
             // Queries manuales de usuario
             if (permManUsr.valido) {
                 this.queryManualesPorUsuario()
-                    .then(resp => {
+                    .then((resp) => {
                         this.storageService.setManualesUsuario(resp['data']);
-                        if (this.verificarCarga(queries, 'queryManualesPorUsuario'))
-                            resolve();
+                        if (this.verificarCarga(queries, 'queryManualesPorUsuario')) resolve();
                     })
-                    .catch(err => reject(err));
+                    .catch((err) => reject(err));
             }
 
             // Queries sistema causa administrativa
             if (permListCausAdmin.valido) {
                 this.querySistemaCausaAdmin()
-                    .then(resp => {
+                    .then((resp) => {
                         this.storageService.setSistemaCausaAdministrativa([resp]);
-                        if (this.verificarCarga(queries, 'querySistemaCausaAdmin'))
-                            resolve();
+                        if (this.verificarCarga(queries, 'querySistemaCausaAdmin')) resolve();
                     })
-                    .catch(err => reject(err));
+                    .catch((err) => reject(err));
             }
 
             // Queries sistema Listas inspeccion
             if (permListasInspeccion.valido) {
                 this.queryListasInspeccion(true)
-                    .then(resp => {
+                    .then((resp) => {
                         this.storageService.setListasInspeccion(resp['data']);
-                        if (this.verificarCarga(queries, 'queryListasInspeccion'))
-                            resolve();
-                    }).catch(err => reject(err));
+                        if (this.verificarCarga(queries, 'queryListasInspeccion')) resolve();
+                    })
+                    .catch((err) => reject(err));
             }
 
             // Queries sistema causa inmediata
             if (permListCausInm.valido) {
                 this.querySistemaCausaInmediata()
-                    .then(resp => {
+                    .then((resp) => {
                         this.storageService.setSistemaCausaInmediata([resp]);
-                        if (this.verificarCarga(queries, 'querySistemaCausaInm'))
-                            resolve();
-                    }).catch(err => err => reject(err));
+                        if (this.verificarCarga(queries, 'querySistemaCausaInm')) resolve();
+                    })
+                    .catch((err) => (err) => reject(err));
             }
 
             // Queries desviaciones
             if (permListDesv.valido) {
                 this.queryDesviaciones(null, true)
-                    .then(resp => {
+                    .then((resp) => {
                         this.storageService.setDesviaciones(resp['data']);
-                        if (this.verificarCarga(queries, 'queryDesviaciones'))
-                            resolve();
-                    }).catch(err => reject(err));
+                        if (this.verificarCarga(queries, 'queryDesviaciones')) resolve();
+                    })
+                    .catch((err) => reject(err));
             }
 
             // Queries Actas COPASST
             if (permListActCop.valido) {
                 this.queryActasCopasst()
-                    .then(resp => {
+                    .then((resp) => {
                         this.storageService.setActasCopasst(resp['data']);
-                        if (this.verificarCarga(queries, 'queryActasCopasst'))
-                            resolve();
-                    }).catch(err => reject(err));
+                        if (this.verificarCarga(queries, 'queryActasCopasst')) resolve();
+                    })
+                    .catch((err) => reject(err));
             }
 
             // Queries AREAS
             if (permAreas.valido) {
                 this.queryArea()
-                    .then(resp => {
+                    .then((resp) => {
                         this.storageService.setAreas(resp['data']);
-                        if (this.verificarCarga(queries, 'queryArea'))
-                            resolve();
-                    }).catch(err => reject(err));
+                        if (this.verificarCarga(queries, 'queryArea')) resolve();
+                    })
+                    .catch((err) => reject(err));
             }
 
             // Queries CAUSA RAIZ
             if (permSistemaCR.valido) {
                 this.querySistemaCausaRaiz()
-                    .then(resp => {
+                    .then((resp) => {
                         this.storageService.setSistemaCausaRaiz([resp]);
-                        if (this.verificarCarga(queries, 'querySistemaCausaRaiz'))
-                            resolve();
-                    }).catch(err => reject(err));
+                        if (this.verificarCarga(queries, 'querySistemaCausaRaiz')) resolve();
+                    })
+                    .catch((err) => reject(err));
             }
 
             // Queries OBSERVACIONES
             if (permTarjetaObser.valido) {
                 this.queryTarjetaObservacion()
-                    .then(resp => {
+                    .then((resp) => {
                         this.storageService.setTarjetas(resp);
-                        if (this.verificarCarga(queries, 'queryTarjetaObservacion'))
-                            resolve();
-                    }).catch(err => reject(err));
+                        if (this.verificarCarga(queries, 'queryTarjetaObservacion')) resolve();
+                    })
+                    .catch((err) => reject(err));
             }
-
-
 
             // Queries INSPECCIONES
 
             if (permSistemaNR.valido) {
                 this.querySistemaNivelRiesgo()
-                    .then(resp => {
+                    .then((resp) => {
                         this.storageService.setSistemaNivelRiesgo(resp['data']);
-                        if (this.verificarCarga(queries, 'querySistemaNivelRiesgo'))
-                            resolve();
-                    }).catch(err => reject(err));
+                        if (this.verificarCarga(queries, 'querySistemaNivelRiesgo')) resolve();
+                    })
+                    .catch((err) => reject(err));
             }
 
             if (permProgInsp.valido) {
                 let listas = {};
                 this.queryProgramacionList()
-                    .then(resp => {
+                    .then((resp) => {
                         this.storageService.setProgramaciones(resp['data']);
-                        if (this.verificarCarga(queries, 'queryProgramacionList'))
-                            resolve();
-                    }).catch(err => reject(err));
+                        if (this.verificarCarga(queries, 'queryProgramacionList')) resolve();
+                    })
+                    .catch((err) => reject(err));
             }
         });
     }
@@ -578,8 +578,7 @@ export class OfflineService {
             let msg: MensajeUsuario = {
                 tipoMensaje: 'info',
                 mensaje: 'Modo online activado',
-                detalle: ''
-
+                detalle: '',
             };
             this.clearLocalStorage();
             resolve(msg);
@@ -598,4 +597,3 @@ export class OfflineService {
         this.storageService.borrarManualesUsuario();
     }
 }
-

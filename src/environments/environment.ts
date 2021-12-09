@@ -12,11 +12,12 @@ export const environment = {
  * import the following file, but please comment it out in production mode
  * because it will have performance impact when throw error
  */
+
 // import 'zone.js/dist/zone-error';  // Included with Angular CLI.
 
 let protocol = 'http';
- let host = '192.168.0.10';
-//let host = 'localhost';
+//  let host = '192.168.0.10';
+let host = 'localhost';
 let port = '8080';
 let path = protocol + '://' + host + ':' + port + '/sigess/api/';
 
@@ -37,7 +38,7 @@ export const endPoints = {
     PerfilService: path + 'perfil/',
     ConfiguracionJornadaService: path + 'configuracionJornada/',
     HorasExtraService: path + 'horasExtra/',
-  HhtService: path + 'hht/',
+    HhtService: path + 'hht/',
     emp_perfil: path + 'perfil/',
 
     departamento: path + 'departamento/',
@@ -89,35 +90,35 @@ export const endPoints = {
     ReporteAusentismoService: path + 'reporteAusentismo/',
     CausaAusentismoService: path + 'causaAusentismo/',
 
-  IndicadorAusentismoService: path + 'indicadorAusentismo/',
-  IndicadorSgeService: path + 'indicadorSge/',
-  ModeloGrafica: path,
+    IndicadorAusentismoService: path + 'indicadorAusentismo/',
+    IndicadorSgeService: path + 'indicadorSge/',
+    ModeloGrafica: path,
 
-  TipoPeligroService: path + 'tipoPeligro/',
-  PeligroService: path + 'peligro/',
+    TipoPeligroService: path + 'tipoPeligro/',
+    PeligroService: path + 'peligro/',
     FuenteService: path + 'fuente/',
-  EfectoService: path + 'efecto/',
-  TipoControlService: path + 'tipoControl/',
-  ControlService: path + 'control/',
-  IpecrService: path + 'ipecr/',
-  PeligroIpecrService: path + 'peligroIpecr/',
-  ParticipanteIpecrService: path + 'participanteIpecr/',
+    EfectoService: path + 'efecto/',
+    TipoControlService: path + 'tipoControl/',
+    ControlService: path + 'control/',
+    IpecrService: path + 'ipecr/',
+    PeligroIpecrService: path + 'peligroIpecr/',
+    ParticipanteIpecrService: path + 'participanteIpecr/',
 
-  IndicadorService: path + 'indicador/',
+    IndicadorService: path + 'indicador/',
 
-  TableroService: path + 'tablero/',
+    TableroService: path + 'tablero/',
 
-  ConfiguracionGeneralService: path + 'configuracion/',
+    ConfiguracionGeneralService: path + 'configuracion/',
 
-  SistemaCausaAdministrativaService: path + 'sistemaCausaAdministrativa/',
+    SistemaCausaAdministrativaService: path + 'sistemaCausaAdministrativa/',
 
-  ActaService: path + 'acta/',
+    ActaService: path + 'acta/',
 
-  ManualService: path + 'manual/',
+    ManualService: path + 'manual/',
 };
 
 export const session_config = {
-  session_id: 'session',
-  token_id: 'token',
+    session_id: 'session',
+    token_id: 'token',
     insp_ctx: 'insp_ctx',
 };
