@@ -138,82 +138,14 @@ export class MisTareasPage implements OnInit {
     return await modal.present();
   }
 
-  /* async abrirTarea2(){
-    const modal = await this.modalController.create({
-      //component: TareaPage,
-      component: TareaComponent,
-      componentProps: { value: 1 },
-      cssClass: "modal-fullscreen"
-    });
-    return await modal.present();
-  } */
 
   onModalDismiss(obser: TareaComponent) {
-    /* if (obser != null && obser.observacion == null) {
-      //this.obsCount += 1;
-      //this.obserSyncComp.adicionarObservacion(obser);
-    } */
+   
   }
-
-  
-  // async confirmarTarea(tarea: Tarea, idx: number, repCump: boolean) {
-  //   let accion = repCump ? 'cumplimiento' : 'verificación';
-  //   let alert = await this.alertController.create({
-  //     subHeader: 'Reporte de ' + accion + ':',
-  //     message: tarea.nombre,
-  //     inputs: [
-  //       { name: 'descripcion', type: 'text', placeholder: 'Observaciones de ' + accion }
-  //     ],
-  //     buttons: [
-  //       {
-  //         text: 'Reportar',
-  //         handler: data => this.reportar(tarea, repCump, idx, data.descripcion)
-  //       },
-  //       {
-  //         text: 'Cancel',
-  //         role: 'cancel',
-  //         cssClass: 'secondary',
-  //         handler: () => {
-  //           console.log('Confirm Cancel');
-  //         }
-  //       }
-  //     ]
-  //   }).;
-  //   await alert.present();
-  // }
 
   reportar(tarea: Tarea, repCump: boolean, idx: number): any {
     this.msgService.showMessage({tipoMensaje:"info" , mensaje:"Lo sentimos se cerro su sesion", detalle:""})
-    /* tarea['loading'] = true;
-    if (repCump == true) {
-      this.tareaService.reportarCumplimiento(tarea)
-        .then((resp: Tarea) => {
-          this.tareasList[idx] = resp;
-          this.msgService.showMessage({
-            mensaje: 'Reporte realizado',
-            detalle: 'El cumplimiento de la tarea fue reportado correctamente',
-            tipoMensaje: 'success'
-          });
-          tarea['loading'] = false;
-        })
-        .catch(err => {
-          tarea['loading'] = false;
-        });
-    } else {
-      this.tareaService.reportarVerificacion(tarea)
-        .then((resp: Tarea) => {
-          this.tareasList[idx] = resp;
-          this.msgService.showMessage({
-            mensaje: 'Reporte realizado',
-            detalle: 'La verificación de la tarea fue reportada correctamente',
-            tipoMensaje: 'success'
-          });
-          tarea['loading'] = false;
-        })
-        .catch(err => {
-          tarea['loading'] = false;
-        });;
-    } */
+   
   }
 
 
