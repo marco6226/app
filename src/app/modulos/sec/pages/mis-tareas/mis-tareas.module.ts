@@ -11,6 +11,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ComunModule } from '../../../com/comun.module'
 import { IonicModule } from '@ionic/angular';
 import { MisTareasPage } from './mis-tareas.page';
+import { TareaEvidencesComponent } from '../../components/tarea-evidences/tarea-evidences.component';
 
 
 const routes: Routes = [
@@ -34,7 +35,8 @@ const routes: Routes = [
     TareaPage, 
     TareaGeneralComponent, 
     TareaCierreComponent,
-    TareaSeguimientoComponent
+    TareaSeguimientoComponent,
+    TareaEvidencesComponent
   ],
   declarations: [
     MisTareasPage,
@@ -42,7 +44,8 @@ const routes: Routes = [
     TareaPage,
     TareaGeneralComponent,
     TareaCierreComponent,
-    TareaSeguimientoComponent
+    TareaSeguimientoComponent,
+    TareaEvidencesComponent
   ],
 })
 export class MisTareasPageModule {

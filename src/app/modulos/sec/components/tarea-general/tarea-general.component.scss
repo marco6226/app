@@ -24,3 +24,35 @@
     height: 60px;
 }
 
+ion-slides {
+    //--bullet-background: #3ba2dc;
+    --bullet-background: blue;
+    //--bullet-background-opacity: 1;
+    --bullet-background-active: red;
+    //--bullet-opacity: 1;
+    //--bullet-opacity-active: .1;
+ } 
+/* 
+ .swiper-pagination {
+    position: fixed;
+    bottom: 220px;
+    padding-bottom: 3px;
+ } */
+
+ /* .swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
+    display: inline-block;
+    border-radius: 1% !important;
+    background: green !important;
+    opacity: 1;
+}
+
+.swiper-pagination-bullet-active {
+    background: green;
+}
+ */
+/*  span.swiper-pagination-bullet.swiper-pagination-bullet-active{
+     background: green;
+     
+ } */

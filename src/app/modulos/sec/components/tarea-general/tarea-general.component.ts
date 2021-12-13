@@ -44,8 +44,8 @@ export class TareaGeneralComponent implements OnInit {
   }
 
   async getTareaEvidences() {
-    
-     console.log(this.datosTarea.hash_id.slice(0, 3));
+    try {
+      console.log(this.datosTarea.hash_id.slice(0, 3));
     let res: any = await this.tareaServices.getTareaEvidencesModulos(
         this.datosTarea.id,
         this.datosTarea.hash_id.slice(0, 3)
@@ -55,13 +55,17 @@ export class TareaGeneralComponent implements OnInit {
         res.files.forEach(async (evidence) => {
             await this.directorioService.download(evidence).then((data)=>{
               let urlData = this.domSanitizer.bypassSecurityTrustUrl(
-                URL.createObjectURL(data)
+                URL.createObjectURL(<any>data)
             );
             this.imagenesList.push({ source: Object.values(urlData) });
             this.imagenesList = this.imagenesList.slice();
             });
         });
     }
+    } catch (error) {
+      console.log("error")
+    }
+    
   }
 
 }
