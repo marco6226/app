@@ -108,7 +108,7 @@ export class ObservacionConsultarFormComponent implements OnInit {
           this.observacion.documentoList.forEach((doc) => {
               this.directorioService.download(doc.id).then((data) => {
                   let urlData = this.domSanitizer.bypassSecurityTrustUrl(
-                      URL.createObjectURL(data)
+                      URL.createObjectURL(<any>data)
                   );
                   this.imagenesList.push({ source: Object.values(urlData) });
                   this.imagenesList = this.imagenesList.slice();
