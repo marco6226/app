@@ -42,6 +42,7 @@ export class AreaSelectorComponent implements OnInit, ControlValueAccessor {
         let modal = document.getElementById('modalNode');
         document.getElementsByTagName(this.appendTo)[0].appendChild(modal);
         this.cargarAreas();
+        console.log(modal)
     }
 
     get value(): Area {
@@ -83,6 +84,10 @@ export class AreaSelectorComponent implements OnInit, ControlValueAccessor {
     }
 
     openModal() {
+
+        console.log(this.loading);
+        console.log(this.areasCargadas);
+        console.log(this.disabled);
         if (this.disabled == true || this.areasCargadas == false || this.loading == true) {
             return;
         }
@@ -90,6 +95,8 @@ export class AreaSelectorComponent implements OnInit, ControlValueAccessor {
         this.visibleModal = true;
         if (this.value != null) {
             this.cargarValor(this.areas, this.value);
+            console.log(this.areas);
+            console.log(this.value);
         }
     }
 
@@ -104,6 +111,7 @@ export class AreaSelectorComponent implements OnInit, ControlValueAccessor {
 
     cancelar() {
         this.visibleModal = false;
+        console.log(this.visibleModal);
     }
 
     aceptar() {
