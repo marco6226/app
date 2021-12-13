@@ -41,9 +41,17 @@
     margin-left: 294px;
     margin-top: -33px;
     --background: #3ba2dc;
-    position: fixed;
+    //position: fixed;
     --border-color:transparent;
-    --color:transparent;
     
+    position: relative;
+    right: 1px;
+  }
+
+  .campana{
+    position: relative;
+    left: auto;
+    --background: #3ba2dc;
+    --border-color:transparent;
   }
 
