@@ -12,6 +12,7 @@ import { Tarjeta } from '../../entities/tarjeta';
 import { ObservacionFormComponent } from '../observacion-form/observacion-form.component';
 import { ObservacionSyncComponent } from '../observaciones-sync/observacion-sync.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { SesionService } from '../../../com/services/sesion.service';
 
 @Component({
   selector: 'app-observacion-consultar-form',
@@ -33,6 +34,7 @@ export class ObservacionConsultarFormComponent implements OnInit {
   msg: string;
   tarjeta: Tarjeta;
   obsCount = 0;
+  idEmpresa: string;
 
   constructor(
     
@@ -41,11 +43,13 @@ export class ObservacionConsultarFormComponent implements OnInit {
     private offlineService: OfflineService,
     private observacionService: ObservacionService,
     private directorioService: DirectorioService,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    public sesionService: SesionService
 
   ) { }
 
-  async ngOnInit() {    
+  async ngOnInit() { 
+    this.idEmpresa = this.sesionService.getEmpresa().id;   
     await this.leerObservacionSeleccionada();
     this.cargaDatosLista();  
   }

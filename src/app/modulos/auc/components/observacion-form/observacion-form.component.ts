@@ -276,9 +276,10 @@ export class ObservacionFormComponent implements OnInit {
           if (this.consultar == true) {
             this.datosTarjeta = (<any>data).componentProps.value1;
             this.areaResp=this.datosTarjeta.area;
+            Util.cargarSeleccionArbol('implicacionlist', this.tarjeta.implicacionList, this.datosTarjeta.implicacionList,'id');
             this.disabled = false;
           }      
         }); 
-        console.log(this.datosTarjeta)
+        console.log("datos tar",this.datosTarjeta)
       }
 }

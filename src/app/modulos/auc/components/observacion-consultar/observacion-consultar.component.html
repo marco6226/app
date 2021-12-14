@@ -4,8 +4,8 @@
 </div>
 <ion-card *ngFor="let observacion of observacionLista">
   <ion-item>
-    <ion-label>{{observacion.tipoObservacion}}</ion-label>
-    <ion-button fill="outline" slot="end" color="primary" (click)="onConsultaSelect(observacion)" >Consultar</ion-button>
+    <ion-label>{{observacion.tipoObservacion}}</ion-label>    
+    <ion-button shape="round" size="small" color="tertiary" slot="end" (click)="onConsultaSelect(observacion)">Consultar<ion-icon slot="icon-only" name="search" ></ion-icon></ion-button>
   </ion-item>
   <ion-card-content>
     <!-- <ion-item>  --> 
