@@ -86,8 +86,10 @@
                 </ion-item>                
                 <sm-areaSelector  [(ngModel)]="areaResp" [ngModelOptions]="{standalone: true}"  [disabled]="disabled" appendTo="ion-modal"></sm-areaSelector>
                 <ion-item>
-                    <ion-label position="stacked">Categorías</ion-label>
-                    <sm-tree [nodes]="tarjeta?.implicacionList" field="implicacionList" label="nombre" [expanded]="true"></sm-tree>
+                    <ion-label >Categorías</ion-label>
+                    <sm-tree [nodes]="tarjeta?.implicacionList" field="implicacionList" label="nombre" [expanded]="true">                        
+                    </sm-tree>
+                    
                 </ion-item>
             </ion-card>
 
