@@ -1,0 +1,18 @@
+.tarjeta{
+    width: 100%;
+}
+
+.swiper-pagination {
+    position: fixed !important;
+    text-align: center;
+    -webkit-transition: opacity .3s;
+    -o-transition: .3s opacity;
+    transition: opacity .3s;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    z-index: 10;
+}
+
+.swiper-pagination-bullet-active {
+    background: #ff3838;
+}

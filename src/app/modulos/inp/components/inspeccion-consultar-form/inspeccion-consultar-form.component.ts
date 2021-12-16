@@ -21,7 +21,7 @@ import { ListaInspeccionFormComponent } from '../inspeccion-form/lista-inspeccio
 @Component({
     selector: 'app-inspeccion-consultar-form',
     templateUrl: './inspeccion-consultar-form.component.html',
-    styleUrls: ['./inspeccion-consultar-form.component.css'],
+    styleUrls: ['./inspeccion-consultar-form.component.scss'],
 
 })
 export class 
