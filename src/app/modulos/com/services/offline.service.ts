@@ -204,6 +204,22 @@ export class OfflineService {
         }
     }
 
+    
+
+    querySistemaNivelRiesgo() {
+        if (this.sessionService.getOfflineMode()) {
+            return this.storageService.getSistemaNivelRiesgo();
+        } else {
+            let filterQuery = new FilterQuery();
+            let filter = new Filter();
+            filter.criteria = Criteria.EQUALS;
+            filter.field = 'seleccionado';
+            filter.value1 = 'true';
+            filterQuery.filterList = [filter];
+            return this.sistemaNivelRiesgoService.findByFilter(filterQuery);
+        }
+    }
+
     queryObservacionSelectID(idNum: string): any {
         if (this.sessionService.getOfflineMode()) {
             return this.storageService.getSyncObservaciones();
@@ -219,20 +235,6 @@ export class OfflineService {
             ];
             console.log(filterQuery);
             return this.observacionService.findByFilter(filterQuery);
-        }
-    }
-
-    querySistemaNivelRiesgo() {
-        if (this.sessionService.getOfflineMode()) {
-            return this.storageService.getSistemaNivelRiesgo();
-        } else {
-            let filterQuery = new FilterQuery();
-            let filter = new Filter();
-            filter.criteria = Criteria.EQUALS;
-            filter.field = 'seleccionado';
-            filter.value1 = 'true';
-            filterQuery.filterList = [filter];
-            return this.sistemaNivelRiesgoService.findByFilter(filterQuery);
         }
     }
 
@@ -295,6 +297,24 @@ export class OfflineService {
         }
     }
 
+    queryInspeccionSelectID(idNum: string): any {
+        // if (this.sessionService.getOfflineMode()) {
+        //     return this.storageService.getSyncObservaciones();
+        // } else {
+            let filterQuery = new FilterQuery();
+
+            filterQuery.filterList = [
+                {
+                    criteria: Criteria.EQUALS,
+                    field: 'id',
+                    value1: idNum,
+                },
+            ];
+            console.log(filterQuery);
+            return this.inspeccionService.findByFilter(filterQuery);
+        // }
+    }
+
     queryInspeccionesRealizadas() {
         // if (this.sessionService.getOfflineMode()) {
         //     return this.storageService.getInspeccionesRealizadas();
@@ -314,9 +334,14 @@ export class OfflineService {
             'descripcion',
             'fechaModificacion',
             'area_nombre',
-            'listaInspeccion_nombre',
             'empresa_nombreComercial',
             'usuarioRegistra_email',
+            'listaInspeccion_nombre',
+            'listaInspeccion_usarTipoHallazgo',
+            'listaInspeccion_usarNivelRiesgo',
+            'listaInspeccion_elementoInspeccionList',
+            // 'listaInspeccion_opcionCalificacionList'
+            
         ];
         filterQuery.filterList = [
             {
@@ -346,15 +371,20 @@ export class OfflineService {
                 'descripcion',
                 'fechaModificacion',
                 'area_nombre',
-                'listaInspeccion_nombre',
                 'empresa_nombreComercial',
                 'usuarioRegistra_email',
+                'listaInspeccion_nombre',
+                'listaInspeccion_usarTipoHallazgo',
+                'listaInspeccion_usarNivelRiesgo',
+                'listaInspeccion_elementoInspeccionList',
+                // 'listaInspeccion_opcionCalificacionList'
+                
             ];
             // let areas = this.sessionService.getPermisosMap()['INP_GET_PROG'].areas;
             filterQuery.filterList = [
                 {
                     criteria: Criteria.BETWEEN,
-                    field: 'fecha',
+                    field: 'fechaRealizada',
                     value1: desde.toLocaleString(),
                     value2: hasta.toLocaleString(),
                 },

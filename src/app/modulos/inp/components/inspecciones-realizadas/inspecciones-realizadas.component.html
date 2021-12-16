@@ -3,7 +3,7 @@
 </div>
 <div *ngIf="inspCargadas == false">
     <p style="color: #888; padding: 25px">
-        No fue posible cargar la programación de inspecciones.
+        No fue posible cargar las inspecciones realizadas.
         <a *ngIf="inspCargadas == false" (click)="this.cargarRealizadas()">Reintentar</a>
     </p>
 </div>
@@ -11,7 +11,7 @@
 <ion-slides>
     <div style="width: 100%">
         <!--Fecha-->
-        
+        <!-- <ion-label position="stacked"> <ion-card-subtitle style="margin-left: 3%">Filtrar por fecha</ion-card-subtitle> </ion-label> -->
         <ion-item>
             <ion-icon name="search" slot="start"></ion-icon>
 
@@ -50,17 +50,14 @@
 <ion-card *ngFor="let inspeccion of inspList">
     <ion-item>
         <ion-label>{{ inspeccion.area.nombre }} </ion-label>
-        <!-- <ion-button [color]="'secondary'" [disabled]="true" fill="outline" slot="end">
-            *sTienePermiso="['INP_POST_INP']"
-            {{ inspeccion.numeroRealizadas == inspeccion.numeroInspecciones ? 'Finalizado' : 'Realizar' }}
-        </ion-button> -->
+        <ion-button [color]="'tertiary'" [disabled]="false" fill="outline" slot="end" (click)="abrirInspeccion(inspeccion)"> Consultar </ion-button>
     </ion-item>
     <ion-card-header>
         <ion-card-title>INP-{{ inspeccion.id }}</ion-card-title>
         <ion-card-subtitle>
             {{ inspeccion.listaInspeccion.nombre }} <br />
             Usuario Realiza: {{ inspeccion.usuarioRegistra.email }} <br />
-            Realizada: {{ inspeccion.fechaRealizada | date: 'dd/MM/yyyy HH:mm' }}
+            Realizada: {{ inspeccion?.fechaRealizada | date: 'dd/MM/yyyy HH:mm' }}
         </ion-card-subtitle>
     </ion-card-header>
     <!-- <ion-card-content *ngIf="inspeccion.offlineDone > 0">
