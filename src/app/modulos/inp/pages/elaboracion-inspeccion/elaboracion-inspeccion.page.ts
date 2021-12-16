@@ -53,7 +53,6 @@ export class ElaboracionInspeccionPage implements OnInit {
 
     ngOnInit() {
         this.filtDisp = this.offlineService.getOfflineMode() != true;
-        //this.cargarInspRealizadas();
     }
 
     cargarInspPendientes(desdeBoton?: boolean) {
@@ -81,41 +80,6 @@ export class ElaboracionInspeccionPage implements OnInit {
         console.log(Inspeccion);
         return await popOver.present();
     }
-
-    // cargarInspRealizadas(desdeBoton?: boolean) {
-    //     // this.storageService.getInspeccionesPendientes().then((resp) => {
-    //     //     let inspPend = resp.data;
-    //     this.storageService.getInspecciones().then((resp) => {
-    //         let inspPend = resp.data;
-    //         console.log(resp.count);
-    //         if (inspPend.length > 0 || desdeBoton == true) {
-    //             this.abrirInspRealizadas(inspPend);
-    //         }
-    //     });
-    // });
-    // this.storageService.getInspecciones().then((resp) => {
-    //     console.log('RESP: ', resp.data.forEach);
-    //     if (resp != null) {
-    //         // this.onEvent.emit({ type: 'onLoad', count: resp.count });
-    //         this.inspList = resp['data'];
-    //     } else {
-    //         // this.onEvent.emit({ type: 'onLoad', count: 0 });
-    //     }
-    // });
-    // }
-    // async abrirInspRealizadas(inspecciones: Inspeccion[]) {
-    //     const popOver = await this.popoverController.create({
-    //         component: Inspeccion,
-    //         componentProps: { inspecciones: inspecciones },
-    //     });
-    //     popOver.onDidDismiss().then((resp) => {
-    //         let inspeccion: Inspeccion = resp.data;
-    //         if (inspeccion) {
-    //             this.abrirInspeccion(null, null, inspeccion);
-    //         }
-    //     });
-    //     return await popOver.present();
-    // }
 
     async abrirInspeccion(programacion: Programacion, listaInspeccion: ListaInspeccion, inspeccion: Inspeccion) {
         const modal = await this.modalController.create({

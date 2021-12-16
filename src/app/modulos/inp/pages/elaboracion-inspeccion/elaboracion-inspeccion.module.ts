@@ -17,6 +17,10 @@ import { AreaSelectorModule } from '../../../com/components/area-selector/area-s
 import { MenuListaComponent } from '../../components/menu-lista/menu-lista.component';
 import { InspeccionPendienteComponent } from '../../components/inspeccion-pendiente/inspeccion-pendiente.component';
 import { InspeccionesRealizadasComponent } from '../../components/inspecciones-realizadas/inspecciones-realizadas.component';
+import { InspeccionConsultarFormComponent } from '../../components/inspeccion-consultar-form/inspeccion-consultar-form.component';
+import { ListaInspeccionFormComponent } from '../../components/inspeccion-form/lista-inspeccion-form/lista-inspeccion-form.component';
+import { ElementoInspeccion } from '../../entities/elemento-inspeccion';
+import { ElementoInspeccionNodeComponent } from '../../components/inspeccion-form/lista-inspeccion-form/elemento-inspeccion-node/elemento-inspeccion-node.component';
 
 const routes: Routes = [
     {
@@ -29,7 +33,7 @@ const routes: Routes = [
     imports: [CommonModule, FormsModule, IonicModule, ComunModule, RouterModule.forChild(routes), AreaSelectorModule],
     exports: [ComunModule],
     providers: [ListaInspeccionService],
-    entryComponents: [InspeccionFormComponent, MenuListaComponent, InspeccionPendienteComponent],
+    entryComponents: [InspeccionFormComponent, MenuListaComponent, InspeccionPendienteComponent, InspeccionConsultarFormComponent, ListaInspeccionFormComponent],
     declarations: [
         ElaboracionInspeccionPage,
         ProgramacionInspeccionesComponent,
@@ -41,6 +45,9 @@ const routes: Routes = [
         InspeccionPendienteComponent,
         ProgramacionInspeccionesComponent,
         InspeccionesRealizadasComponent,
+        InspeccionConsultarFormComponent,
+        ListaInspeccionFormComponent,
+        ElementoInspeccionNodeComponent
     ],
 })
 export class ElaboracionInspeccionPageModule {}
