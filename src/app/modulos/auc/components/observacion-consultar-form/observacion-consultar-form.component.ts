@@ -4,13 +4,15 @@ import { DirectorioService } from './../../../ado/services/directorio.service';
 import { ObservacionService } from './../../services/observacion.service';
 import { OfflineService } from './../../../com/services/offline.service';
 import { ModalController, AlertController } from '@ionic/angular';
-import { Component, OnInit } from '@angular/core';
 import { Observacion } from '../../entities/observacion';
 import { url } from 'inspector';
 import { Criteria, Filter } from '../../../com/entities/filter';
 import { FilterQuery } from '../../../com/entities/filter-query';
 import { Tarjeta } from '../../entities/tarjeta';
 import { ObservacionFormComponent } from '../observacion-form/observacion-form.component';
+import { ObservacionSyncComponent } from '../observaciones-sync/observacion-sync.component';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { SesionService } from '../../../com/services/sesion.service';
 
 @Component({
   selector: 'app-observacion-consultar-form',
@@ -18,6 +20,8 @@ import { ObservacionFormComponent } from '../observacion-form/observacion-form.c
   styleUrls: ['./observacion-consultar-form.component.scss'],
 })
 export class ObservacionConsultarFormComponent implements OnInit {
+
+  @ViewChild('obserSyncComp') obserSyncComp: ObservacionSyncComponent;
 
   observacionLista: Observacion;
   consultar: boolean;
@@ -29,6 +33,8 @@ export class ObservacionConsultarFormComponent implements OnInit {
   motivo: string;
   msg: string;
   tarjeta: Tarjeta;
+  obsCount = 0;
+  idEmpresa: string;
 
   constructor(
     
@@ -37,11 +43,13 @@ export class ObservacionConsultarFormComponent implements OnInit {
     private offlineService: OfflineService,
     private observacionService: ObservacionService,
     private directorioService: DirectorioService,
-    private domSanitizer: DomSanitizer
+    private domSanitizer: DomSanitizer,
+    public sesionService: SesionService
 
   ) { }
 
-  async ngOnInit() {    
+  async ngOnInit() { 
+    this.idEmpresa = this.sesionService.getEmpresa().id;   
     await this.leerObservacionSeleccionada();
     this.cargaDatosLista();  
   }
@@ -108,7 +116,7 @@ export class ObservacionConsultarFormComponent implements OnInit {
           this.observacion.documentoList.forEach((doc) => {
               this.directorioService.download(doc.id).then((data) => {
                   let urlData = this.domSanitizer.bypassSecurityTrustUrl(
-                      URL.createObjectURL(data)
+                      URL.createObjectURL(<any>data)
                   );
                   this.imagenesList.push({ source: Object.values(urlData) });
                   this.imagenesList = this.imagenesList.slice();
@@ -162,25 +170,24 @@ export class ObservacionConsultarFormComponent implements OnInit {
   
   async onTarjetaSelect() {
     this.tarjeta = this.observacionLista[0].tarjeta;
+    console.log(this.observacionLista)
     const modal = await this.modalController.create({
       component: ObservacionFormComponent,
       //componentProps: { value: this.tarjeta },
       //componentProps: { value: this.observacion, operacion:"GET" },
       componentProps: { value: this.tarjeta, operacion:"GET", value1: this.observacion },
-      cssClass: "modal-fullscreen"
+      cssClass: 'NoSE'
     });
     modal.onDidDismiss().then(
       resp => this.onModalDismiss(resp.data)
     );
-
-
     return await modal.present();
   }
 
   onModalDismiss(obser: Observacion) {
     if (obser != null && obser.id == null) {
-      //this.obsCount += 1;
-      //this.obserSyncComp.adicionarObservacion(obser);
+      this.obsCount += 1;
+      this.obserSyncComp.adicionarObservacion(obser);
     }
   }
 

@@ -115,6 +115,8 @@ export const endPoints = {
     ActaService: path + 'acta/',
 
     ManualService: path + 'manual/',
+    
+    tareaService: path,
 };
 
 export const session_config = {

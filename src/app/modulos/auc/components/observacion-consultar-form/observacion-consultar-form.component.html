@@ -47,6 +47,8 @@
           <ion-label>{{observacion.tipoObservacion}}</ion-label>
           <h2 class="subtitulos">Descripción:</h2>
           <ion-label>{{observacion.descripcion}}</ion-label>
+          <h2 *ngIf="idEmpresa !='16' " class="subtitulos">Afecta</h2>
+          <ion-label>{{observacion.afecta}}</ion-label>
           <h2 class="subtitulos">Categoría:</h2>
           <ion-label *ngFor="let causaRaiz of observacion.implicacionList">  -{{causaRaiz.nombre}}</ion-label>
           <br>
@@ -138,12 +140,14 @@
 <ion-fab class="iconSup" vertical="bottom" horizontal="end" slot="fixed" *ngIf="isGestionar">
   <ion-fab-button color="danger" [disabled]="!CambioObs">
     <ion-icon name="close" (click)="guardarGestionObervacion('denegar')" color="light"></ion-icon>
+    <ion-label class="aprobar">Denegar</ion-label>
   </ion-fab-button>
 </ion-fab>
 
 <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="isGestionar">
   <ion-fab-button class="aprobar" color="success" [disabled]="!CambioObs">
     <ion-icon name="checkmark" (click)="guardarGestionObervacion('aceptar')" color="light" ></ion-icon>
+    <ion-label class="aprobar">Aprobar</ion-label>
   </ion-fab-button>
 </ion-fab>
 

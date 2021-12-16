@@ -1,3 +1,28 @@
-<p>
-  tarea-seguimiento works!
-</p>
+<ion-content *ngIf="trackings?.length > 0">
+  <ion-card class="tarjeta" *ngFor="let tracking of trackings; let i = index">
+   <ion-card-content class="tarjetaContenido">
+     
+        
+        <ion-label class="subtitulos">Fecha de seguimiento</ion-label>
+        <td class="inputText">{{tracking?.followDate|date:'dd-MM-yyyy'}}</td>
+            
+        <ion-label class="subtitulos">Usuario</ion-label>
+        <td class="inputText" type="text">{{tracking?.pkUser.usuario.email}}</td>
+
+        <ion-label class="subtitulos">Descripción</ion-label>
+        <td class="inputText">{{tracking?.description}}</td>       
+        
+        <ion-label class="subtitulos">Evidencias</ion-label>
+        <td class="inputText">
+          <ion-button (click)="viewEvidence(tracking?.id)" *ngIf="tracking?.evidences.length > 0">
+            <ion-icon name="eye"></ion-icon>
+          </ion-button>
+          <ion-label *ngIf="tracking?.evidences.length == 0">No posee</ion-label>
+        </td>             
+        
+   </ion-card-content>
+ </ion-card>
+</ion-content>
+<ion-content *ngIf="trackings?.length == 0">
+  <ion-label style="font-size: large; text-align: center;">Esta tarea no posee seguimientos</ion-label>
+</ion-content>

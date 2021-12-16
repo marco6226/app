@@ -1,6 +1,6 @@
 import { Tarea } from './../../entities/tarea';
 import { ModalController, AlertController } from '@ionic/angular';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,9 +9,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./tarea.page.scss'],
 })
 export class TareaPage implements OnInit {
+  @Input() Estado;
   consultar: boolean;
   tarea: Tarea;
   segments = { 'general': true, 'seguimientos':false, 'cierre': false };
+  color: string;
   constructor(
     private modalController: ModalController,
     private router: Router,
@@ -19,17 +21,9 @@ export class TareaPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    //this.leerTareaSeleccionada();
+    this.selectColor();
   }
-  /* 
-  async leerTareaSeleccionada(){
-    await this.modalController.getTop()
-    .then(data => {     
-        this.tarea = (<any>data).componentProps.value;          
-    }); 
-    console.log(this.tarea)
-  }
- */
+
   segmentChanged(event) {
     for (var seg in this.segments) {
       this.segments[seg] = false;
@@ -59,5 +53,28 @@ export class TareaPage implements OnInit {
       }]
     });
     await alert.present();
+  }
+  selectColor(){
+    console.log(this.Estado)
+    switch (this.Estado){
+      case 'Vencida':
+        this.color = 'danger';
+        break;
+      case 'Cerrada fuera de tiempo':
+        this.color = 'danger';
+        break;
+      case 'Abierta':
+        this.color = 'success';
+        break;
+      case 'Cerrada en el tiempo':
+        this.color = 'success';
+        break;
+      case 'En seguimiento':
+        this.color = 'primary';
+        break;
+      case 'N/A':
+        this.color = 'warning';
+        break;
+    }
   }
 }

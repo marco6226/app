@@ -1,3 +1,4 @@
+import { TareaGeneralComponent } from './../sec/components/tarea-general/tarea-general.component';
 import { AutocompleteComponent } from './components/autocomplete/autocomplete.component';
 import { EmpleadoSelectorComponent } from './components/empleado-selector/empleado-selector.component';
 import { ObservacionTarjetasComponent } from './../auc/components/observacion-tarjetas/observacion-tarjetas.component';
@@ -35,7 +36,14 @@ import { TerminosCondicionesComponent } from './components/terminos-condiciones/
 import { AutoCompleteModule } from 'primeng/autocomplete';
 
 @NgModule({
-    imports: [CommonModule, HttpModule, FormsModule, IonicModule, ReactiveFormsModule, AutoCompleteModule],
+    imports: [
+        CommonModule, 
+        HttpModule, 
+        FormsModule, 
+        IonicModule, 
+        ReactiveFormsModule, 
+        AutoCompleteModule,
+    ],
     exports: [
         FormsModule,
         ReactiveFormsModule,

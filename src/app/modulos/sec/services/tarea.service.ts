@@ -90,4 +90,8 @@ public findByDetailsByEmpleado(id) {
     return { 'headers': headers };
 }
 
+public getTareaEvidencesModulos(id, modulo) {
+  return this.http.get(`${this.end_point}images/${id}/${modulo}`, this.getRequestHeaders(this.headers)).toPromise();
+}
+
 }
