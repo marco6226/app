@@ -38,14 +38,14 @@ export class TareaGeneralComponent implements OnInit {
     .then(data => {     
         this.tarea = (<any>data).componentProps.value;          
     }); 
-    console.log(this.tarea)
+    //console.log(this.tarea)
     this.datosTarea= this.tarea;
     this.getTareaEvidences();
   }
 
   async getTareaEvidences() {
     try {
-      console.log(this.datosTarea.hash_id.slice(0, 3));
+      //console.log(this.datosTarea.hash_id.slice(0, 3));
     let res: any = await this.tareaServices.getTareaEvidencesModulos(
         this.datosTarea.id,
         this.datosTarea.hash_id.slice(0, 3)
@@ -63,7 +63,7 @@ export class TareaGeneralComponent implements OnInit {
         });
     }
     } catch (error) {
-      console.log("error")
+      //console.log("error")
     }
     
   }

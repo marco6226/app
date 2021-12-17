@@ -45,4 +45,12 @@ export class SeguimientosService {
     return this.http.get(`${endPoints.tareaService}follow/download/${id}/${type}`, this.getRequestHeaders(this.headers)).toPromise();
   }
 
+  public closeTarea(tarea) {
+    return this.http.put(`${endPoints.tareaService}tarea/close`, tarea, this.getRequestHeaders(this.headers)).toPromise();
+  }
+
+  public createSeg(seg) {
+    return this.http.post(`${endPoints.tareaService}follow`, seg, this.getRequestHeaders(this.headers)).toPromise();
+  }
+
 }

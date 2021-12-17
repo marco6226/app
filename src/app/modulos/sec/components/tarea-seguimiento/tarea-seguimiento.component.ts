@@ -1,6 +1,6 @@
 import { TareaEvidencesComponent } from './../tarea-evidences/tarea-evidences.component';
 import { SeguimientosService } from './../../services/seguimientos.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Tarea } from '../../entities/tarea';
 
@@ -14,6 +14,7 @@ export class TareaSeguimientoComponent implements OnInit {
   trackings;
   tarea: Tarea;
   datosTarea;
+  @Input() Estado;
 
   constructor(
     private seguimientoService: SeguimientosService,
@@ -22,6 +23,7 @@ export class TareaSeguimientoComponent implements OnInit {
 
   ngOnInit() {
     this.leerTareaSeleccionada();
+    //console.log(this.Estado)
   }
 
   async leerTareaSeleccionada(){
@@ -29,9 +31,9 @@ export class TareaSeguimientoComponent implements OnInit {
     .then(data => {     
         this.tarea = (<any>data).componentProps.value;          
     }); 
-    console.log(this.tarea)
+    //console.log(this.tarea)
     this.datosTarea= this.tarea;
-    console.log(this.datosTarea.id);
+    //console.log(this.datosTarea.id);
     this.getSeg();
   }
 
@@ -40,14 +42,14 @@ export class TareaSeguimientoComponent implements OnInit {
         this.trackings = await this.seguimientoService.getSegByTareaID(this.datosTarea.id);
 
         if (this.trackings.length > 0) {
-            console.log('Se ejecuta el emit')
+            //console.log('Se ejecuta el emit')
             /* this.cd.markForCheck();
             this.isFollowExist.emit(true); */
-            console.log(this.trackings)
+            //console.log(this.trackings)
         }        
     } catch (e) {
         this.trackings = null;
-        console.log(e);
+        //console.log(e);
         /*this.msgs.push({
             severity: "error",
             summary: "Mensaje del sistema",
@@ -57,7 +59,7 @@ export class TareaSeguimientoComponent implements OnInit {
   }
 
   async viewEvidence(idEvi:number){
-    //console.log(this.trackings);
+    ////console.log(this.trackings);
     const modal = await this.modalController.create({
       component: TareaEvidencesComponent,
       componentProps: { value: this.trackings, id: idEvi},

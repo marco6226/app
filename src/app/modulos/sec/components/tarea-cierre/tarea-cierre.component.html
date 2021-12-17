@@ -1,51 +1,90 @@
 <ion-content>
-  <ion-card>
-    <ion-card-title>
-      <ion-item>
-         <ion-label class="tarjetaTitulo"  color="primary" >Datos de cierre</ion-label>
-      </ion-item>
-    </ion-card-title>
-    <ion-card-content class="tarjetaContenido">     
-        
-      <ion-label class="subtitulos">Usuario que gestiona</ion-label>
-      <ion-input class="inputText"></ion-input>
+  <!-- <ion-slides #slider [options]="{pagination: true}"> -->
+    <!-- <ion-slide> -->
+      <ion-card class="tarjeta">
+        <ion-card-title>
+          <ion-item>
+            <ion-label class="tarjetaTitulo"  color="primary" >{{labelTitulo}}</ion-label>
+          </ion-item>
+        </ion-card-title>
+        <ion-card-content class="tarjetaContenido">     
+            
+          <ion-label class="subtitulos">{{labelCorreo}}</ion-label>
+          <ion-input class="inputText" [value]="user.email" readonly="true"></ion-input>
+              
+          <ion-label class="subtitulos">Nombres y apellidos</ion-label>
+          <ion-input class="inputText" [value]="nombreEmpleado" readonly="true"></ion-input>
+
+          <ion-label class="subtitulos">{{labelFecha}}</ion-label>
+          <ion-datetime
+            cancelText="Cancelar"
+            doneText="Ok"
+            [max]="maxDate"
+            [min]="minDate"
+            displayFormat="DD/MM/YYYY"
+            picker-format="DD, MMMM, YYYY"
+            monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre"
+            
+            [(ngModel)]="selectDate"
+            (ionChange)="rangoFechaCierre($event)"
+          ></ion-datetime>
+          <ion-label class="subtitulos" required>{{labelDescripcion}}</ion-label>
+          <ion-input class="inputText" (ionChange)="change()" [(ngModel)]="descripcion" *ngIf="!(Estado=='Cerrada en el tiempo'||Estado=='Cerrada fuera de tiempo')"></ion-input>
+          <ion-input class="inputText" (ionChange)="change()" [(ngModel)]="descripcion" readonly="true" *ngIf="(Estado=='Cerrada en el tiempo'||Estado=='Cerrada fuera de tiempo')"></ion-input>         
+         
+    </ion-card-content>
+      </ion-card>
+    <!-- </ion-slide> -->
+    <!-- <ion-slide> -->
+      <ion-card class="tarjeta">
+        <ion-card-title>
+          <ion-item>
+            <ion-label class="tarjetaTitulo"  color="primary" >Evidencias</ion-label>
+          </ion-item>
+        </ion-card-title>
+        <ion-card-content class="tarjetaContenido">
           
-      <ion-label class="subtitulos">Nombres y apellidos</ion-label>
-      <ion-input class="inputText"></ion-input>
+          <ion-button color="primary" fill="outline" expand="block" (click)="getPicture()">
+            <ion-icon slot="icon-only" name="camera"></ion-icon>
+          </ion-button>
+               <ion-label></ion-label>
+          <!-- <ion-content *ngIf="imagenes?.length > 0"> -->
+          <ion-content *ngFor="let img of imagenes;let i = index">
+            <ion-card class="tarjeta" >
+              <h4>{{i}}</h4>
+             <ion-card-content class="tarjetaContenido">
+               
+                <ion-label class="subtitulos">Evidencias</ion-label>
+                <td class="inputText">
+                  <div>
+                    <div class="img-toolbar">
+                      <ion-button slot="end" fill="clear" color="medium" (click)="presentRemoveImg(i)">
+                        <ion-icon name="close"></ion-icon>
+                      </ion-button>
+                    </div>
+                    <img [src]="img" />
+                  </div>
+                </td>             
+                  
+             </ion-card-content>
+           </ion-card>
+          </ion-content>  
 
-      <ion-label class="subtitulos">Fecha de cierre</ion-label>
-      <ion-datetime
-      cancelText="Cancelar"
-      doneText="Ok"
-      max="2022"
-      displayFormat="DD/MM/YYYY"
-      picker-format="DD, MMMM, YYYY"
-      monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre"
-      (ionChange)="fechaCierre($event)"
-  ></ion-datetime>    
-      
-      <ion-label class="subtitulos">Descripción de la acción realizada</ion-label>
-      <ion-input class="inputText"></ion-input>            
-      
- </ion-card-content>
-  </ion-card>
-
-  <ion-card>
-    <ion-card-title>
-      <ion-item>
-         <ion-label class="tarjetaTitulo"  color="primary" >Evidencias</ion-label>
-      </ion-item>
-    </ion-card-title>
-    <ion-card-content class="tarjetaContenido">
-      
-      <ion-button color="primary" fill="outline" expand="block" (click)="getPicture()">
-        <ion-icon slot="icon-only" name="camera"></ion-icon>
-      </ion-button>
-        
-     <!--  <ion-button color="primary" fill="outline" expand="block" (click)="getPicture()" *sTienePermiso="['ADO_POST_DOCSUP']">
-        <ion-icon slot="icon-only" name="camera"></ion-icon>
-      </ion-button>      -->
-      
- </ion-card-content>
-  </ion-card>
+          
+        </ion-card-content>
+      </ion-card>
+    <!-- </ion-slide> -->
+  <!-- </ion-slides> -->
 </ion-content>
+
+
+  <ion-fab *ngIf="IsSeguimiento" vertical="bottom" horizontal="end" slot="fixed" class="buttonF">
+    <ion-fab-button (click)="guardar()">
+      <ion-icon name="save"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-fab *ngIf="IsSeguimiento" vertical="bottom" horizontal="start" slot="fixed" class="buttonF">
+    <ion-fab-button (click)="presentAlertaSalir()" color="light">
+      <ion-icon name="undo"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>

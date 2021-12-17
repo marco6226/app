@@ -19,6 +19,7 @@ export class Tarea {
     areaResponsable: Area;
     observacionesRealizacion: string;
     observacionesVerificacion: string;
+    fecha_proyectada: Date;
     // usuarioRealiza: Usuario;
     // usuarioVerifica: Usuario;
     // analisisDesviacionList: AnalisisDesviacion[];
