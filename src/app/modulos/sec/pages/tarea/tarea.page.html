@@ -37,7 +37,23 @@
   </ion-content>
 
   <ion-content [style.display]="segments['cierre'] ? 'block':'none'">
-    <app-tarea-cierre></app-tarea-cierre>
+    <app-tarea-cierre [Estado]="Estado" [value]="value" (DatosCierre)="infoCierre($event)"></app-tarea-cierre>
   </ion-content>  
-
+  
 </ion-content>
+
+<ion-fab vertical="bottom" horizontal="end" slot="fixed" [style.display]="segments['seguimientos'] ? 'block':'none'" 
+         *ngIf="Estado!='Cerrada fuera de tiempo' && Estado!='Cerrada en el tiempo'">
+  <ion-fab-button (click)="agregarSeguimiento()">
+    <ion-icon name="add" ></ion-icon>
+  </ion-fab-button>
+  <ion-label></ion-label>
+</ion-fab>
+
+<ion-fab vertical="bottom" horizontal="end" slot="fixed" [style.display]="segments['cierre'] ? 'block':'none'" 
+         *ngIf="Estado!='Cerrada fuera de tiempo' && Estado!='Cerrada en el tiempo'">
+  <ion-fab-button (click)="guardarCierre()">
+    <ion-icon name="save" ></ion-icon>
+  </ion-fab-button>
+  <ion-label></ion-label>
+</ion-fab>
