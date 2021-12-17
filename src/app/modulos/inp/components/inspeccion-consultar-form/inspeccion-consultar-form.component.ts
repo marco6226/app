@@ -56,7 +56,7 @@ InspeccionConsultarFormComponent implements OnInit {
         this.cargaDatosLista();
         this.cargarListaCalificaciones();
 
-    
+       
         
     }
 
@@ -143,7 +143,18 @@ InspeccionConsultarFormComponent implements OnInit {
             });
     }
 
-
+  //Configuration for each Slider
+  slideOptsOne = {
+    initialSlide: 0,
+    slidesPerView: 1,
+    autoplay:true,pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+      renderBullet: function (index, className) {
+        return '<span class="' + className + '">' + (index + 1) + '</span>';
+      },
+    }
+  };
 
     private buscarCalificacion(elem: ElementoInspeccion, calificacionList: Calificacion[]): Calificacion {
             for (let i = 0; i < calificacionList.length; i++) {

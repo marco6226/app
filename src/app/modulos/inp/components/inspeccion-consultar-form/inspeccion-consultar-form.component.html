@@ -14,61 +14,91 @@
 
 <ion-content>
     <ion-slides pager="true">
+        
+       
         <ion-slide>
-        <ion-card class="tarjeta">
-            <ion-item>
-              <ion-label class="tarjetaTitulo" color="primary">Registro gráfico</ion-label>
-            </ion-item>
-            <ion-card-content>
-              <div>
-                <ion-list *ngIf="imagenesList?.length == 0" style="text-align: center;">
-                  <div>
-                    <ion-icon class="evidencia" name="eye-off"></ion-icon>            
-                  </div>
-                </ion-list>
+            
+                <ion-grid>
+                    <ion-row>
+                        <ion-col>
+                            
+                                <ion-item>
+                                  <ion-label class="subtitulos" color="primary">{{listaInspeccion?.nombre}}</ion-label>
+                                </ion-item>
+                                <ion-item style="white-space: pre-wrap !important;"> 
+                                  <ion-label class="subtitulos" color="primary">{{listaInspeccion?.codigo}}</ion-label>
+                                  <ion-label class="subtitulos" color="primary">Versión: {{listaInspeccion?.listaInspeccionPK.version}}</ion-label>
+                                </ion-item>
+                                <ion-item>
+                                  <ion-label class="subtitulos" color="primary">Ubicación: {{inspeccion?.area.nombre}}</ion-label>
                 
-                <ion-list *ngIf="imagenesList.length > 0">
-                  <ion-img [src]="imagenesList[0].source[0]"></ion-img>
-                  <ion-img [src]="imagenesList[1]?.source[1]"></ion-img>
-                  <ion-img [src]="imagenesList[2]?.source[1]"></ion-img>
-                </ion-list>
-              </div>      
-            </ion-card-content>   
-        </ion-card>
-    </ion-slide>
-        <!-- <ion-slide>
-            <ion-card class="tarjeta">
-                <ion-card-title>
-                    <ion-item>
-                        <ion-label class="tarjetaTitulo" color="primary">Datos de Inspeccion</ion-label>
-                    </ion-item>
-                </ion-card-title>
-                <ion-card-content class="tarjetaContenido">
-                    <div>
-                        <h2 class="subtitulos"><strong> ID:</strong> </h2> 
-                         <ion-label><strong>OBS-{{ inspeccion?.id }}</strong></ion-label>
-                        <br><br>
-                        <h2 class="subtitulos">Realizada: {{ inspeccion.fechaRealizada | date:"yyyy/MM/dd HH:mm"}}</h2> 
-                        <ion-label>Realizada: {{ inspeccion?.fechaRealizada | date:"yyyy/MM/dd HH:mm"}}</ion-label>
-                        <ion-label>calificacion: {{ inspeccion.calificacionList[0].elementoInspeccion?.nombre }}</ion-label>
-                    </div>
-                    <div>
-                        < <h2 class="subtitulos" *ngIf="">Registra:</h2> 
-                        <ion-label>Registra: {{ inspeccion?.usuarioRegistra?.email}}</ion-label>
-                    </div>
-                    <br>
-                    <div>
-                        <h2 class="subtitulos">Lista:</h2> 
-                        <ion-label>{{ inspeccion?.listaInspeccion?.nombre }}</ion-label>
-                        <<h2 class="subtitulos" *ngIf="">Área:</h2>
-                        <br>
-                        <ion-label>{{ inspeccion?.area.nombre }}</ion-label>
-                        <br> 
-                    </div>
-                </ion-card-content>
-            </ion-card>
-        </ion-slide> -->
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label style="white-space: pre-wrap !important;" class="subtitulos" color="primary">{{listaInspeccion?.descripcion}}</ion-label>
+                                  </ion-item>
+                                  <div>
+                                    <ion-list *ngIf="imagenesList?.length == 0" style="text-align: center;">
+                                      <div>
+                                        <ion-icon class="evidencia" name="eye-off"></ion-icon>            
+                                      </div>
+                                    </ion-list>
+                                    
+                                    <ion-list *ngIf="imagenesList.length > 0">
+                                      <ion-img [src]="imagenesList[0].source[0]"></ion-img>                  
+                                    </ion-list>
+                                  </div> 
+                                  
+                                  
+                                  <ion-item>
+                                    <ion-label style="white-space: pre-wrap !important;" class="subtitulos" color="primary">{{inspeccion?.listaInspeccion?.formulario?.nombre}}</ion-label>
+                                  </ion-item>
+                               
+                        </ion-col>
+                    </ion-row>
 
+                  <ion-row>
+                    <ion-col>
+                      <div> 
+                          <ion-item *ngFor="let campos of listaInspeccion?.formulario.campoList let respuestas of inspeccion?.respuestasCampoList">
+                        <ion-label style="white-space: pre-wrap !important;" class="subtitulos" color="primary">{{campos?.nombre}}</ion-label>
+                    </ion-item></div>
+                    </ion-col>
+                    <ion-col>
+                      <div>
+                          <ion-item *ngFor="let respuestas of inspeccion?.respuestasCampoList">
+                        <ion-label style="white-space: pre-wrap !important;" class="subtitulos" color="primary">{{respuestas?.valor}}</ion-label>
+                    </ion-item></div>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col>
+                      <div>
+                          
+                            <ion-label  class="subtitulos" style="white-space: pre-wrap !important;">Código: INP-{{ inspeccion?.id }}</ion-label>
+                    </div>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col>
+                      <div>
+                          
+                        <ion-label  class="subtitulos" style="white-space: pre-wrap !important;">Realizada: {{ inspeccion?.fechaRealizada | date:"yyyy/MM/dd HH:mm"}}</ion-label>
+                    </div>
+                    </ion-col>
+                  </ion-row>
+                  <ion-row>
+                    <ion-col>
+                      <div>
+                          
+                        <ion-label  class="subtitulos" style="white-space: pre-wrap !important;">Usuario Registra: {{ inspeccion?.usuarioRegistra?.email}}</ion-label>
+                    </div>
+                    </ion-col>
+                    
+                  </ion-row>
+                 
+                </ion-grid>
+              
+        </ion-slide> 
          <ion-slide>
             <ion-card class="tarjeta">
                 <ion-card-title>
@@ -92,90 +122,3 @@
     </ion-slides>
 </ion-content>
 
-<!-- <ion-slide>
-             <ion-card class="tarjeta">
-                <ion-card-title>
-                    <ion-item>
-                        <ion-label class="tarjetaTitulo" color="primary">Detalle</ion-label>
-                    </ion-item>
-                </ion-card-title>
-                <ion-card-content class="tarjetaContenido">
-                    <div>
-                        <h2 class="subtitulos">Personas observadas:</h2>
-                        <ion-label>{{ observacion.personasobservadas }}</ion-label>
-                    </div>
-                    <div>
-                        <h2 class="subtitulos">Personas abordadas:</h2>
-                        <ion-label>{{ observacion.personasabordadas }}</ion-label>
-                    </div>
-                    <div>
-                        <h2 class="subtitulos">Recomendación:</h2>
-                        <ion-label>{{ observacion.recomendacion }}</ion-label>
-                    </div>
-                    <h2 class="subtitulos">Usuario que reporta:</h2>
-                    <p>{{ observacion.usuarioReporta.email }}</p>
-                </ion-card-content>
-            </ion-card>
-        </ion-slide> -->
-
-<!-- <ion-slide *ngIf="observacion.motivo != null && !isGestionar">
-            <ion-card class="tarjeta">
-                <ion-card-title>
-                    <ion-item>
-                        <ion-label class="tarjetaTitulo" color="primary">Observaciones</ion-label>
-                    </ion-item>
-                </ion-card-title>
-                <ion-card-content class="tarjetaContenido">
-                    <ion-label>{{ observacion.motivo }}</ion-label>
-                </ion-card-content>
-            </ion-card>
-        </ion-slide> -->
-
-<!-- <ion-slide *ngIf="isGestionar">
-            <ion-card class="tarjeta">
-                <ion-card-title>
-                    <ion-item>
-                        <ion-label class="tarjetaTitulo" color="primary">Observaciones</ion-label>
-                    </ion-item>
-                </ion-card-title>
-                <ion-card-content class="tarjetaContenido">
-                    <!-- <ion-input [(ngModel)]="observacion.motivo"></ion-input> -->
-<!-- <ion-input (click)="ok()" [(ngModel)]="motivo"></ion-input> -->
-<!-- <ion-input (click)="CambioObs = 'true'" [(ngModel)]="motivo"></ion-input> -->
-<!-- <ion-label>{{motivo}}</ion-label> 
-                <!-- </ion-card-content>
-            </ion-card>
-        </ion-slide> -->
-<!-- </ion-slides>
-</ion-content> -->
-<!-- start -->
-<!-- <ion-fab class="iconSup" vertical="bottom" horizontal="end" slot="fixed" *ngIf="!isGestionar">
-    <ion-fab-button (click)="onTarjetaSelect()">
-        <ion-icon name="create"></ion-icon>
-    </ion-fab-button>
-</ion-fab>
-
-<ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="!isGestionar">
-    <ion-fab-button>
-        <ion-icon name="checkmark-circle-outline" (click)="gestionarObservacion()"></ion-icon>
-    </ion-fab-button>
-</ion-fab> -->
-
-<!-- Gestionar -->
-<!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="iconSupD" *ngIf="isGestionar">
-    <ion-fab-button class="aprobar">
-        <ion-icon name="arrow-back" (click)="back()" color="light"></ion-icon>
-    </ion-fab-button>
-</ion-fab>
-
-<ion-fab class="iconSup" vertical="bottom" horizontal="end" slot="fixed" *ngIf="isGestionar">
-    <ion-fab-button color="danger" [disabled]="!CambioObs">
-        <ion-icon name="close" (click)="guardarGestionObervacion('denegar')" color="light"></ion-icon>
-    </ion-fab-button>
-</ion-fab>
-
-<ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="isGestionar">
-    <ion-fab-button class="aprobar" color="success" [disabled]="!CambioObs">
-        <ion-icon name="checkmark" (click)="guardarGestionObervacion('aceptar')" color="light"></ion-icon>
-    </ion-fab-button>
-</ion-fab> -->

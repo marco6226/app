@@ -107,3 +107,8 @@ ion-toolbar {
     
     --min-width: 80% !important;
 }
+
+.swiper-pagination.swiper-pagination-bullets {
+    position: fixed;
+    opacity: 1;
+}

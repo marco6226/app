@@ -31,7 +31,7 @@
             ></ion-datetime>
         </ion-item>
         <ion-item>
-            <ion-button (click)="Reset()">
+            <ion-button shape="round"  (click)="Reset()">
                 {{ tituloButton }}
             </ion-button>
         </ion-item>
@@ -53,14 +53,15 @@
         <ion-label>{{ prog.area.nombre }} </ion-label>
         <ion-button
             [color]="prog.numeroRealizadas == prog.numeroInspecciones ? 'secondary' : 'primary'"
-            [disabled]="prog.numeroRealizadas == prog.numeroInspecciones"
-            fill="outline"
+            [disabled]="prog.numeroRealizadas == prog.numeroInspecciones"            
             slot="end"
+            size="small"
+            shape="round"
             (click)="onProgSelect(prog)"
             *sTienePermiso="['INP_POST_INP']"
         >
             {{ prog.numeroRealizadas == prog.numeroInspecciones ? 'Finalizado' : 'Realizar' }}
-        </ion-button>
+        </ion-button>        
     </ion-item>
     <ion-card-header>
         <ion-card-title>{{ prog.numeroRealizadas }}/{{ prog.numeroInspecciones }} </ion-card-title>

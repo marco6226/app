@@ -42,13 +42,12 @@
 <ion-card *ngFor="let lista of listasInspeccion; let i = index">
     <ion-card-header>
         <ion-item>
-            <h6>{{lista.nombre}}</h6>
-            <ion-button fill="outline" slot="end" *sTienePermiso="['SEC_GET_SISTNR', 'INP_GET_LISTINP']" (click)="seleccionarLista(lista)">
-                Realizar
-            </ion-button>
+            <h6>{{lista.nombre}}</h6>            
+            <ion-button shape="round" size="small"  slot="end" (click)="seleccionarLista(lista)">Realizar</ion-button>
         </ion-item>
         <ion-card-content>
             <p>{{lista.codigo}}</p>
+            <p>Versión:{{lista.listaInspeccionPK.version}}</p>
             <p>{{lista.descripcion}}</p>
         </ion-card-content>
     </ion-card-header>

@@ -41,7 +41,7 @@
             ></ion-datetime>
         </ion-item>
         <ion-item>
-            <ion-button (click)="Reset()">
+            <ion-button shape="round"  (click)="Reset()">
                 {{ tituloButton }}
             </ion-button>
         </ion-item>
@@ -49,8 +49,8 @@
 </ion-slides>
 <ion-card *ngFor="let inspeccion of inspList">
     <ion-item>
-        <ion-label>{{ inspeccion.area.nombre }} </ion-label>
-        <ion-button [color]="'tertiary'" [disabled]="false" fill="outline" slot="end" (click)="abrirInspeccion(inspeccion)"> Consultar </ion-button>
+        <ion-label>{{ inspeccion.area.nombre }} </ion-label>        
+        <ion-button shape="round" size="small" color="tertiary" slot="end" (click)="abrirInspeccion(inspeccion)">Consultar<ion-icon slot="icon-only" name="search" ></ion-icon></ion-button>
     </ion-item>
     <ion-card-header>
         <ion-card-title>INP-{{ inspeccion.id }}</ion-card-title>

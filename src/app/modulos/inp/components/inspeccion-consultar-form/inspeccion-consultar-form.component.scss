@@ -1,18 +1,62 @@
+
 .tarjeta{
     width: 100%;
 }
 
-.swiper-pagination {
-    position: fixed !important;
+.tarjetaTitulo{
     text-align: center;
-    -webkit-transition: opacity .3s;
-    -o-transition: .3s opacity;
-    transition: opacity .3s;
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
-    z-index: 10;
+    align-items: center;
+    font-size: 24px;
+
 }
 
-.swiper-pagination-bullet-active {
-    background: #ff3838;
+.tarjetaContenido{
+    text-align: start;
+    width: 100%;
+}
+
+.subtitulos{
+    color: black;
+    font-size: 14px;
+}
+
+.subtitulos2{
+    color: black;
+    font-size: 11px;
+    text-align: left;
+
+}
+.respuestas{
+    color: black;
+    font-size: 11px;
+    text-align: right;
+}
+
+.evidencia{
+    width: 60px;
+    height: 60px;
+}
+
+ion-slides {
+    //--bullet-background: #3ba2dc;
+    --bullet-background: blue;
+    //--bullet-background-opacity: 1;
+    --bullet-background-active: red;
+    //--bullet-opacity: 1;
+    //--bullet-opacity-active: .1;
+    
+ } 
+ .swiper-pagination {
+ position: fixed !important;
+ text-align: center;
+ -webkit-transition: opacity .3s;
+ -o-transition: .3s opacity;
+ transition: opacity .3s;
+ -webkit-transform: translateZ(0);
+ transform: translateZ(0);
+ z-index: 10;
+ }
+
+ span.swiper-pagination-bullet {
+    opacity: 1 !important;
 }
