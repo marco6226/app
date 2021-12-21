@@ -43,8 +43,8 @@
                                       </div>
                                     </ion-list>
                                     
-                                    <ion-list *ngIf="imagenesList.length > 0">
-                                      <ion-img [src]="imagenesList[0].source[0]"></ion-img>                  
+                                    <ion-list *ngIf="imagenesList?.length > 0">
+                                      <ion-img [src]="imagenesList[0]?.source[0]"></ion-img>                  
                                     </ion-list>
                                   </div> 
                                   
@@ -60,8 +60,9 @@
                     <ion-col>
                       <div> 
                           <ion-item *ngFor="let campos of listaInspeccion?.formulario.campoList let respuestas of inspeccion?.respuestasCampoList">
-                        <ion-label style="white-space: pre-wrap !important;" class="subtitulos" color="primary">{{campos?.nombre}}</ion-label>
-                    </ion-item></div>
+                            <ion-label style="white-space: pre-wrap !important;" class="subtitulos" color="primary">{{campos?.nombre}}</ion-label>
+                          </ion-item>
+                      </div>
                     </ion-col>
                     <ion-col>
                       <div>

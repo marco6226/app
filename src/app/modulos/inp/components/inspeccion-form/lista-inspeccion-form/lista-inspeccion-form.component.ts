@@ -25,7 +25,7 @@ export class ListaInspeccionFormComponent implements OnInit {
 
 
     @Output() onElementoClick = new EventEmitter<any>();
-    @Input("value") value: ElementoInspeccion[];
+    @Input('value') value: ElementoInspeccion[];
     @Input("opciones") opciones: OpcionCalificacion[];
     @Input("editable") editable: boolean = false;
     @Input("disabled") disabled: boolean = false;
@@ -35,8 +35,8 @@ export class ListaInspeccionFormComponent implements OnInit {
     @Input("usarTipoHallazgo") usarTipoHallazgo: boolean;
     visibleDlg: boolean;
     empresa: Empresa;
-    contadorElem: number = 0;
-    ethus: boolean = false;
+    contadorElem = 0;
+    ethus = false;
     inpForm: FormGroup;
     inpForm2: FormGroup;
     elementoSelect: ElementoInspeccion;
@@ -46,7 +46,7 @@ export class ListaInspeccionFormComponent implements OnInit {
     tipoHallazgoList: TipoHallazgo[];
     es: any;
     fechaActual = new Date();
-    yearRange: string = this.fechaActual.getFullYear() + ":" + (this.fechaActual.getFullYear() + 1);
+    yearRange: string = this.fechaActual.getFullYear() + ':' + (this.fechaActual.getFullYear() + 1);
     empleado: Empleado;
     empleadosList: Empleado[];
     fullName = '';
@@ -58,7 +58,7 @@ export class ListaInspeccionFormComponent implements OnInit {
         private sessionService: SesionService,
         private domSanitizer: DomSanitizer,
         private directorioService: DirectorioService,
-        private tipoHallazgoService: TipoHallazgoService, 
+        private tipoHallazgoService: TipoHallazgoService,
         private empleadoService: EmpleadoService,
     ) {
         this.empresa = this.sessionService.getEmpresa();
@@ -68,7 +68,6 @@ export class ListaInspeccionFormComponent implements OnInit {
         this.inpForm2 = new FormGroup({
             // firstName: new FormControl()
          });
-    
      }
 
     ngOnInit() {
@@ -88,12 +87,13 @@ export class ListaInspeccionFormComponent implements OnInit {
     }
 
     adicionarElementoInp() {
-        let elemento = new ElementoInspeccion();
+        const elemento = new ElementoInspeccion();
         elemento.numero = ++this.contadorElem;
         elemento.codigo = JSON.stringify(this.value.length + 1);
-        
-        if (this.value == null)
+
+        if (this.value == null) {
             this.value = [];
+        }
         this.value.push(elemento);
     }
 
@@ -104,22 +104,22 @@ export class ListaInspeccionFormComponent implements OnInit {
             elem.calificacion.nivelRiesgo = new NivelRiesgo();
             elem.calificacion.tipoHallazgo = new TipoHallazgo();
         }
-        if (elem.calificacion.nivelRiesgo == null) {
-            elem.calificacion.nivelRiesgo = new NivelRiesgo();
-        }
+        // if (elem.calificacion.nivelRiesgo == null) {
+        //     elem.calificacion.nivelRiesgo = new NivelRiesgo();
+        // }
         if (elem.calificacion.opcionCalificacion == null) {
             elem.calificacion.opcionCalificacion = new OpcionCalificacion();
         }
-        if (elem.calificacion.tipoHallazgo == null) {
-            elem.calificacion.tipoHallazgo = new TipoHallazgo();
-        }
+        // if (elem.calificacion.tipoHallazgo == null) {
+        //     elem.calificacion.tipoHallazgo = new TipoHallazgo();
+        // }
         this.elementoSelect = elem;
         this.imagenesList = [];
-        let elemImgs: any[] = this.imgMap[elem.id];
+        const elemImgs: any[] = this.imgMap[elem.id];
         if (elemImgs != null && elemImgs.length > 0) {
             elemImgs.forEach(objFile => {
                 if (objFile.file != null) {
-                    let urlData = this.domSanitizer.bypassSecurityTrustUrl(URL.createObjectURL(objFile.file));
+                    const urlData = this.domSanitizer.bypassSecurityTrustUrl(URL.createObjectURL(objFile.file));
                     this.imagenesList.push({ source: urlData });
                 }
             });
@@ -130,7 +130,7 @@ export class ListaInspeccionFormComponent implements OnInit {
                 this.imgMap[elem.id] = [];
                 this.directorioService.download(doc.id)
                     .then(data => {
-                        let urlData = this.domSanitizer.bypassSecurityTrustUrl(URL.createObjectURL(data));
+                        const urlData = this.domSanitizer.bypassSecurityTrustUrl(URL.createObjectURL(<Blob> data));
                         this.imagenesList.push({ source: urlData });
                         this.imagenesList = this.imagenesList.slice();
                         this.imgMap[elem.id].push({ file: data, change: false });
@@ -141,56 +141,7 @@ export class ListaInspeccionFormComponent implements OnInit {
                     });
             });
         }
-        this.visibleDlg = true;
+        // this.visibleDlg = true;
     }
 
-    // onArchivoSelect(event) {
-    //     let file = event.target.files[0];
-    //     if (file.type != "image/jpeg" && file.type != "image/png") {
-    //         this.msgs.push({ severity: 'warn', summary: 'Tipo de archivo no permitido', detail: 'El tipo de archivo permitido debe ser png o jpg' });
-    //         return;
-    //     }
-    //     if (file.size > 3_500_000) {
-    //         this.msgs.push({ severity: 'warn', summary: 'Tamaño máximo superado 3.5MB', detail: 'La imágen supera el tamaño máximo permitido' });
-    //         return;
-    //     }
-    //     this.msgs = [];
-
-    //     if (this.imagenesList == null)
-    //         this.imagenesList = [];
-
-    //     if (this.imagenesList.length >= this.numMaxImg) {
-    //         this.msgs.push({
-    //             severity: 'warn',
-    //             summary: 'Número maximo de fotografias alcanzado',
-    //             detail: 'Ha alcanzado el número máximo de fotografias (' + this.numMaxImg + ') que puede adjuntar para este hallazgo'
-    //         });
-    //         return;
-    //     }
-    //     let urlData = this.domSanitizer.bypassSecurityTrustUrl(URL.createObjectURL(file));
-    //     this.imagenesList.push({ source: urlData });
-    //     this.imagenesList = this.imagenesList.slice();
-    //     let keyMap = this.elementoSelect.id;
-    //     if (this.imgMap[keyMap] == null)
-    //         this.imgMap[keyMap] = [];
-    //     this.imgMap[keyMap].push({ file: file, change: true });
-    // }
-
-    // removerImagen(event: any) {
-    //     this.imgMap[this.elementoSelect.id].splice(event.index, 1);
-    //     if (this.elementoSelect.calificacion.documentosList != null) {
-    //         this.elementoSelect.calificacion.documentosList.splice(event.index, 1);
-    //     }
-    // }
-
-    // async onSelection(event) {
-       
-    //     this.fullName = null;
-    //     this.empleado = null;
-    //     const emp = <Empleado>event;
-
-    //     this.empleado = emp;
-    //     this.fullName = (this.empleado.primerNombre || '') + ' ' + (this.empleado.primerApellido || '');
-    //     this.inpForm.patchValue({ empleadohse: { 'id': this.empleado.id }});
-    // }
 }

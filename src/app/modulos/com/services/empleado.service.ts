@@ -82,4 +82,22 @@ export class EmpleadoService extends ServiceCRUD<Empleado> {
         headers = headers.set('Param-Emp', this.sesionService.getParamEmp()).set('app-version', this.sesionService.getAppVersion()).set('Authorization', this.sesionService.getBearerAuthToken());
         return { headers: headers };
     }
+
+    public getFirma(empleado_id) {
+        return this.http.get(`${this.end_point}images/${empleado_id}`, this.getRequestHeaders(this.headers)).toPromise();
+      }
+
+    findempleadoByUsuario(parametro: string) {
+        return new Promise(resolve => {
+          this.httpInt.get(endPoints.EmpleadoService + "buscarempleado/" + parametro)
+            .map(res => res)
+            .subscribe(
+              res => {
+                resolve(res);
+              }
+              ,
+              err => this.manageError(err)
+            )
+        });
+      }
 }

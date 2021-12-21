@@ -21,6 +21,7 @@ import { InspeccionConsultarFormComponent } from '../../components/inspeccion-co
 import { ListaInspeccionFormComponent } from '../../components/inspeccion-form/lista-inspeccion-form/lista-inspeccion-form.component';
 import { ElementoInspeccion } from '../../entities/elemento-inspeccion';
 import { ElementoInspeccionNodeComponent } from '../../components/inspeccion-form/lista-inspeccion-form/elemento-inspeccion-node/elemento-inspeccion-node.component';
+import { EvidenciasElementoInspeccionComponent } from '../../components/inspeccion-form/lista-inspeccion-form/evidencias-elemento-inspeccion/evidencias-elemento-inspeccion.component';
 
 const routes: Routes = [
     {
@@ -33,7 +34,7 @@ const routes: Routes = [
     imports: [CommonModule, FormsModule, IonicModule, ComunModule, RouterModule.forChild(routes), AreaSelectorModule],
     exports: [ComunModule],
     providers: [ListaInspeccionService],
-    entryComponents: [InspeccionFormComponent, MenuListaComponent, InspeccionPendienteComponent, InspeccionConsultarFormComponent, ListaInspeccionFormComponent],
+    entryComponents: [InspeccionFormComponent, MenuListaComponent, InspeccionPendienteComponent, InspeccionConsultarFormComponent, ListaInspeccionFormComponent, EvidenciasElementoInspeccionComponent],
     declarations: [
         ElaboracionInspeccionPage,
         ProgramacionInspeccionesComponent,
@@ -47,7 +48,8 @@ const routes: Routes = [
         InspeccionesRealizadasComponent,
         InspeccionConsultarFormComponent,
         ListaInspeccionFormComponent,
-        ElementoInspeccionNodeComponent
+        ElementoInspeccionNodeComponent,
+        EvidenciasElementoInspeccionComponent
     ],
 })
 export class ElaboracionInspeccionPageModule {}

@@ -22,7 +22,7 @@ export class InspeccionesRealizadasComponent implements OnInit {
     inspCargadas: boolean;
     filtFechaHasta: any;
     filtFechaDesde: any;
-    buttonText: boolean = true;
+    buttonText = true;
     count: number;
     tituloButton: String = 'Filtrar';
 
@@ -54,8 +54,6 @@ export class InspeccionesRealizadasComponent implements OnInit {
     }
 
 
-    // }
-
     async abrirInspeccion(inspeccion: Inspeccion) {
         const modal = await this.modalController.create({
             component: InspeccionConsultarFormComponent,
@@ -69,7 +67,7 @@ export class InspeccionesRealizadasComponent implements OnInit {
         this.onInspSelect.emit(inspeccion);
     }
 
-    //Filtros
+    // Filtros
     filtrar() {
         this.loading = true;
         this.inspList = [];
@@ -85,7 +83,7 @@ export class InspeccionesRealizadasComponent implements OnInit {
 
     filtrarFechaHasta(event) {
         this.filtFechaHasta = event.detail.value;
-        
+
         if (this.filtFechaDesde != null && !this.buttonText) {
             this.filtrar();
         }
@@ -95,7 +93,7 @@ export class InspeccionesRealizadasComponent implements OnInit {
         this.loading = true;
         this.inspList = [];
         this.offlineService
-            .queryProgramacionListBetween(desde, hasta)
+            .queryRealizadasListBetween(desde, hasta)
             .then((resp) => {
                 this.inspList = [];
                 (<any[]>resp['data']).forEach((dto) => {
@@ -120,8 +118,8 @@ export class InspeccionesRealizadasComponent implements OnInit {
         } else {
             this.tituloButton = 'Filtrar';
             this.buttonText = true;
-            this.filtFechaDesde=new Date()
-            this.filtFechaHasta=new Date()
+            this.filtFechaDesde = new Date()
+            this.filtFechaHasta = new Date()
             this.cargarRealizadas();
         }
     }

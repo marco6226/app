@@ -103,10 +103,6 @@ export class ObservacionFormComponent implements OnInit {
         this.presentAlertaSalir();
     }
 
-    verificarObs(event: Event): void {
-        console.log('Llamando al metodo');
-    }
-
     async presentAlertaSalir() {
         const alert = await this.alertController.create({
             header: '¿Desea salir?',
@@ -176,8 +172,6 @@ export class ObservacionFormComponent implements OnInit {
         observacion.personasabordadas = this.form.value.personasabordadas;
         observacion.personasobservadas = this.form.value.personasobservadas;
 
-        console.log('ABORDADAS: ' + observacion.personasabordadas);
-        console.log('OBSERVADAS: ' + observacion.personasobservadas);
 
         observacion.nivelRiesgo = this.form.value.nivelRiesgo;
         observacion.tarjeta = new Tarjeta();
@@ -204,9 +198,6 @@ export class ObservacionFormComponent implements OnInit {
                 resolve(observacion);
             });
         } else {
-            console.log('ABORDADAS PERSISTIROBSERVACION(): ' + observacion.personasabordadas);
-            console.log('OBSERVADAS: ' + observacion.personasobservadas);
-            console.log(observacion);
             return this.observacionService.create(observacion).then((data) => {
                 observacion.id = (<Observacion>data).id;
 
@@ -272,14 +263,12 @@ export class ObservacionFormComponent implements OnInit {
         await this.modalController.getTop()
         .then(data => {
           this.consultar = (<any>data).componentProps.operacion == 'GET';
-          console.log("ok")
           if (this.consultar == true) {
             this.datosTarjeta = (<any>data).componentProps.value1;
             this.areaResp=this.datosTarjeta.area;
             Util.cargarSeleccionArbol('implicacionlist', this.tarjeta.implicacionList, this.datosTarjeta.implicacionList,'id');
             this.disabled = false;
-          }      
-        }); 
-        console.log("datos tar",this.datosTarjeta)
+          }
+        });
       }
 }

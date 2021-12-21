@@ -1,11 +1,15 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 
 import { TreeNode } from 'primeng/api';
 import { NivelRiesgo } from '../../../../../com/entities/nivel-riesgo';
 import { Calificacion } from '../../../../entities/calificacion';
 import { ElementoInspeccion } from '../../../../entities/elemento-inspeccion';
+import { Inspeccion } from '../../../../entities/inspeccion';
 import { OpcionCalificacion } from '../../../../entities/opcion-calificacion';
 import { TipoHallazgo } from '../../../../entities/tipo-hallazgo';
+import { InspeccionConsultarFormComponent } from '../../../inspeccion-consultar-form/inspeccion-consultar-form.component';
+import { EvidenciasElementoInspeccionComponent } from '../evidencias-elemento-inspeccion/evidencias-elemento-inspeccion.component';
 
 @Component({
   selector: 's-elemento-inspeccion-node',
@@ -13,7 +17,7 @@ import { TipoHallazgo } from '../../../../entities/tipo-hallazgo';
   styleUrls: ['./elemento-inspeccion-node.component.scss']
 })
 export class ElementoInspeccionNodeComponent implements OnInit {
-  files: TreeNode[]; 
+  files: TreeNode[];
 
   @Output() onElementoClick = new EventEmitter<any>();
   @Input("value") value: ElementoInspeccion[];
@@ -24,7 +28,8 @@ export class ElementoInspeccionNodeComponent implements OnInit {
   @Input("diligenciable") diligenciable: boolean;
   @Input("tiposHallazgo") tiposHallazgo:TipoHallazgo[];
   nivel;
-  contadorElem: number = 0;
+  contadorElem = 0;
+
   @Input() nodeOpts: any = {
     0: { color: 'transparent', contraste: '' },
     1: { color: '#00BFFF', contraste: '' },
@@ -36,15 +41,15 @@ export class ElementoInspeccionNodeComponent implements OnInit {
     7: { color: '#4169E1', contraste: '' },
     8: { color: '#7B68EE', contraste: '' },
   };
-  constructor() {
 
+  constructor(private modalController: ModalController) {
   }
 
   // Interface implements
 
-   
+
   ngOnInit() {
-    if(this.nivel == null){
+    if (this.nivel == null) {
       this.nivel = 0;
     }
     this.nivel += 1;
@@ -52,7 +57,6 @@ export class ElementoInspeccionNodeComponent implements OnInit {
       this.inicializarCalificacion(this.value);
     }
   }
- 
 
   inicializarCalificacion(elemList: ElementoInspeccion[]) {
 
@@ -63,37 +67,29 @@ export class ElementoInspeccionNodeComponent implements OnInit {
         element.calificacion.tipoHallazgo = new TipoHallazgo();
         element.calificacion.nivelRiesgo = new NivelRiesgo();
       } else if (element.calificacion.nivelRiesgo == null) {
-        
-        // element.calificacion.nivelRiesgo = new NivelRiesgo();
+        element.calificacion.nivelRiesgo = new NivelRiesgo();
       }
     });
   }
 
   // Component methods
-  
-  addElemento(elemPadre: ElementoInspeccion) {
-    if (elemPadre.elementoInspeccionList == null) {
-      elemPadre.elementoInspeccionList = [];
-    }
-    
-    let elemento = new ElementoInspeccion();
-    elemento.numero = ++this.contadorElem;
-    elemento.codigo = elemPadre.codigo + "." + (elemPadre.elementoInspeccionList.length + 1);
-    console.log(elemPadre);
-    elemPadre.elementoInspeccionList.push(elemento);
-  }
-
-  removeElemento(elementoList: ElementoInspeccion[], elemento: ElementoInspeccion) {
-  
-    for (let i = 0; i < elementoList.length; i++) {
-      if (elementoList[i].codigo == elemento.codigo) {
-        elementoList.splice(i, 1);
-        break;
-      }
-    }
-  }
 
   emitirEventoSelecElemento(elem: ElementoInspeccion) {
-    this.onElementoClick.emit(elem);
+    // this.onElementoClick.emit(elem);
+    this.abrirEvidenciaElemento(elem);
+  }
+
+  async abrirEvidenciaElemento(elem: ElementoInspeccion) {
+    const modal = await this.modalController.create({
+        component: EvidenciasElementoInspeccionComponent,
+        componentProps: { value: elem },
+        cssClass: 'modal-fullscreen',
+    });
+    return await modal.present();
+}
+
+  anterior() {
+    // this.presentAlertaSalir();
+    this.modalController.dismiss();
   }
 }
