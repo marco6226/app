@@ -48,6 +48,7 @@ export class TareaPage implements OnInit {
 
   ngOnInit() {
     this.selectColor();
+    console.log(this.value)
   }
 
   segmentChanged(event) {
@@ -172,12 +173,10 @@ export class TareaPage implements OnInit {
     let cierre = Date.parse(this.cierre.fechaDeCierre);
     let proyect = Date.parse(dateString);
 
-    if( proyect < cierre ){
-      // console.log("si")      
+    if( proyect < cierre ){    
       this.Estado='Cerrada fuera de tiempo'
       this.color = 'danger';
     }else{
-      // console.log("no")
       this.Estado='Cerrada en el tiempo'
       this.color = 'success';
     }

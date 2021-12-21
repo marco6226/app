@@ -1,3 +1,4 @@
+import { DomSanitizer } from '@angular/platform-browser';
 import { SeguimientosService } from './../../services/seguimientos.service';
 import { Empleado } from './../../../emp/entities/empleado';
 import { Component, Input, OnInit, Output, OnChanges, SimpleChanges, EventEmitter, SecurityContext } from '@angular/core';
@@ -10,6 +11,8 @@ import { Usuario } from '../../../emp/entities/usuario';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, ModalController, ToastController } from '@ionic/angular';
 import { OfflineService } from '../../../com/services/offline.service';
+import { DirectorioService } from '../../../ado/services/directorio.service';
+import { Util } from '../../../com/utils/util';
 //import { EventEmitter } from 'protractor';
 
 @Component({
@@ -30,6 +33,10 @@ export class TareaCierreComponent implements OnInit{
   minDate: string;
   selectDate;
   usuarioCierre: UserCierre;
+  obj;
+  imgURL;
+  isCerrado: boolean= false;
+  caseImage=[]
 
   numMaxFotos: number;
   options: CameraOptions = {
@@ -46,13 +53,12 @@ export class TareaCierreComponent implements OnInit{
   user: Usuario;
   empleado: Empleado;
   nombreEmpleado: string;
-  descripcion: string;
   empleadoId;
   labelDescripcion: string="Descripción de la acción realizada";
   labelFecha: string="Fecha de cierre";
   labelCorreo: string="Usuario que gestiona";
   labelTitulo: string="Datos de cierre";
-
+  followImage: FollowImage;
 
   constructor(
     private camera: Camera,
@@ -63,12 +69,16 @@ export class TareaCierreComponent implements OnInit{
     private seguimientoService: SeguimientosService,
     public toastController: ToastController,
     private offlineService: OfflineService,
+    private directorioService: DirectorioService,
+    private domSanitizer: DomSanitizer,
+    // private fb: FormBuilder,
   ) { 
     this.numMaxFotos = this.offlineService.sessionService.getConfigParam('NUM_MAX_FOTO_INP');
+    
   }
 
   async ngOnInit() {
-    console.log(this.fechaActual,"as"+ this.fechaActual.toLocaleTimeString())
+    console.log(this.value, this.value.descripcion_cierre)
     await this.selectUsuario();
     this.rangoFechaCierre();    
     this.selectDate = this.maxDate;
@@ -77,19 +87,24 @@ export class TareaCierreComponent implements OnInit{
 
     if(this.IsSeguimiento){
       this.labelDescripcion = "Descripción del seguimiento";
-      this.labelFecha = "Fecha del seguimiento"
-      this.labelCorreo = "Usuario que realiza el seguimiento"
-      this.labelTitulo = "Crear nuevo seguimiento"   
+      this.labelFecha = "Fecha del seguimiento";
+      this.labelCorreo = "Usuario que realiza el seguimiento";
+      this.labelTitulo = "Crear nuevo seguimiento";
+      this.value.descripcion_cierre = "";
     }
+    console.log(this.imagenes)
+    this.validarCerrado();
   }
 
+  validarCerrado(){
+    if(this.Estado=='Cerrada en el tiempo'||this.Estado=='Cerrada fuera de tiempo'){
+      this.isCerrado = true;
+    }
+  }
 
   async selectUsuario(){
     this.user = this.sesionService.getUsuario();
     console.log(this.user)
-    //this.empleado = this.empleadoService.buscar(this.user.email)
-    //let ok = Object.values(this.empleado)
-    //console.log(this.empleado, ok)
 
     let fq = new FilterQuery();
     fq.filterList = [{ field: 'usuario.id', value1: this.user.id, criteria: Criteria.EQUALS, value2: null }];
@@ -108,7 +123,6 @@ export class TareaCierreComponent implements OnInit{
   }
 
   rangoFechaCierre(){
-    //this.fechaMinima = event.detail.value;
     let permiso = this.sesionService.getPermisosMap()["SEC_CHANGE_FECHACIERRE"];
     if (permiso != null && permiso.valido == true) {
         this.minDate = "2000-01-01";
@@ -117,66 +131,27 @@ export class TareaCierreComponent implements OnInit{
     }
     console.log(permiso)
   }
-
   
-  getPicture() {
-    if (this.imagenes != null && this.imagenes.length >= this.numMaxFotos) {
-      this.presentAlert("Número máximo de fotografías alcanzado", "No es posible adjuntar mas de " + this.numMaxFotos + " fotografías por seguimiento");
-      return;
-    }
+
+  getPicture(){
     this.camera
-        .getPicture(this.options)
-        .then((imageData) => {
-
-            let imgsUrls = [];
-           
-            if (this.imagenes == null){
-              this.imagenes = [];
-            } 
-           
-            let imgUrl = (<any>window).Ionic.WebView.convertFileSrc(imageData);
-
-            this.imagenes.push(imgUrl);
-            //this.imagenes = this.imagenes.slice();
-        })
+      .getPicture(this.options)
+      .then((imageData) => {
+          let imgUrl= (<any>window).Ionic.WebView.convertFileSrc(imageData);
+          console.log(imgUrl)
+          this.imagenes.push(imgUrl);
+          this.imagenes = this.imagenes.slice();
+          console.log(this.imagenes)
+          this.caseImage=[];
+          this.imagePost();
+      })
         .catch((error) => {
             console.error(error);
         });
-  }
-
-
-  /*  getPicture2() {
-    if (this.imagenes != null && this.imagenes.length >= this.numMaxFotos) {
-      this.presentAlert("Número máximo de fotografías alcanzado", "No es posible adjuntar mas de " + this.numMaxFotos + " fotografía(s) por hallazgo");
-      return;
-    }
-    this.camera.getPicture(this.options)
-      .then(imageData => {
-        let imgsUrls = this.elementoActual.calificacion['img_key'];
-        if (imgsUrls == null)
-          
-
-        if (this.imagenes == null){
-          this.imagenes = [];
-        }          
-
-        let imgUrl = (<any>window).Ionic.WebView.convertFileSrc(imageData);
-        imgsUrls.push(imgUrl);
-
-        // let imgKey = new Date().toISOString();
-        // imgsKeys.push(imgKey);
-        // localStorage.setItem(imgKey, imgUrl);
-
-        this.elementoActual.calificacion['img_key'] = imgsUrls;
-
-        this.imagenes.push(imgUrl);
-        this.imagenes = this.imagenes.slidescripcion();
-      }).catch(error => {
-        console.error(error);
-      });
-  } */
-
-  async presentAlert(header: string, msg: string) {
+        console.log(this.imagenes)
+}
+  
+  async presentAlert(header: string, msg: string){
     const alert = await this.alertController.create({
       header: header,
       message: msg,
@@ -187,22 +162,6 @@ export class TareaCierreComponent implements OnInit{
 
   async presentRemoveImg(index: number) {
     this.removerImg(index)
-  /*   const alert = await this.alertController.create({
-        header: '¿Desea remover la fotografía?',
-        message: 'La fotografía será eliminada. ¿Confirma esta acción?',
-        buttons: [
-            {
-                text: 'Si',
-                handler: () => this.removerImg(index),
-            },
-            {
-                text: 'No',
-                role: 'cancel',
-                cssClass: 'No',
-            },
-        ],
-    });
-    await alert.present();*/
 }
 
 removerImg(index: number) {
@@ -220,12 +179,11 @@ removerImg(index: number) {
 
     this.usuarioCierre={id: this.empleadoId}
 
-    // console.log(this.Estado,this.value)
    await this.DatosCierre.emit({
      correo: this.user.email,
      nombre: this.nombreEmpleado,
      fechaDeCierre: this.selectDate,
-     Descripcion: this.descripcion,
+     Descripcion: this.value.descripcion_cierre,
      Evidencias: this.imagenes,
      usuarioCierre: this.usuarioCierre,
    })
@@ -251,23 +209,10 @@ removerImg(index: number) {
 
   async guardar(){
 
-    if(this.descripcion==null || this.descripcion == ""){
+    if(this.value.descripcion_cierre==null || this.value.descripcion_cierre == ""){
       await this.presentToast('Por favor diligencie los datos faltantes del seguimiento');
     }else{
-
-      console.log(this.value)
-      await this.presentToast('entrando');
-      let follow = {
-        tareaId: await this.value.id,
-        pkUser: await this.value.usuario,
-        followDate: await this.selectDate,
-        description: await this.descripcion,
-        evidences: await this.imagenes,
-      }
-      await this.presentToast('saliendo');
-      console.log(follow)
-
-      let res = await this.seguimientoService.createSeg(follow);
+      let res = await this.seguimientoService.createSeg(await this.followImage);
       if (res) {
         await this.presentToast('¡Se ha creado exitosamente el seguimiento!');
         this.modalController.dismiss();
@@ -290,9 +235,34 @@ removerImg(index: number) {
     toast.present();
   }
 
+  
+  async imagePost(){
+    let cod=1;
+      this.imagenes.forEach( async (url) => {
+        await Util.dataURLtoFile(url, 'img_' + cod + '_inp_' + this.value.id + '.jpg').then(
+          async (file) => {let x =  await this.directorioService.uploadv2(file, null)
+          this.obj = await{
+            ruta: await x
+          }
+          await this.caseImage.push(await this.obj);
+         });
+         cod++;
+     });  
+  }
+  
+  
 }
 
 
 interface UserCierre{
 	id: string;	
 }
+
+
+interface FollowImage {
+  tareaId: string,
+  pkUser: number,
+  followDate: string,
+  description: string,
+  evidences ,
+};

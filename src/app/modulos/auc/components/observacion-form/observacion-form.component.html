@@ -84,7 +84,8 @@
                     <ion-label position="stacked">Recomendación:</ion-label>
                     <ion-textarea formControlName="recomendacion" maxlength="510" [value]="datosTarjeta?.recomendacion"></ion-textarea>
                 </ion-item>                
-                <sm-areaSelector  [(ngModel)]="areaResp" [ngModelOptions]="{standalone: true}"  [disabled]="disabled" appendTo="ion-modal"></sm-areaSelector>
+                <!-- <sm-areaSelector  [(ngModel)]="areaResp" [ngModelOptions]="{standalone: true}"  [disabled]="disabled" appendTo="ion-modal"></sm-areaSelector> -->
+                <sm-areaSelector formControlName="area" [disabled]="guardando == true" appendTo="ion-modal"></sm-areaSelector>
                 <ion-item>
                     <ion-label >Categorías</ion-label>
                     <sm-tree [nodes]="tarjeta?.implicacionList" field="implicacionList" label="nombre" [expanded]="true">                        
