@@ -51,9 +51,17 @@
 </ion-fab>
 
 <ion-fab vertical="bottom" horizontal="end" slot="fixed" [style.display]="segments['cierre'] ? 'block':'none'" 
-         *ngIf="Estado!='Cerrada fuera de tiempo' && Estado!='Cerrada en el tiempo'">
+         *ngIf="Estado!='Cerrada fuera de tiempo' && Estado!='Cerrada en el tiempo' && isCierre">
   <ion-fab-button (click)="guardarCierre()">
     <ion-icon name="save" ></ion-icon>
   </ion-fab-button>
   <ion-label></ion-label>
+</ion-fab>
+
+
+<ion-fab *ngIf="Estado!='Cerrada fuera de tiempo' && Estado!='Cerrada en el tiempo' && !isCierre" 
+          vertical="bottom" horizontal="end" slot="fixed" class="buttonF" [style.display]="segments['cierre'] ? 'block':'none'">
+  <ion-fab-button (click)="agregarCierre()">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
 </ion-fab>

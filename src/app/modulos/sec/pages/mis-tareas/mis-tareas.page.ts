@@ -132,7 +132,7 @@ export class MisTareasPage implements OnInit {
     const modal = await this.modalController.create({
       component: TareaPage,
       //component: TareaComponent,
-      componentProps: { value: tarea, Estado: tarea.estado },
+      componentProps: { value: tarea, Estado: tarea.estado, isCierre: false },
       cssClass: "modal-fullscreen"
     });
     return await modal.present();

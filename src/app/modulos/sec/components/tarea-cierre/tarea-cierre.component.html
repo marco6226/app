@@ -1,3 +1,6 @@
+<ion-content *ngIf="Estado!='Cerrada fuera de tiempo' && Estado!='Cerrada en el tiempo' && !IsSeguimiento" style="font-size: large; text-align: center; height: 50px;">
+  <ion-label >Esta tarea no esta cerrada</ion-label>
+</ion-content>
 <ion-content style="bottom: 10px;">
       <ion-card class="tarjeta">
         <ion-card-title>
@@ -63,7 +66,7 @@
 </ion-content>
 
   <ion-fab *ngIf="IsSeguimiento" vertical="bottom" horizontal="end" slot="fixed" class="buttonF">
-    <ion-fab-button (click)="guardar()">
+    <ion-fab-button (click)="guardarSeguimiento()">
       <ion-icon name="save"></ion-icon>
     </ion-fab-button>
   </ion-fab>

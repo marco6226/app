@@ -26,6 +26,7 @@ export class TareaCierreComponent implements OnInit{
   @Input() value;
   @Input() Estado;
   @Input() IsSeguimiento: boolean=false;
+  @Input() isCierre: boolean = false;
   @Output() DatosCierre = new EventEmitter<object>();
 
   fechaActual: Date = new Date();
@@ -184,7 +185,7 @@ removerImg(index: number) {
      nombre: this.nombreEmpleado,
      fechaDeCierre: this.selectDate,
      Descripcion: this.value.descripcion_cierre,
-     Evidencias: this.imagenes,
+     Evidencias: this.caseImage,
      usuarioCierre: this.usuarioCierre,
    })
   }
@@ -207,11 +208,23 @@ removerImg(index: number) {
     await alert.present();
   }
 
-  async guardar(){
+  async guardarCierre(){
+    
+  }
+
+  async guardarSeguimiento(){
 
     if(this.value.descripcion_cierre==null || this.value.descripcion_cierre == ""){
       await this.presentToast('Por favor diligencie los datos faltantes del seguimiento');
     }else{
+      this.followImage = {
+        tareaId: await this.value.id,
+        pkUser: await this.value.usuario,
+        followDate: await this.selectDate,
+        description: await this.value.descripcion_cierre,
+        evidences: await this.caseImage,
+      }
+
       let res = await this.seguimientoService.createSeg(await this.followImage);
       if (res) {
         await this.presentToast('¡Se ha creado exitosamente el seguimiento!');
@@ -223,10 +236,6 @@ removerImg(index: number) {
   }
 
   async presentToast(msg: string) {
-    /* try {
-      this.toastController.dismiss();
-    } catch (e) { } */
-
     const toast = await this.toastController.create({
       message: msg,
       position: 'middle',

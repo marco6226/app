@@ -1,7 +1,7 @@
 import { TareaCierreComponent } from './../../components/tarea-cierre/tarea-cierre.component';
 import { Tarea } from './../../entities/tarea';
 import { ModalController, AlertController, ToastController } from '@ionic/angular';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { SeguimientosService } from '../../services/seguimientos.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -14,6 +14,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class TareaPage implements OnInit {
   @Input() Estado;
   @Input() value: Tarea;
+  @Output() isCierre: boolean = false;
   cierre: {
     correo: string,
     nombre: string,
@@ -28,6 +29,9 @@ export class TareaPage implements OnInit {
   tarea: Tarea;
   segments = { 'general': true, 'seguimientos':false, 'cierre': false };
   color: string;
+  
+
+
   constructor(
     private fb: FormBuilder,
     private modalController: ModalController,
@@ -43,7 +47,7 @@ export class TareaPage implements OnInit {
       fechaCierre: ["", Validators.required],
       descripcionCierre: ["", Validators.required],
       evidences: [[]],
-  });
+    });
    }
 
   ngOnInit() {
@@ -192,5 +196,10 @@ export class TareaPage implements OnInit {
       cssClass: "modal-fullscreen"
     });
     return await modal.present();
+  }
+
+  agregarCierre(){
+    this.isCierre=true;
+    console.log(this.isCierre)
   }
 }
