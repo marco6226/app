@@ -2,7 +2,7 @@
 export class OpcionCalificacion {
     id: string;
     nombre: string;
-    descripcion: number;
+    descripcion: string;
     valor: number;
     despreciable: boolean;
     numeral: number;

@@ -108,7 +108,6 @@ export class InspeccionFormComponent implements OnInit {
     this.offlineService.queryListaInspeccion(this.listaPk.id, this.listaPk.version)
       .then(data => {
         this.listaInspeccion = (<ListaInspeccion[]>data['data'])[0];
-        console.log(this.listaInspeccion);
         this.indexarElementos(this.listaInspeccion.elementoInspeccionList, null);
         this.loadingLI = false;
         this.listaCargada = true;
@@ -153,7 +152,7 @@ export class InspeccionFormComponent implements OnInit {
   }
 
   anterior() {
-    if (!this.validarRequerirFoto()) {
+    if (!this.validarRequerirFoto() || !this.validarDescripcion()) {
       return;
     }
     this.numeroPreguntaActual -= 1;
@@ -225,11 +224,11 @@ export class InspeccionFormComponent implements OnInit {
 
 
   siguiente() {
-    if (this.numeroPreguntaActual == this.indicePreguntas.length - 1) {
+    if (this.numeroPreguntaActual === this.indicePreguntas.length - 1) {
       this.visibleGuardar = true;
       return;
     }
-    if (!this.validarRequerirFoto()) {
+    if (!this.validarRequerirFoto() || !this.validarDescripcion()) {
       return;
     }
 
@@ -243,7 +242,7 @@ export class InspeccionFormComponent implements OnInit {
         this.elementoSelect != null &&
         this.elementoSelect.calificacion != null &&
         this.elementoSelect.calificacion.opcionCalificacion != null &&
-        this.elementoSelect.calificacion.opcionCalificacion.requerirDoc == true
+        this.elementoSelect.calificacion.opcionCalificacion.requerirDoc === true
       ) &&
       (
         this.elementoSelect.calificacion['img_key'] == null ||
@@ -252,6 +251,29 @@ export class InspeccionFormComponent implements OnInit {
     ) {
       this.presentToast(
         "Debe especificar al menos una fotografía para la calificación \""
+        + this.elementoSelect.calificacion.opcionCalificacion.nombre + "\""
+      );
+      return false;
+    }
+    return true;
+  }
+
+  validarDescripcion() {
+    if (
+      (
+        this.elementoSelect != null &&
+        this.elementoSelect.calificacion != null &&
+        this.elementoSelect.calificacion.recomendacion != null &&
+        this.elementoSelect.calificacion.opcionCalificacion.requerirDoc === true
+      ) &&
+      (
+        this.elementoSelect.calificacion.recomendacion == null ||
+        this.elementoSelect.calificacion.recomendacion === ''
+      )
+    ) {
+      console.log("RECOMENDACION: ", this.elementoSelect.calificacion.recomendacion);
+      this.presentToast(
+        "Debe agregar una descripción al adjuntar evidencia de la calificación \""
         + this.elementoSelect.calificacion.opcionCalificacion.nombre + "\""
       );
       return false;
@@ -401,7 +423,7 @@ export class InspeccionFormComponent implements OnInit {
   async abrirMenu() {
     const popover = await this.popoverController.create({
       component: MenuListaComponent,
-      cssClass:'popover-content.sc-ion-popover-md',
+      cssClass: 'popover-content.sc-ion-popover-md',
       componentProps: { 'listaInspeccion': this.listaInspeccion }
     });
     popover.onDidDismiss()
@@ -412,8 +434,9 @@ export class InspeccionFormComponent implements OnInit {
   }
 
   redireccionar(indice: number) {
-    if (!this.validarRequerirFoto())
+    if (!this.validarRequerirFoto() || !this.validarDescripcion()) {
       return;
+    }
 
     if (indice == null)
       return;
