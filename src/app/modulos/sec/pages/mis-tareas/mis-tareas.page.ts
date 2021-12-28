@@ -135,12 +135,15 @@ export class MisTareasPage implements OnInit {
       componentProps: { value: tarea, Estado: tarea.estado, isCierre: false },
       cssClass: "modal-fullscreen"
     });
+    modal.onDidDismiss().then(
+      resp => this.onModalDismiss()
+    );
     return await modal.present();
   }
 
 
-  onModalDismiss(obser: TareaComponent) {
-   
+  onModalDismiss() {
+   this.ngOnInit();
   }
 
   reportar(tarea: Tarea, repCump: boolean, idx: number): any {

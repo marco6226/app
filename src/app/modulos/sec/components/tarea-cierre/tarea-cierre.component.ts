@@ -35,9 +35,16 @@ export class TareaCierreComponent implements OnInit{
   selectDate;
   usuarioCierre: UserCierre;
   obj;
-  imgURL;
+  imgURL: any;
+  imgURL2: any;
   isCerrado: boolean= false;
-  caseImage=[]
+  sinCierre: boolean= false;
+  caseImage=[];
+  evidencesCierre;
+  imgCierre:any;
+  trackings;
+  valDescripcion: string;
+  tareaForm: FormGroup;
 
   numMaxFotos: number;
   options: CameraOptions = {
@@ -49,6 +56,24 @@ export class TareaCierreComponent implements OnInit{
     targetWidth: 960,
     targetHeight: 960,
   };
+  mimeType = {
+    'U': {
+        head: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        ext: 'xlsx',
+    },
+    'J': {
+        head: 'application/pdf',
+        ext: 'pdf'
+    },
+    '/': {
+        head: 'image/jpeg',
+        ext: 'jpeg'
+    },
+    'i': {
+        head: 'image/png',
+        ext: 'png'
+    }
+}
 
   imagenes: any[] = [];
   user: Usuario;
@@ -72,14 +97,21 @@ export class TareaCierreComponent implements OnInit{
     private offlineService: OfflineService,
     private directorioService: DirectorioService,
     private domSanitizer: DomSanitizer,
-    // private fb: FormBuilder,
+    private fb: FormBuilder,
   ) { 
     this.numMaxFotos = this.offlineService.sessionService.getConfigParam('NUM_MAX_FOTO_INP');
-    
+    this.tareaForm = fb.group({
+      id: ["", Validators.required],
+      usuarioCierre: ["", Validators.required],
+      email: ["", null],
+      fechaCierre: ["", Validators.required],
+      descripcionCierre: ["", Validators.required],
+      evidences: [[]],
+    });
   }
 
   async ngOnInit() {
-    console.log(this.value, this.value.descripcion_cierre)
+    console.log(this.value, this.value.descripcion_cierre, this.Estado)
     await this.selectUsuario();
     this.rangoFechaCierre();    
     this.selectDate = this.maxDate;
@@ -93,13 +125,15 @@ export class TareaCierreComponent implements OnInit{
       this.labelTitulo = "Crear nuevo seguimiento";
       this.value.descripcion_cierre = "";
     }
-    console.log(this.imagenes)
+    // console.log(this.imagenes)
     this.validarCerrado();
   }
 
   validarCerrado(){
     if(this.Estado=='Cerrada en el tiempo'||this.Estado=='Cerrada fuera de tiempo'){
       this.isCerrado = true;
+      this.sinCierre = true;
+      this.evidenciasCierre();
     }
   }
 
@@ -139,17 +173,17 @@ export class TareaCierreComponent implements OnInit{
       .getPicture(this.options)
       .then((imageData) => {
           let imgUrl= (<any>window).Ionic.WebView.convertFileSrc(imageData);
-          console.log(imgUrl)
+          // console.log(imgUrl)
           this.imagenes.push(imgUrl);
           this.imagenes = this.imagenes.slice();
-          console.log(this.imagenes)
+          // console.log(this.imagenes)
           this.caseImage=[];
           this.imagePost();
       })
         .catch((error) => {
             console.error(error);
         });
-        console.log(this.imagenes)
+        // console.log(this.imagenes)
 }
   
   async presentAlert(header: string, msg: string){
@@ -177,18 +211,21 @@ removerImg(index: number) {
  
   
   async change(){
+    this.valDescripcion = this.value.descripcion_cierre;
+  //   this.usuarioCierre={id: this.empleadoId}
 
-    this.usuarioCierre={id: this.empleadoId}
-
-   await this.DatosCierre.emit({
-     correo: this.user.email,
-     nombre: this.nombreEmpleado,
-     fechaDeCierre: this.selectDate,
-     Descripcion: this.value.descripcion_cierre,
-     Evidencias: this.caseImage,
-     usuarioCierre: this.usuarioCierre,
-   })
+  //  await this.DatosCierre.emit({
+  //    correo: this.user.email,
+  //    nombre: this.nombreEmpleado,
+  //    fechaDeCierre: this.selectDate,
+  //    Descripcion: this.value.descripcion_cierre,
+  //    Evidencias: this.caseImage,
+  //    usuarioCierre: this.usuarioCierre,
+  //  })
   }
+
+ 
+    
 
   async presentAlertaSalir() {
     const alert = await this.alertController.create({
@@ -209,19 +246,51 @@ removerImg(index: number) {
   }
 
   async guardarCierre(){
-    
+    if(this.valDescripcion == null || this.valDescripcion == ""){
+      await this.presentToast('Por favor diligencie los datos faltantes del cierre');
+      return;
+    }else{
+      
+      await this.tareaForm.patchValue({ 
+        id: parseInt(this.value.id),
+        usuarioCierre: this.usuarioCierre, 
+        descripcionCierre: this.valDescripcion,
+        email: this.user.email,
+        fechaCierre: this.selectDate,
+        evidences: this.caseImage,
+      });
+      console.log(this.tareaForm)
+
+      let res = await this.seguimientoService.closeTarea(
+        this.tareaForm.value
+      );
+      this.isCerrado = true;
+      if (res) {
+          this.tareaForm.reset();
+          // this.submitted = false;
+          // this.cargando = false;
+          console.log("si guardo")
+          await this.presentToast('¡Se ha cerrado exitosamente esta tarea!');
+           this.getTarea();
+         /* this.msgs.push({
+              severity: "success",
+              summary: "Mensaje del sistema",
+              detail: "¡Se ha cerrado exitosamente esta tarea!",
+          }); */
+      }
+    }
   }
 
   async guardarSeguimiento(){
 
-    if(this.value.descripcion_cierre==null || this.value.descripcion_cierre == ""){
+    if(this.valDescripcion==null || this.valDescripcion == ""){
       await this.presentToast('Por favor diligencie los datos faltantes del seguimiento');
     }else{
       this.followImage = {
         tareaId: await this.value.id,
         pkUser: await this.value.usuario,
         followDate: await this.selectDate,
-        description: await this.value.descripcion_cierre,
+        description: await this.valDescripcion,
         evidences: await this.caseImage,
       }
 
@@ -258,7 +327,32 @@ removerImg(index: number) {
          cod++;
      });  
   }
+
+  async getTarea(){
+    await this.DatosCierre.emit({
+      fechaDeCierre: this.selectDate,
+    })
+  }
   
+  async evidenciasCierre(){    
+    this.evidencesCierre = await this.seguimientoService.getEvidences(this.value.id, "fkTareaCierre");
+    
+  }
+
+  convertImg(img){
+    this.imgCierre = img;
+    if (this.imgCierre) {
+            
+      if (this.imgCierre.split(',').length > 1) this.imgCierre = this.imgCierre.split(',')[1];
+
+      let type = this.mimeType[this.imgCierre.charAt(0)];
+
+      if (type.ext !== 'png' && type.ext !== 'jpeg') return this.imgURL = '../../../../../assets/images/file.png';
+      this.imgURL2 = 'data:image/png;base64,' + this.imgCierre;
+      // console.log(this.imgURL2)
+      return this.imgURL2;
+    }
+  }
   
 }
 

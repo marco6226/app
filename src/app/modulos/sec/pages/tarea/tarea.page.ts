@@ -1,3 +1,5 @@
+import { TareaSeguimientoComponent } from './../../components/tarea-seguimiento/tarea-seguimiento.component';
+import { TareaService } from './../../services/tarea.service';
 import { TareaCierreComponent } from './../../components/tarea-cierre/tarea-cierre.component';
 import { Tarea } from './../../entities/tarea';
 import { ModalController, AlertController, ToastController } from '@ionic/angular';
@@ -10,11 +12,17 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   selector: 'app-tarea',
   templateUrl: './tarea.page.html',
   styleUrls: ['./tarea.page.scss'],
+  providers: [TareaService, TareaSeguimientoComponent]
 })
 export class TareaPage implements OnInit {
   @Input() Estado;
-  @Input() value: Tarea;
+  @Input() value;
   @Output() isCierre: boolean = false;
+  @Input() isReset: boolean = false;
+
+  isFollowSave: boolean = false;
+
+  tareaSeguimientoComponent: TareaSeguimientoComponent
   cierre: {
     correo: string,
     nombre: string,
@@ -27,7 +35,7 @@ export class TareaPage implements OnInit {
 
   consultar: boolean;
   tarea: Tarea;
-  segments = { 'general': true, 'seguimientos':false, 'cierre': false };
+  segments = { 'general': true, 'seguimientos': false, 'cierre': false };
   color: string;
   
 
@@ -39,6 +47,7 @@ export class TareaPage implements OnInit {
     private alertController: AlertController,
     public toastController: ToastController,
     private seguimientoService: SeguimientosService,
+    private tareaServices: TareaService,
   ) {
     this.tareaForm = fb.group({
       id: ["", Validators.required],
@@ -52,7 +61,7 @@ export class TareaPage implements OnInit {
 
   ngOnInit() {
     this.selectColor();
-    console.log(this.value)
+    console.log(this.value, this.isReset)    
   }
 
   segmentChanged(event) {
@@ -109,11 +118,6 @@ export class TareaPage implements OnInit {
     }
   }
 
-  infoCierre(event){
-    console.log(event);    
-    this.cierre = event;
-  }
-
   async guardarCierre() {
     
     
@@ -131,24 +135,6 @@ export class TareaPage implements OnInit {
         evidences: this.cierre.Evidencias,
       });
       console.log(this.cierre, this.tareaForm);
-
-      let res = await this.seguimientoService.closeTarea(
-        this.tareaForm.value
-      );
-
-      if (res) {
-          this.tareaForm.reset();
-          this.submitted = false;
-          this.cargando = false;
-          console.log("si guardo")
-          await this.presentToast('¡Se ha cerrado exitosamente esta tarea!');
-           this.getTarea();
-         /* this.msgs.push({
-              severity: "success",
-              summary: "Mensaje del sistema",
-              detail: "¡Se ha cerrado exitosamente esta tarea!",
-          }); */
-      }
     }
     
   }
@@ -170,11 +156,11 @@ export class TareaPage implements OnInit {
     toast.present();
   }
 
-  getTarea(){
+  getTarea(event){
 
     let dateString = this.value.fecha_proyectada.toLocaleString();
 
-    let cierre = Date.parse(this.cierre.fechaDeCierre);
+    let cierre = Date.parse(event.fechaDeCierre);
     let proyect = Date.parse(dateString);
 
     if( proyect < cierre ){    
@@ -195,11 +181,33 @@ export class TareaPage implements OnInit {
       // cssClass: "modal-peq"
       cssClass: "modal-fullscreen"
     });
+    modal.onDidDismiss().then(
+      resp => this.onModalDismiss()
+    );
     return await modal.present();
   }
+  
+  async onModalDismiss() {
+    console.log("se cerro", this.value.id);
+    await this.tareaSeguimientoComponent.getSeg()    
+    
+  }
+
+  isFollows(data: boolean){    
+    this.isFollowSave = data;
+    console.log("tiene follows",this.isFollowSave, data)
+    if(this.isFollowSave && this.Estado!='Cerrada en el tiempo' && this.Estado!='Cerrada fuera de tiempo'){
+      this.Estado = 'En seguimiento';
+      this.color = 'primary';
+    }
+  }
+  
 
   agregarCierre(){
     this.isCierre=true;
     console.log(this.isCierre)
   }
+  trackings
+
+ 
 }

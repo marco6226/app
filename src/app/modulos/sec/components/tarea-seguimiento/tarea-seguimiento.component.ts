@@ -1,8 +1,9 @@
 import { TareaEvidencesComponent } from './../tarea-evidences/tarea-evidences.component';
 import { SeguimientosService } from './../../services/seguimientos.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Tarea } from '../../entities/tarea';
+import { TareaCierreComponent } from '../tarea-cierre/tarea-cierre.component';
 
 @Component({
   selector: 'app-tarea-seguimiento',
@@ -14,7 +15,9 @@ export class TareaSeguimientoComponent implements OnInit {
   trackings;
   tarea: Tarea;
   datosTarea;
+  @Input() value;
   @Input() Estado;
+  @Output() isFollowExist: EventEmitter<boolean> = new EventEmitter();
 
   constructor(
     private seguimientoService: SeguimientosService,
@@ -37,24 +40,16 @@ export class TareaSeguimientoComponent implements OnInit {
     this.getSeg();
   }
 
-  async getSeg() {
+  public async getSeg() {
     try {
         this.trackings = await this.seguimientoService.getSegByTareaID(this.datosTarea.id);
-
+      // console.log("--------<>",this.trackings)
         if (this.trackings.length > 0) {
-            //console.log('Se ejecuta el emit')
-            /* this.cd.markForCheck();
-            this.isFollowExist.emit(true); */
-            //console.log(this.trackings)
+            this.isFollowExist.emit(true);
         }        
     } catch (e) {
         this.trackings = null;
-        //console.log(e);
-        /*this.msgs.push({
-            severity: "error",
-            summary: "Mensaje del sistema",
-            detail: "Ocurrió un inconveniente al obtener el listado de seguimientos",
-        }); */
+        console.log("Error")
       }
   }
 
@@ -66,8 +61,29 @@ export class TareaSeguimientoComponent implements OnInit {
       cssClass: "select-modal",
       /* backdropDismiss: true */
     });
+    modal.onDidDismiss().then(
+      resp => this.onModalDismiss()
+    );
     return await modal.present();
 
+  }
+  async onModalDismiss() {
+    this.getSeg();
+  }
+
+  async agregarSeguimiento(){
+    console.log(this.value, this.Estado)
+    const modal = await this.modalController.create({
+      component: TareaCierreComponent,
+      //component: TareaComponent,
+      componentProps: { value: this.value, Estado: this.Estado, IsSeguimiento: true },
+      // cssClass: "modal-peq"
+      cssClass: "modal-fullscreen"
+    });
+    modal.onDidDismiss().then(
+      resp => this.onModalDismiss()
+    );
+    return await modal.present();
   }
 
 }
