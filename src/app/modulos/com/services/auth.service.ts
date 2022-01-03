@@ -3,7 +3,6 @@ import { HttpInt } from './http-int.service';
 import * as CryptoJS from 'crypto-js';
 import { endPoints } from '../../../../environments/environment';
 import { SesionService } from './sesion.service'
-import { Observable } from 'rxjs';
 import { Subject } from 'rxjs';
 import { NavController, AlertController } from '@ionic/angular';
 import { timeout, map } from 'rxjs/operators';
@@ -11,6 +10,12 @@ import { resolve } from 'dns';
 import { MensajeUsuarioService } from './mensaje-usuario.service';
 import { Route } from '@angular/compiler/src/core';
 import { Router } from '@angular/router';
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/observable/of";
+import "rxjs/add/operator/do";
+import "rxjs/add/operator/delay";
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/catch";
 
 
 @Injectable()
@@ -233,7 +238,7 @@ export class AuthService {
     return new Promise((resolve) => {
         this.httpInt
             .post(endPoint , body)
-            // .map((res) => res)
+             .map((res) => res)
             .subscribe(
                 (res) => {
                     resolve(res);
