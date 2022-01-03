@@ -1,3 +1,4 @@
+import { AuthService } from './../../../com/services/auth.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalController, AlertController, ToastController, PopoverController } from '@ionic/angular';
 import { Programacion } from '../../entities/programacion';
@@ -59,7 +60,8 @@ export class InspeccionFormComponent implements OnInit {
     public inspeccionService: InspeccionService,
     public offlineService: OfflineService,
     public msgService: MensajeUsuarioService,
-    public dirService: DirectorioService
+    public dirService: DirectorioService,
+    private authService: AuthService,
   ) { }
 
   ngOnInit() {
@@ -91,10 +93,10 @@ export class InspeccionFormComponent implements OnInit {
       });
   }
 
-  construirListaAreas(listado: Area[], areas: Area[]) {
+  construirListaAreas(listado: Area[], areas: Area[] ) {
     for (let i = 0; i < areas.length; i++) {
       let area = areas[i];
-      let areaObj = <Area>{ id: area.id, nombre: area.nombre };
+      let areaObj = <Area>{ id: area.id, nombre: area.nombre, contacto: area.contacto };
       listado.push(areaObj);
       if (area.areaList != null && area.areaList.length > 0) {
         this.construirListaAreas(listado, area.areaList);
@@ -363,12 +365,14 @@ export class InspeccionFormComponent implements OnInit {
     let inspeccion = this.generarInspeccion(true);
     if (inspeccion == null)
       return;
+      
+      // this.datosEmail(inspeccion);
 
     this.guardando = true;
     this.persistirInspeccion(inspeccion)
       .then(data => {
         this.guardando = false;
-        this.manageResponse(data);
+        // this.manageResponse(data);        
         if (this.inspPend != null)
           this.storageService.borrarInspeccionPendiente(this.inspPend);
       })
@@ -376,20 +380,22 @@ export class InspeccionFormComponent implements OnInit {
         this.guardando = false;
       });
   }
-
+  a;
   persistirInspeccion(inspeccion: Inspeccion): Promise<any> {
     if (this.offlineService.getOfflineMode()) {
-      return new Promise((resolve, reject) => {
+      return new Promise(async (resolve, reject) => {
         inspeccion.fechaRealizada = new Date();
         inspeccion['hash'] = inspeccion.fechaRealizada.toISOString();
-        this.storageService.guardarInspeccion(inspeccion)
+        await this.storageService.guardarInspeccion(inspeccion)
           .then(() => resolve(inspeccion))
-          .catch(err => reject(err));
+          .catch(err => reject(err));          
       });
     } else {
       return this.inspeccionService.create(inspeccion)
         .then(resp => {
           let inp = <Inspeccion>resp;
+          console.log(inp)
+          this.datosEmail(inp)
           for (let i = 0; i < inp.calificacionList.length; i++) {
             let calf = inp.calificacionList[i];
             let imgsUrls = inspeccion.calificacionList[i]['img_key'];
@@ -452,5 +458,108 @@ export class InspeccionFormComponent implements OnInit {
         this.numeroRespondidas += 1;
     });
   }
+
+  datosEmail(inspeccion: Inspeccion){
+    let nocumple = <Calificacion[]><unknown>inspeccion.calificacionList;
+    console.log(nocumple,inspeccion);
+
+    nocumple = nocumple.filter(function(element) {
+        return element.opcionCalificacion.valor === 0;
+       
+        
+      });
+      
+      console.log("nocumple", nocumple);
+
+      let arrraynocumple = [];
+
+      let var2 = nocumple.map(item =>{
+        arrraynocumple.push(item.elementoInspeccion.id)
+        console.log( "nuevo array ",arrraynocumple);
+      return arrraynocumple;
+      })
+    
+      console.log( "no cumplen array",arrraynocumple);
+
+      let criticos = <ElementoInspeccion[]><unknown>this.listaInspeccion.elementoInspeccionList;
+    console.log(criticos);
+
+      let  var1=[]
+
+      for (let idx = 0; idx < criticos.length; idx++){
+
+        let criticosInterno = <ElementoInspeccion[]><unknown>this.listaInspeccion.elementoInspeccionList[idx].elementoInspeccionList;
+        console.log("primer nivel",criticosInterno)
+       
+        var1.push( criticosInterno.filter(function(element) {
+            return element.criticidad === 'Alto' || element.criticidad === 'Medio' ;
+          }));
+      }
+
+     
+
+      console.log( "altos Y MEDIOS ", var1.slice() );
+      // console.log( "altos Y MEDIOS ", obj2 );
+
+      const newArray = []
+      for (let idx = 0; idx < var1.length; idx++){
+      let var2 = var1[idx].map(item =>{
+        //  for(let i in item){
+             newArray.push(item.id,item.criticidad,item.codigo,item.nombre)
+        console.log( "nuevo array ", newArray);
+        return newArray
+        })
+    }
+
+    let arrayResultadoVar1=[]
+          for (let idx = 0; idx < var1.length; idx++){
+            var1[idx].map(item =>{
+              //  for(let i in item){
+                   newArray.push(item.id)
+                   arrraynocumple.forEach(element => {
+                       if(item.id == element){
+                           arrayResultadoVar1.push(item)
+                       }
+                   });
+          console.log( "nuevo array ",newArray);
+            return newArray
+            })
+          }
+
+    console.log("ResultadoVar1",arrayResultadoVar1,inspeccion)
+    console.log( "nuevo array ",newArray);
+
+    for(let i=0;i<newArray.length;i++){
+      let element = newArray[i];
+      if(arrraynocumple.includes(element)){
+          console.log(`coincide '${element}'`);
+      }
+  }
+
+  let arrayResultado=[]
+
+          arrraynocumple.forEach(element => {
+              newArray.forEach(element2 => {
+                  if(element == element2){
+                      arrayResultado.push(element);
+                  }
+              });
+          });
+        
+         // this.area = this.programacion == null ? inspeccion.area : this.programacion.area;
+
+          console.log("Resultado",arrayResultado,inspeccion.id);        
+          // console.log(inspeccion.area, this.area)
+          // console.log("CORREOS",inspeccion.area.contacto);
+          this.authService.sendNotificationhallazgosCriticos(
+            inspeccion.id,
+            arrayResultadoVar1
+        );
+
+
+
+    // let obj2 = JSON.parse(JSON.stringify(var1));
+
+}
 
 }

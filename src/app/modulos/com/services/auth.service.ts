@@ -6,7 +6,7 @@ import { SesionService } from './sesion.service'
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs';
 import { NavController, AlertController } from '@ionic/angular';
-import { timeout } from 'rxjs/operators';
+import { timeout, map } from 'rxjs/operators';
 import { resolve } from 'dns';
 import { MensajeUsuarioService } from './mensaje-usuario.service';
 import { Route } from '@angular/compiler/src/core';
@@ -223,4 +223,23 @@ export class AuthService {
   getSubjectTerminos(): Subject<boolean> {
     return this.subjectTerminos;
   }
+
+  sendNotificationhallazgosCriticos(id, nocumplecriticos) {
+       
+    // console.log("Send notificacion",id, nocumplecriticos)
+    let body = nocumplecriticos;
+    let endPoint = this.authEndPoint + "enviarHallazgosCriticos/" + id ;
+    console.log(id, nocumplecriticos,body,endPoint)
+    return new Promise((resolve) => {
+        this.httpInt
+            .post(endPoint , body)
+            // .map((res) => res)
+            .subscribe(
+                (res) => {
+                    resolve(res);
+                },
+               // (err) => this.manageError(err)
+            );
+    });
+}
 }
