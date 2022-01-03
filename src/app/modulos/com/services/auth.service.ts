@@ -234,8 +234,7 @@ export class AuthService {
     // console.log("Send notificacion",id, nocumplecriticos)
     let body = nocumplecriticos;
     let endPoint = this.authEndPoint + "enviarHallazgosCriticos/" + id ;
-    console.log(id, nocumplecriticos,body,endPoint)
-    return new Promise((resolve) => {
+    return new Promise( (resolve) => {
         this.httpInt
             .post(endPoint , body)
              .map((res) => res)
@@ -247,4 +246,6 @@ export class AuthService {
             );
     });
 }
+
+
 }

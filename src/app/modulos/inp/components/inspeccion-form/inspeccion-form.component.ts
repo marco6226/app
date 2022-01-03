@@ -273,7 +273,7 @@ export class InspeccionFormComponent implements OnInit {
         this.elementoSelect.calificacion.recomendacion === ''
       )
     ) {
-      console.log("RECOMENDACION: ", this.elementoSelect.calificacion.recomendacion);
+
       this.presentToast(
         "Debe agregar una descripción al adjuntar evidencia de la calificación \""
         + this.elementoSelect.calificacion.opcionCalificacion.nombre + "\""
@@ -366,13 +366,12 @@ export class InspeccionFormComponent implements OnInit {
     if (inspeccion == null)
       return;
       
-      // this.datosEmail(inspeccion);
 
     this.guardando = true;
     this.persistirInspeccion(inspeccion)
       .then(data => {
         this.guardando = false;
-        // this.manageResponse(data);        
+          this.manageResponse(data);        
         if (this.inspPend != null)
           this.storageService.borrarInspeccionPendiente(this.inspPend);
       })
@@ -380,7 +379,7 @@ export class InspeccionFormComponent implements OnInit {
         this.guardando = false;
       });
   }
-  a;
+
   persistirInspeccion(inspeccion: Inspeccion): Promise<any> {
     if (this.offlineService.getOfflineMode()) {
       return new Promise(async (resolve, reject) => {
@@ -394,8 +393,7 @@ export class InspeccionFormComponent implements OnInit {
       return this.inspeccionService.create(inspeccion)
         .then(resp => {
           let inp = <Inspeccion>resp;
-          console.log(inp)
-          this.datosEmail(inp)
+         
           for (let i = 0; i < inp.calificacionList.length; i++) {
             let calf = inp.calificacionList[i];
             let imgsUrls = inspeccion.calificacionList[i]['img_key'];
@@ -411,6 +409,7 @@ export class InspeccionFormComponent implements OnInit {
               });
             }
           }
+          this.datosEmail(inp)
         });
     }
   }
@@ -461,52 +460,36 @@ export class InspeccionFormComponent implements OnInit {
 
   datosEmail(inspeccion: Inspeccion){
     let nocumple = <Calificacion[]><unknown>inspeccion.calificacionList;
-    console.log(nocumple,inspeccion);
-
+    
     nocumple = nocumple.filter(function(element) {
         return element.opcionCalificacion.valor === 0;
        
         
       });
       
-      console.log("nocumple", nocumple);
-
       let arrraynocumple = [];
 
-      let var2 = nocumple.map(item =>{
+      nocumple.map(item =>{
         arrraynocumple.push(item.elementoInspeccion.id)
-        console.log( "nuevo array ",arrraynocumple);
       return arrraynocumple;
       })
     
-      console.log( "no cumplen array",arrraynocumple);
-
+    
       let criticos = <ElementoInspeccion[]><unknown>this.listaInspeccion.elementoInspeccionList;
-    console.log(criticos);
-
+    
       let  var1=[]
 
       for (let idx = 0; idx < criticos.length; idx++){
-
         let criticosInterno = <ElementoInspeccion[]><unknown>this.listaInspeccion.elementoInspeccionList[idx].elementoInspeccionList;
-        console.log("primer nivel",criticosInterno)
-       
         var1.push( criticosInterno.filter(function(element) {
             return element.criticidad === 'Alto' || element.criticidad === 'Medio' ;
           }));
       }
 
-     
-
-      console.log( "altos Y MEDIOS ", var1.slice() );
-      // console.log( "altos Y MEDIOS ", obj2 );
-
       const newArray = []
       for (let idx = 0; idx < var1.length; idx++){
-      let var2 = var1[idx].map(item =>{
-        //  for(let i in item){
-             newArray.push(item.id,item.criticidad,item.codigo,item.nombre)
-        console.log( "nuevo array ", newArray);
+      var1[idx].map(item =>{
+        newArray.push(item.id,item.criticidad,item.codigo,item.nombre)
         return newArray
         })
     }
@@ -514,51 +497,26 @@ export class InspeccionFormComponent implements OnInit {
     let arrayResultadoVar1=[]
           for (let idx = 0; idx < var1.length; idx++){
             var1[idx].map(item =>{
-              //  for(let i in item){
                    newArray.push(item.id)
                    arrraynocumple.forEach(element => {
                        if(item.id == element){
                            arrayResultadoVar1.push(item)
                        }
                    });
-          console.log( "nuevo array ",newArray);
             return newArray
             })
           }
 
-    console.log("ResultadoVar1",arrayResultadoVar1,inspeccion)
-    console.log( "nuevo array ",newArray);
-
-    for(let i=0;i<newArray.length;i++){
-      let element = newArray[i];
-      if(arrraynocumple.includes(element)){
-          console.log(`coincide '${element}'`);
-      }
-  }
-
-  let arrayResultado=[]
-
-          arrraynocumple.forEach(element => {
-              newArray.forEach(element2 => {
-                  if(element == element2){
-                      arrayResultado.push(element);
-                  }
-              });
+          arrayResultadoVar1.forEach(element => {
+            element.elementoInspeccionPadre=[]
           });
-        
-         // this.area = this.programacion == null ? inspeccion.area : this.programacion.area;
-
-          console.log("Resultado",arrayResultado,inspeccion.id);        
-          // console.log(inspeccion.area, this.area)
-          // console.log("CORREOS",inspeccion.area.contacto);
-          this.authService.sendNotificationhallazgosCriticos(
-            inspeccion.id,
-            arrayResultadoVar1
-        );
-
-
-
-    // let obj2 = JSON.parse(JSON.stringify(var1));
+          if(arrayResultadoVar1.length>0){
+            this.authService.sendNotificationhallazgosCriticos(
+              inspeccion.id,
+              arrayResultadoVar1
+            );
+          }
+          
 
 }
 
