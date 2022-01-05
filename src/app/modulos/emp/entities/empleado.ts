@@ -1,4 +1,5 @@
 import { Area } from './area';
+import { Cargo } from './cargo';
 
 export class Empleado {
     id: string;
@@ -26,7 +27,7 @@ export class Empleado {
     tipoVinculacion: string;
     zonaResidencia: string;
     area: Area;
-    // cargo: Cargo;
+     cargo: Cargo;
     direccionGerencia: string;
     ciudadGerencia: string;
     businessPartner: Empleado;

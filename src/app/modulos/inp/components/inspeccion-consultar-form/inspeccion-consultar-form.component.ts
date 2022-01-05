@@ -18,6 +18,8 @@ import { ListaInspeccion } from '../../entities/lista-inspeccion';
 import { InspeccionService } from '../../services/inspeccion.service';
 import { ListaInspeccionService } from '../../services/lista-inspeccion.service';
 import { ListaInspeccionFormComponent } from '../inspeccion-form/lista-inspeccion-form/lista-inspeccion-form.component';
+import { SesionService } from '../../../com/services/sesion.service';
+import { Usuario } from '../../../emp/entities/usuario';
 
 
 @Component({
@@ -33,6 +35,14 @@ export class InspeccionConsultarFormComponent implements OnInit {
     inspeccion: Inspeccion;
     inspList: Inspeccion[];
     empleadoElabora: Empleado;
+    
+    fechaActual = new Date();
+    user: Usuario;
+  empleado: Empleado;
+  nombreEmpleado: string;
+  cargo: string;
+
+  empleadoId;
 
     imagenesList: any = [];
 
@@ -67,12 +77,14 @@ export class InspeccionConsultarFormComponent implements OnInit {
         private empleadoService: EmpleadoService,
         private listaInspeccionService: ListaInspeccionService,
         private sistemaNivelRiesgoService: SistemaNivelRiesgoService,
-        private domSanitizer: DomSanitizer
+        private domSanitizer: DomSanitizer,
+        private sesionService: SesionService,
         ) {}
 
     async ngOnInit() {
         await this.leerInspeccionSeleccionada();
         this.cargaDatosLista();
+        await this.selectUsuario();
     }
 
     async leerInspeccionSeleccionada() {
@@ -83,6 +95,27 @@ export class InspeccionConsultarFormComponent implements OnInit {
             return (<any>data).componentProps.value;
         });
     }
+
+    async selectUsuario(){
+        this.user = this.sesionService.getUsuario();
+        console.log(this.user)
+    
+        let fq = new FilterQuery();
+        fq.filterList = [{ field: 'usuario.id', value1: this.user.id, criteria: Criteria.EQUALS, value2: null }];
+        await this.empleadoService.findByFilter(fq).then(
+          resp => {
+            this.empleado = (<Empleado[]>resp['data'])[0];
+            if (this.empleado != null) {
+              this.nombreEmpleado = this.empleado.primerNombre + " " + this.empleado.segundoNombre + " " +
+               this.empleado.primerApellido + " " + this.empleado.segundoApellido;
+               this.cargo = this.empleado.cargo.nombre
+            }
+          }
+        );
+    
+          console.log(this.empleado)
+          this.empleadoId = await this.empleado.id
+      }
 
     getSistemaNivelRiesgo() {
         const filterQuery = new FilterQuery();

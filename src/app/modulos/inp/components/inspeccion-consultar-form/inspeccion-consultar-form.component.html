@@ -136,12 +136,15 @@
                         </ion-item>
                         <ion-item>
                         <ion-label class="subtitulos" color="primary">Usuario que gestiono</ion-label>
+                        <ion-input class="inputText" [value]="nombreEmpleado" readonly="true"></ion-input>
                         </ion-item>
                         <ion-item>
                         <ion-label class="subtitulos" color="primary">Cargo</ion-label>
+                        <ion-input class="inputText" [value]="cargo" readonly="true"></ion-input>
                         </ion-item>
                         <ion-item>
                         <ion-label class="subtitulos" color="primary">Fecha</ion-label>
+                        <ion-input class="date" [value]="fechaActual"  readonly="true"></ion-input>                        
                         </ion-item>
                         
                     <ion-fab class="iconSup" vertical="bottom" horizontal="end" slot="fixed" *sTienePermiso="['HSE']">
