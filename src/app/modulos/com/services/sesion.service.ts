@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { Usuario } from '../../emp/entities/usuario';
 import { Empresa } from '../../emp/entities/empresa';
+import { Empleado } from '../../emp/entities/empleado';
 import { Session } from '../entities/session';
 import { session_config } from '../../../../environments/environment';
 import { ConfiguracionGeneral } from '../entities/configuracion-general';
@@ -40,6 +41,18 @@ export class SesionService {
     this.session.usuario = usuario;
     localStorage.setItem(session_config.session_id, JSON.stringify(this.session));
   }
+
+  public getEmpleado(): Empleado {
+    if (this.session == null) {
+        this.session = <Session>JSON.parse(localStorage.getItem(session_config.session_id));
+        if (this.session == null) return null;
+    }
+    return this.session.empleado;
+}
+public setEmpleado(empleado: Empleado) {
+    this.session.empleado = empleado;
+    localStorage.setItem(session_config.session_id, JSON.stringify(this.session));
+}
 
   public getEmpresa(): Empresa {
     if (this.session == null) {
