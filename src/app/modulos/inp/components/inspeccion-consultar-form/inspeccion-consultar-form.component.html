@@ -122,49 +122,46 @@
         <ion-grid>
             <ion-row>
                 <ion-col>
-       
-        <ion-card class="tarjeta" *sTienePermiso="['HSE']">
-            <ion-card-title>
-                <ion-item>
-                    <ion-label class="tarjetaTitulo" color="primary">Visto Bueno HSE</ion-label>
-                </ion-item>
-            </ion-card-title>
-            <ion-card-content class="tarjetaContenido">
-                
-                    <ion-item>
-                        <ion-label class="subtitulos" color="primary">Concepto</ion-label>
-                        </ion-item>
+                  <form [formGroup]="FormHseq" *sTienePermiso="['HSE']">
+                    <ion-card class="tarjeta">
+                      <ion-card-title>
+                          <ion-item>
+                              <ion-label class="tarjetaTitulo" color="primary">Visto Bueno HSE</ion-label>
+                          </ion-item>
+                      </ion-card-title>
+                      <ion-card-content class="tarjetaContenido">              
                         <ion-item>
-                        <ion-label class="subtitulos" color="primary">Usuario que gestiono</ion-label>
-                        <ion-input class="inputText" [value]="nombreEmpleado" readonly="true"></ion-input>
-                        </ion-item>
-                        <ion-item>
-                        <ion-label class="subtitulos" color="primary">Cargo</ion-label>
-                        <ion-input class="inputText" [value]="cargo" readonly="true"></ion-input>
-                        </ion-item>
-                        <ion-item>
-                        <ion-label class="subtitulos" color="primary">Fecha</ion-label>
-                        <ion-input class="date" [value]="fechaActual"  readonly="true"></ion-input>                        
-                        </ion-item>
-                        
-                    <ion-fab class="iconSup" vertical="bottom" horizontal="end" slot="fixed" *sTienePermiso="['HSE']">
-                        <ion-fab-button color="danger" >
-                          <ion-icon name="close" (click)="guardarGestionObervacion('denegar')" color="light"></ion-icon>
-                          <ion-label class="aprobar">Denegar</ion-label>
-                        </ion-fab-button>
-                      </ion-fab>
-                      
-                      <ion-fab vertical="bottom" horizontal="end" slot="fixed" *sTienePermiso="['HSE']">
-                        <ion-fab-button class="aprobar" color="success" >
-                          <ion-icon name="checkmark" (click)="guardarGestionObervacion('aceptar')" color="light" ></ion-icon>
-                          <ion-label class="aprobar">Aprobar</ion-label>
-                        </ion-fab-button>
-                      </ion-fab>
-                    
-                
-            </ion-card-content>
-        </ion-card>
-    
+                            <ion-label class="subtitulos" color="primary">Concepto</ion-label>
+                            </ion-item>
+                            <ion-item>
+                            <ion-label class="subtitulos" color="primary">Usuario que gestiono</ion-label>
+                            <ion-input class="inputText" [value]="nombreEmpleado" readonly="true"></ion-input>
+                            </ion-item>
+                            <ion-item>
+                            <ion-label class="subtitulos" color="primary">Cargo</ion-label>
+                            <ion-input class="inputText" [value]="cargo" readonly="true"></ion-input>
+                            </ion-item>
+                            <ion-item>
+                            <ion-label class="subtitulos" color="primary">Fecha</ion-label>
+                            <ion-input class="date" [value]="fechaActual"  readonly="true"></ion-input>                        
+                          </ion-item>
+                                  
+                          <ion-fab class="iconSup" vertical="bottom" horizontal="end" slot="fixed">
+                              <ion-fab-button color="danger" (click)="botonDenegar('HSE')" *ngIf="FormHseq.invalid" [disabled]="isEmpleadoValid">
+                                <ion-icon name="close" color="light"></ion-icon>
+                                <ion-label class="aprobar">Denegar</ion-label>
+                              </ion-fab-button>
+                            </ion-fab>
+                            
+                            <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+                              <ion-fab-button class="aprobar" color="success" (click)="botonAceptar('HSE')" *ngIf="FormHseq.invalid" [disabled]="isEmpleadoValid" >
+                                <ion-icon name="checkmark"  color="light" ></ion-icon>
+                                <ion-label class="aprobar">Aprobar</ion-label>
+                              </ion-fab-button>
+                            </ion-fab>
+                      </ion-card-content>
+                    </ion-card>
+                  </form>
                 </ion-col>
             </ion-row>
     
@@ -193,14 +190,14 @@
                                     
                                 <ion-fab class="iconSup" vertical="bottom" horizontal="end" slot="fixed" *sTienePermiso="['INGENIERIA']">
                                     <ion-fab-button color="danger" >
-                                      <ion-icon name="close" (click)="guardarGestionObervacion('denegar')" color="light"></ion-icon>
+                                      <ion-icon name="close" (click)="botonDenegar('ING')" color="light"></ion-icon>
                                       <ion-label class="aprobar">Denegar</ion-label>
                                     </ion-fab-button>
                                   </ion-fab>
                                   
                                   <ion-fab vertical="bottom" horizontal="end" slot="fixed" *sTienePermiso="['INGENIERIA']">
                                     <ion-fab-button class="aprobar" color="success" >
-                                      <ion-icon name="checkmark" (click)="guardarGestionObervacion('aceptar')" color="light" ></ion-icon>
+                                      <ion-icon name="checkmark" (click)="botonAceptar('ING')" color="light" ></ion-icon>
                                       <ion-label class="aprobar">Aprobar</ion-label>
                                     </ion-fab-button>
                                   </ion-fab>

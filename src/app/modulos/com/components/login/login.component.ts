@@ -94,7 +94,7 @@ export class LoginComponent implements OnInit {
   }
 
   consultarEmpresas(idUsuario) {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       this.empresaService.findByUsuario(idUsuario).then(
         resp => {
           let empresasList = <any[]>resp;

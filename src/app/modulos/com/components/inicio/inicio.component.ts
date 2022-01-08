@@ -157,7 +157,7 @@ export class InicioComponent implements OnInit {
   }
 
   offlineToggle() {
-    return new Promise((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       this.offline = !this.offline;
       if (this.offline) {
         let loading = this.showLoading('Cargando datos...');
