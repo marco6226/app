@@ -7,7 +7,6 @@ import { Empleado } from '../../emp/entities/empleado';
 import { Session } from '../entities/session';
 import { session_config } from '../../../../environments/environment';
 import { ConfiguracionGeneral } from '../entities/configuracion-general';
-import { Empleado } from '../../emp/entities/empleado';
 
 
 @Injectable()
@@ -186,13 +185,5 @@ public setEmpleado(empleado: Empleado) {
 
     return this.app_version;
   }
-
-  public getEmpleado(): Empleado {
-    if (this.session == null) {
-        this.session = <Session>JSON.parse(localStorage.getItem(session_config.session_id));
-        if (this.session == null) return null;
-    }
-    return this.session.empleado;
-}
 
 }
