@@ -43,14 +43,15 @@ export class InspeccionConsultarFormComponent implements OnInit {
     nombreEmpleado: string;
     cargo: string;
 
-    FormHseq: FormGroup;
-    FormIng: FormGroup;
+    // Form: FormGroup;
+    public FormHseq: FormGroup;
+    public FormIng: FormGroup;
     permisoHse:boolean=false;
     permisoIngenieria:boolean=false;
     mostarHseGet: boolean=true;
     mostarIngGet: boolean=true;
     maxDateHse: string = new Date().toISOString();
-    minDateHse: string;
+    minDateHse: string = new Date().toISOString();
     selectDateHse;
     maxDateIngenieria: string = new Date().toISOString();
     minDateIngenieria: string;
@@ -94,14 +95,27 @@ export class InspeccionConsultarFormComponent implements OnInit {
         private domSanitizer: DomSanitizer,
         private sesionService: SesionService,
         private fb: FormBuilder
-        ) {}
+        ) {
+            this.FormHseq = this.fb.group({
+                concepto: [null,Validators.required],
+                usuarioGestiona: [null,Validators.required],
+                cargo: [null,Validators.required],
+                fecha: [Date,Validators.required]
+            });
+            this.FormIng = this.fb.group({
+                concepto: [null,Validators.required],
+                usuarioGestiona: [null,Validators.required],
+                cargo: [null,Validators.required],
+                fecha: [Date,Validators.required]
+            });
+        }
 
     async ngOnInit() {
         
+        // this.empleado = this.empleado;
         await this.leerInspeccionSeleccionada();
-        this.cargaDatosLista();
         await this.selectUsuario();
-        // this.vistoPermisos();
+        this.cargaDatosLista();        
     }
 
     async leerInspeccionSeleccionada() {
@@ -273,16 +287,9 @@ export class InspeccionConsultarFormComponent implements OnInit {
 
     async vistoPermisos(){
 
-        this.isEmpleadoValid = this.sesionService.getEmpleado() == null;
-        console.log(this.isEmpleadoValid)
-
-        // if(this.consultar && this.inspeccion.conceptohse == null){
-        //      this.mostarHseGet = false;
-        // }
-
-        // if(this.consultar && this.inspeccion.conceptoing == null){
-        //     this.mostarIngGet = false;
-        // }
+        this.isEmpleadoValid = this.empleado == null;
+        console.log(this.isEmpleadoValid)       
+        console.log(this.empleado)
       
         
         this.permisoHse = this.sesionService.getPermisosMap()["HSE"];
@@ -295,16 +302,16 @@ export class InspeccionConsultarFormComponent implements OnInit {
                     concepto: [this.inspeccion.conceptohse,Validators.required],
                     usuarioGestiona: [this.inspeccion.empleadohse.primerNombre + " " + this.inspeccion.empleadohse.primerApellido,Validators.required],
                     cargo: [this.inspeccion.empleadohse.cargo.nombre,Validators.required],
-                    fecha: [this.inspeccion.fechavistohse,Validators.required]
+                    fecha: [new Date(this.inspeccion.fechavistohse),Validators.required]
                 });
                 this.selectDateHse = this.inspeccion.fechavistohse
             }
-            else if(this.sesionService.getEmpleado()!=null){
+            else if(this.empleado!=null){
                 this.FormHseq = this.fb.group({
                     concepto: [null,Validators.required],
-                    usuarioGestiona: [this.sesionService.getEmpleado().primerNombre + " " + this.sesionService.getEmpleado().primerApellido ,Validators.required],
-                    cargo: [this.sesionService.getEmpleado().cargo.nombre,Validators.required],
-                    fecha: ['',Validators.required]
+                    usuarioGestiona: [this.empleado.primerNombre + " " + this.empleado.primerApellido ,Validators.required],
+                    cargo: [this.empleado.cargo.nombre,Validators.required],
+                    fecha: [this.maxDateHse,Validators.required]
                 });
             }
             else{
@@ -312,7 +319,7 @@ export class InspeccionConsultarFormComponent implements OnInit {
                     concepto: [null,Validators.required],
                     usuarioGestiona: [null,Validators.required],
                     cargo: [null,Validators.required],
-                    fecha: [null,Validators.required]
+                    fecha: [this.maxDateHse,Validators.required]
                 });
             }
         }
@@ -321,7 +328,7 @@ export class InspeccionConsultarFormComponent implements OnInit {
                 concepto: [null,Validators.required],
                 usuarioGestiona: [null,Validators.required],
                 cargo: [null,Validators.required],
-                fecha: [null,Validators.required]
+                fecha: [this.maxDateHse,Validators.required]
             });
         }  
 
@@ -332,16 +339,16 @@ export class InspeccionConsultarFormComponent implements OnInit {
                     concepto: [this.inspeccion.conceptoing,Validators.required],
                     usuarioGestiona: [this.inspeccion.empleadoing.primerNombre + " " + this.inspeccion.empleadoing.primerApellido,Validators.required],
                     cargo: [this.inspeccion.empleadoing.cargo.nombre,Validators.required],
-                    fecha: [this.inspeccion.fechavistoing,Validators.required]
+                    fecha: [new Date(this.inspeccion.fechavistoing),Validators.required]
                 });
                 this.selectDateIngenieria = this.inspeccion.fechavistoing
             }
-            else if(this.sesionService.getEmpleado()!=null){
+            else if(this.empleado!=null){
                 this.FormIng = this.fb.group({
                     concepto: [null,Validators.required],
-                    usuarioGestiona: [this.sesionService.getEmpleado().primerNombre + " " + this.sesionService.getEmpleado().primerApellido,Validators.required],
-                    cargo: [this.sesionService.getEmpleado().cargo.nombre,Validators.required],
-                    fecha: ['',Validators.required]
+                    usuarioGestiona: [this.empleado.primerNombre + " " + this.empleado.primerApellido,Validators.required],
+                    cargo: [this.empleado.cargo.nombre,Validators.required],
+                    fecha: [this.maxDateIngenieria,Validators.required]
                 });
             }
             else{
@@ -349,7 +356,7 @@ export class InspeccionConsultarFormComponent implements OnInit {
                     concepto: [null,Validators.required],
                     usuarioGestiona: [null,Validators.required],
                     cargo: [null,Validators.required],
-                    fecha: [null,Validators.required]
+                    fecha: [this.maxDateIngenieria,Validators.required]
                 });
             }  
         }
@@ -358,8 +365,29 @@ export class InspeccionConsultarFormComponent implements OnInit {
                 concepto: [null,Validators.required],
                 usuarioGestiona: [null,Validators.required],
                 cargo: [null,Validators.required],
-                fecha: [null,Validators.required]
+                fecha: [this.maxDateIngenieria,Validators.required]
             });
         }   
     }
+
+    rangoFechaCierreIngenieria(){
+        let permiso = this.sesionService.getPermisosMap()["SEC_CHANGE_FECHACIERRE"];
+        console.log(permiso)
+        if (permiso != null && permiso.valido == true) {
+            this.minDateIngenieria = "2021-01-01";
+        } else {
+            this.minDateIngenieria = this.maxDateIngenieria;
+        }
+    }
+      
+    async rangoFechaCierreHse(){
+        console.log(this.sesionService.getPermisosMap())
+        let permiso = await this.sesionService.getPermisosMap()["SEC_CHANGE_FECHACIERRE"];
+        if (permiso != null && permiso.valido == true) {
+            this.minDateHse = "2021-01-01";
+        } else {
+            this.minDateHse = this.maxDateHse;
+        }
+    }
+    
 }
