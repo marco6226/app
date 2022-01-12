@@ -24,6 +24,7 @@ import { InspeccionService } from '../../inp/services/inspeccion.service';
 export class OfflineService {
     public toggleSubject = new Subject<boolean>();
     public sessionService: SesionService;
+    areasPermiso: string;
 
     constructor(
         private sistCausAdminService: SistemaCausaAdministrativaService,
@@ -316,6 +317,7 @@ export class OfflineService {
     }
 
     queryInspeccionesRealizadas() {
+        this.areasPermiso = this.sessionService.getPermisosMap()['INP_GET_INP'].areas;
         // if (this.sessionService.getOfflineMode()) {
         //     return this.storageService.getInspeccionesRealizadas();
         // } else {
@@ -337,18 +339,19 @@ export class OfflineService {
             'empresa_nombreComercial',
             'usuarioRegistra_email',
             'listaInspeccion_nombre',
-            'listaInspeccion_usarTipoHallazgo',
-            'listaInspeccion_usarNivelRiesgo',
-            'listaInspeccion_elementoInspeccionList',
-            // 'listaInspeccion_opcionCalificacionList'
-            
+            'programacion_fecha',
+            'programacion_listaInspeccion_nombre',
+            'programacion_area_id',
+            'programacion_area_nombre',
+            'usuarioModifica_email',
+            //'listaInspeccion_elementoInspeccionList',
+        
         ];
         filterQuery.filterList = [
             {
-                criteria: Criteria.GREATER_THAN,
-                field: 'id',
-                value1: '0',
-                // isExpression: true,
+                criteria: Criteria.CONTAINS,
+                field: 'programacion.area.id',
+                value1: this.areasPermiso,                // isExpression: true,
             },
         ];
         return this.inspeccionService.findByFilter(filterQuery);
