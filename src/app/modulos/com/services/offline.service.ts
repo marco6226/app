@@ -343,8 +343,8 @@ export class OfflineService {
             'programacion_listaInspeccion_nombre',
             'programacion_area_id',
             'programacion_area_nombre',
-            'usuarioModifica_email',
-            //'listaInspeccion_elementoInspeccionList',
+            'usuarioModifica_email'
+            //'listaInspeccion_elementoInspeccionList'
         
         ];
         filterQuery.filterList = [
@@ -379,7 +379,7 @@ export class OfflineService {
                 'listaInspeccion_nombre',
                 'listaInspeccion_usarTipoHallazgo',
                 'listaInspeccion_usarNivelRiesgo',
-                'listaInspeccion_elementoInspeccionList',
+                //'listaInspeccion_elementoInspeccionList',
                 // 'listaInspeccion_opcionCalificacionList'
 
             ];
@@ -392,7 +392,7 @@ export class OfflineService {
                     value2: hasta.toLocaleString(),
                 },
             ];
-
+            filterQuery.filterList.push({ criteria: Criteria.CONTAINS, field: "programacion.area.id", value1: this.areasPermiso });
             return this.inspeccionService.findByFilter(filterQuery);
         // }
     }

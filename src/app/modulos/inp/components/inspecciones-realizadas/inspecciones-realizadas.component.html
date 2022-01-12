@@ -49,8 +49,8 @@
 </ion-slides>
 <ion-card *ngFor="let inspeccion of inspList">
     <ion-item>
-        <ion-label>{{ inspeccion.area.nombre }} </ion-label>        
-        <ion-button shape="round" size="small" color="tertiary" slot="end" (click)="abrirInspeccion(inspeccion)">Consultar<ion-icon slot="icon-only" name="search" ></ion-icon></ion-button>
+        <ion-label>{{inspeccion?.area.nombre}} </ion-label>        
+        <ion-button shape="round" size="small" color="tertiary" slot="end" (click)="abrirInspeccion(inspeccion)">Consultar <ion-icon slot="icon-only" name="search" ></ion-icon></ion-button>
     </ion-item>
     <ion-card-header>
         <ion-card-title>INP-{{ inspeccion.id }}</ion-card-title>
@@ -58,6 +58,7 @@
             {{ inspeccion.listaInspeccion.nombre }} <br />
             Usuario Realiza: {{ inspeccion.usuarioRegistra.email }} <br />
             Realizada: {{ inspeccion?.fechaRealizada | date: 'dd/MM/yyyy HH:mm' }}
+            {{inspeccion?.programacion_area_nombre}} 
         </ion-card-subtitle>
     </ion-card-header>
     <!-- <ion-card-content *ngIf="inspeccion.offlineDone > 0">

@@ -326,6 +326,11 @@ export class InspeccionFormComponent implements OnInit {
     inspeccion.respuestasCampoList = [];
     if (this.esProgramada) {
       inspeccion.programacion = this.programacion;
+      inspeccion.area = this.programacion.area;
+      inspeccion.area.id = this.programacion.area.id;
+      console.log(this.programacion)
+
+      inspeccion.listaInspeccion = this.programacion.listaInspeccion;
     } else {
       inspeccion.area = this.area;
       inspeccion.listaInspeccion = new ListaInspeccion();
@@ -385,6 +390,7 @@ export class InspeccionFormComponent implements OnInit {
       return new Promise(async (resolve, reject) => {
         inspeccion.fechaRealizada = new Date();
         inspeccion['hash'] = inspeccion.fechaRealizada.toISOString();
+        
         await this.storageService.guardarInspeccion(inspeccion)
           .then(() => resolve(inspeccion))
           .catch(err => reject(err));          
@@ -392,8 +398,7 @@ export class InspeccionFormComponent implements OnInit {
     } else {
       return this.inspeccionService.create(inspeccion)
         .then(resp => {
-          let inp = <Inspeccion>resp;
-         
+          let inp = <Inspeccion>resp;         
           for (let i = 0; i < inp.calificacionList.length; i++) {
             let calf = inp.calificacionList[i];
             let imgsUrls = inspeccion.calificacionList[i]['img_key'];
