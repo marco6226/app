@@ -1,3 +1,4 @@
+import { InspeccionesRealizadasNoProgamadasComponent } from './../../components/inspecciones-realizadas-no-progamadas/inspecciones-realizadas-no-progamadas.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -34,7 +35,15 @@ const routes: Routes = [
     imports: [CommonModule, FormsModule, IonicModule, ComunModule, RouterModule.forChild(routes), AreaSelectorModule],
     exports: [ComunModule],
     providers: [ListaInspeccionService],
-    entryComponents: [InspeccionFormComponent, MenuListaComponent, InspeccionPendienteComponent, InspeccionConsultarFormComponent, ListaInspeccionFormComponent, EvidenciasElementoInspeccionComponent],
+    entryComponents: [
+        InspeccionFormComponent, 
+        MenuListaComponent, 
+        InspeccionPendienteComponent, 
+        InspeccionConsultarFormComponent, 
+        ListaInspeccionFormComponent, 
+        EvidenciasElementoInspeccionComponent,
+        InspeccionesRealizadasNoProgamadasComponent
+    ],
     declarations: [
         ElaboracionInspeccionPage,
         ProgramacionInspeccionesComponent,
@@ -49,7 +58,8 @@ const routes: Routes = [
         InspeccionConsultarFormComponent,
         ListaInspeccionFormComponent,
         ElementoInspeccionNodeComponent,
-        EvidenciasElementoInspeccionComponent
+        EvidenciasElementoInspeccionComponent,
+        InspeccionesRealizadasNoProgamadasComponent
     ],
 })
 export class ElaboracionInspeccionPageModule {}

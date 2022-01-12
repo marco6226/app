@@ -399,6 +399,49 @@ export class OfflineService {
         // }
     }
 
+    queryInspeccionesRealizadasNoProg() {
+        this.areasPermiso = this.sessionService.getPermisosMap()['INP_GET_INP'].areas;
+        // if (this.sessionService.getOfflineMode()) {
+        //     return this.storageService.getInspeccionesRealizadas();
+        // } else {
+        let filterQuery = new FilterQuery();
+        filterQuery.offset = 0;
+        //filterQuery.rows = 30
+        filterQuery.count = true;
+        filterQuery.sortField = 'fechaRealizada';
+        filterQuery.sortOrder = 1;
+        filterQuery.fieldList = [
+            'id',
+            'fechaRealizada',
+            'observacion',
+            'lugar',
+            'equipo',
+            'descripcion',
+            'fechaModificacion',
+            'area_nombre',
+            'empresa_nombreComercial',
+            'usuarioRegistra_email',
+            'listaInspeccion_nombre',
+            'programacion_fecha',
+            'programacion_listaInspeccion_nombre',
+            'programacion_area_id',
+            'programacion_area_nombre',
+            'usuarioModifica_email'
+            //'listaInspeccion_elementoInspeccionList'
+        
+        ];
+        filterQuery.filterList = [
+            {
+                criteria: Criteria.CONTAINS,
+                field: 'area.id',
+                value1: this.areasPermiso,
+            },
+        ];
+        filterQuery.filterList.push({ criteria: Criteria.IS_NULL, field: 'programacion' });
+        return this.inspeccionService.findByFilter(filterQuery);
+        // }
+    }
+
     queryListaInspeccion(idLista: string, versionLista: number) {
         if (this.sessionService.getOfflineMode()) {
             return this.storageService.getListaInspeccion(idLista, versionLista);

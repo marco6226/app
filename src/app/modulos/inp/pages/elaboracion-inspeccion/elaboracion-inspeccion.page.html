@@ -26,7 +26,11 @@
         </ion-segment-button>
 
         <ion-segment-button value="realizadas">
-            <ion-label> Realizadas </ion-label>
+            <ion-label> Realizadas Prog</ion-label>
+        </ion-segment-button>
+
+        <ion-segment-button value="noProgramadas">
+            <ion-label> Realizadas no Prog </ion-label>
         </ion-segment-button>
 
         <ion-segment-button value="insp">
@@ -40,7 +44,10 @@
     <sm-inspeccionNoProgramada [style.display]="segments['listas'] ? 'block':'none'" (onListaSelect)="abrirInspeccion(null, $event, null)"></sm-inspeccionNoProgramada>
 
     <sm-programacionInspecciones [style.display]="segments['prog'] ? 'block':'none'" (onProgramacionSelect)="abrirInspeccion($event, null, null)" #progInspComp></sm-programacionInspecciones>
+    
     <sm-inspeccion-realizada [style.display]="segments['realizadas'] ? 'block':'none'" (onEvent)="onEvent($event)" #inspRealizadas></sm-inspeccion-realizada>
-    <!-- <sm-inspeccionesSync [style.display]="segments['realizadas'] ? 'block':'none'" (onEvent)="onEvent($event)" #inspRealizadas></sm-inspeccionesSync> -->
+
+    <sm-inspecciones-realizadas-no-progamadas [style.display]="segments['noProgramadas'] ? 'block':'none'" (onEvent)="onEvent($event)" #inspRealizadas></sm-inspecciones-realizadas-no-progamadas>
+
     <sm-inspeccionesSync [style.display]="segments['insp'] ? 'block':'none'" (onEvent)="onEvent($event)" #inspSyncComp></sm-inspeccionesSync>
 </ion-content>

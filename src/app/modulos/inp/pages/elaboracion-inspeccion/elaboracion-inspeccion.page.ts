@@ -32,7 +32,7 @@ export class ElaboracionInspeccionPage implements OnInit {
 
     filtDisp: boolean;
 
-    segments = { listas: true, prog: false, realizadas: false, insp: false };
+    segments = { listas: true, prog: false, realizadas: false, noProgramadas:false, insp: false };
     inspCount = 0;
     inspCargadas: boolean = false;
 
