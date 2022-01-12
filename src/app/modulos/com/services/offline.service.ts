@@ -19,6 +19,7 @@ import { SistemaCausaAdministrativaService } from '../../sec/services/sistema-ca
 import { Subject } from 'rxjs';
 import { ManualService } from './manual.service';
 import { InspeccionService } from '../../inp/services/inspeccion.service';
+import { Platform } from '@ionic/angular';
 
 @Injectable()
 export class OfflineService {
@@ -41,7 +42,8 @@ export class OfflineService {
         private manualService: ManualService,
         private actaService: ActaService,
         private observacionService: ObservacionService,
-        private inspeccionService: InspeccionService
+        private inspeccionService: InspeccionService,
+        private platform: Platform
     ) {
         this.sessionService = this.storageService.getSessionService();
     }
@@ -246,7 +248,7 @@ export class OfflineService {
             let filterQuery = new FilterQuery();
             filterQuery.sortField = 'fecha';
             filterQuery.sortOrder = 1;
-            filterQuery.fieldList = ['id', 'fecha', 'area_nombre', 'listaInspeccion_listaInspeccionPK', 'listaInspeccion_nombre', 'numeroInspecciones', 'numeroRealizadas'];
+            filterQuery.fieldList = ['id', 'fecha', 'area_id','area_nombre', 'listaInspeccion_listaInspeccionPK', 'listaInspeccion_nombre', 'numeroInspecciones', 'numeroRealizadas'];
             let areas = this.sessionService.getPermisosMap()['INP_GET_PROG'].areas;
             filterQuery.filterList = [
                 {
@@ -272,7 +274,7 @@ export class OfflineService {
             let filterQuery = new FilterQuery();
             filterQuery.sortField = 'fecha';
             filterQuery.sortOrder = 1;
-            filterQuery.fieldList = ['id', 'fecha', 'area_nombre', 'listaInspeccion_listaInspeccionPK', 'listaInspeccion_nombre', 'numeroInspecciones', 'numeroRealizadas'];
+            filterQuery.fieldList = ['id', 'fecha', 'area_id','area_nombre', 'listaInspeccion_listaInspeccionPK', 'listaInspeccion_nombre', 'numeroInspecciones', 'numeroRealizadas'];
             let areas = this.sessionService.getPermisosMap()['INP_GET_PROG'].areas;
             filterQuery.filterList = [
                 {
