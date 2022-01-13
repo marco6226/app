@@ -111,7 +111,7 @@ export class InspeccionConsultarFormComponent implements OnInit {
         }
 
     async ngOnInit() {
-        
+        console.log(this.maxDateIngenieria)
         // this.empleado = this.empleado;
         await this.leerInspeccionSeleccionada();
         await this.selectUsuario();
@@ -258,16 +258,17 @@ export class InspeccionConsultarFormComponent implements OnInit {
             inspeccion.area = this.area;
 
             if(this.FormHseq.value.concepto == 'Aceptado'||this.FormHseq.value.concepto == 'Denegado'){
-                inspeccion.fechavistohse = this.FormHseq.value.fecha;
+                inspeccion.fechavistohse = new Date(this.FormHseq.value.fecha);
                 inspeccion.empleadohse = this.empleado;
                 inspeccion.conceptohse = this.FormHseq.value.concepto;
             }
-            
+            console.log(this.FormIng.value.fecha)
             if(this.FormIng.value.concepto == 'Aceptado'||this.FormIng.value.concepto == 'Denegado'){
-                inspeccion.fechavistoing = this.FormIng.value.fecha;
+                inspeccion.fechavistoing = new Date(this.FormIng.value.fecha) ;
                 inspeccion.empleadoing = this.empleado;
                 inspeccion.conceptoing = this.FormIng.value.concepto;
             }
+            console.log(inspeccion.fechavistoing)
             inspeccion.calificacionList = calificacionList;
             inspeccion.respuestasCampoList = [];
            
@@ -333,7 +334,7 @@ export class InspeccionConsultarFormComponent implements OnInit {
         }  
 
         if(this.permisoIngenieria){
-            this.selectDateIngenieria = this.maxDateIngenieria;
+            this.selectDateIngenieria = new Date(this.maxDateIngenieria).toISOString();
             if(this.inspeccion.conceptoing != null){
                 this.FormIng = this.fb.group({
                     concepto: [this.inspeccion.conceptoing,Validators.required],
