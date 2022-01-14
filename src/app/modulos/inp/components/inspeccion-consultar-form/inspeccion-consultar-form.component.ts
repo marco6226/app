@@ -250,12 +250,11 @@ export class InspeccionConsultarFormComponent implements OnInit {
     }
     
     async guardarVistoBueno(tipo: string){
-        let calificacionList: Calificacion[] = [];
         try {
-            // this.extraerCalificaciones(this.listaInspeccion.elementoInspeccionList, calificacionList);
-
+           
             let inspeccion = new Inspeccion();
             inspeccion.area = this.area;
+            inspeccion = this.inspeccion
 
             if(this.FormHseq.value.concepto == 'Aceptado'||this.FormHseq.value.concepto == 'Denegado'){
                 inspeccion.fechavistohse = new Date(this.FormHseq.value.fecha);
@@ -269,8 +268,6 @@ export class InspeccionConsultarFormComponent implements OnInit {
                 inspeccion.conceptoing = this.FormIng.value.concepto;
             }
             console.log(inspeccion.fechavistoing)
-            inspeccion.calificacionList = calificacionList;
-            inspeccion.respuestasCampoList = [];
            
                        
             inspeccion.id = this.inspeccion.id
