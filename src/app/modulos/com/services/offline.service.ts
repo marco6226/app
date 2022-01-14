@@ -411,23 +411,31 @@ export class OfflineService {
         filterQuery.sortField = 'fechaRealizada';
         filterQuery.sortOrder = 1;
         filterQuery.fieldList = [
+            // 'id',
+            // 'fechaRealizada',
+            // 'observacion',
+            // 'lugar',
+            // 'equipo',
+            // 'descripcion',
+            // 'fechaModificacion',
+            // 'area_nombre',
+            // 'empresa_nombreComercial',
+            // 'usuarioRegistra_email',
+            // 'listaInspeccion_nombre',
+            // 'programacion_fecha',
+            // 'programacion_listaInspeccion_nombre',
+            // 'programacion_area_id',
+            // 'programacion_area_nombre',
+            // 'usuarioModifica_email'
+            //'listaInspeccion_elementoInspeccionList'
             'id',
             'fechaRealizada',
-            'observacion',
-            'lugar',
-            'equipo',
-            'descripcion',
-            'fechaModificacion',
-            'area_nombre',
-            'empresa_nombreComercial',
             'usuarioRegistra_email',
             'listaInspeccion_nombre',
-            'programacion_fecha',
-            'programacion_listaInspeccion_nombre',
-            'programacion_area_id',
-            'programacion_area_nombre',
+            'area_id',
+            'area_nombre',
+            'fechaModificacion',
             'usuarioModifica_email'
-            //'listaInspeccion_elementoInspeccionList'
         
         ];
         filterQuery.filterList = [
@@ -439,6 +447,39 @@ export class OfflineService {
         ];
         filterQuery.filterList.push({ criteria: Criteria.IS_NULL, field: 'programacion' });
         return this.inspeccionService.findByFilter(filterQuery);
+        // }
+    }
+
+    queryRealizadasListBetweenNoProg(desde: Date, hasta: Date) {
+        // if (this.sessionService.getOfflineMode()) {
+        //     return this.storageService.getProgramaciones();
+        // } else {
+            const filterQuery = new FilterQuery();
+            filterQuery.sortField = 'fechaRealizada';
+            filterQuery.sortOrder = 1;
+            filterQuery.fieldList = [
+                'id',
+                'fechaRealizada',
+                'usuarioRegistra_email',
+                'listaInspeccion_nombre',
+                'area_id',
+                'area_nombre',
+                'fechaModificacion',
+                'usuarioModifica_email'
+
+            ];
+            // let areas = this.sessionService.getPermisosMap()['INP_GET_PROG'].areas;
+            filterQuery.filterList = [
+                {
+                    criteria: Criteria.BETWEEN,
+                    field: 'fechaRealizada',
+                    value1: desde.toLocaleString(),
+                    value2: hasta.toLocaleString(),
+                },
+            ];
+            filterQuery.filterList.push({ criteria: Criteria.CONTAINS, field: 'area.id', value1: this.areasPermiso });
+            filterQuery.filterList.push({ criteria: Criteria.IS_NULL, field: 'programacion' });
+            return this.inspeccionService.findByFilter(filterQuery);
         // }
     }
 
@@ -481,7 +522,7 @@ export class OfflineService {
     loadData() {
         let permSistemaCR = this.sessionService.getPermisosMap()['SEC_GET_SCRDEF'];
         permSistemaCR = permSistemaCR == null ? { valido: false } : permSistemaCR;
-
+        
         let permAreas = this.sessionService.getPermisosMap()['EMP_GET_AREA'];
         permAreas = permAreas == null ? { valido: false } : permAreas;
 

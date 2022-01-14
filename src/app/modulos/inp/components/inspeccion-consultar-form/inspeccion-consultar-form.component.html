@@ -155,7 +155,7 @@
                     displayFormat="DD/MM/YYYY"
                     monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre"
                     [(ngModel)]="selectDateHse"
-                    [value]="selectDateHse|date:'yyyy-MM-dd'" 
+                    [value]="selectDateHse|date:'yyyy/MM/dd HH:mm:ss'" 
                     (ionFocus)="rangoFechaCierreHse($event)"
                     firstDayOfWeek="1"
                     formControlName="fecha" 
@@ -227,7 +227,7 @@
                             displayFormat="DD/MM/YYYY"
                             monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre"
                             [(ngModel)]="selectDateIngenieria"
-                            [value]="selectDateIngenieria|date:'yyyy-MM-dd'" 
+                            [value]="selectDateIngenieria|date:'yyyy/MM/dd HH:mm:ss'" 
                             (ionFocus)="rangoFechaCierreIngenieria($event)"
                             firstDayOfWeek="1"
                             formControlName="fecha" 
@@ -259,7 +259,7 @@
                               <ion-icon name="close"></ion-icon>
                             </ion-fab-button> 
                           </ion-fab>
-                        </div>                      
+                        </div>           
                 </ion-card-content>
               </ion-card>
             </form>

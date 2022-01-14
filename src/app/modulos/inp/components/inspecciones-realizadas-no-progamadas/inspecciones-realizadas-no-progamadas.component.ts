@@ -90,7 +90,7 @@ export class InspeccionesRealizadasNoProgamadasComponent implements OnInit {
       this.loading = true;
       this.inspList = [];
       this.offlineService
-          .queryRealizadasListBetween(desde, hasta)
+          .queryRealizadasListBetweenNoProg(desde, hasta)
           .then((resp) => {
               this.inspList = [];
               (<any[]>resp['data']).forEach((dto) => {
