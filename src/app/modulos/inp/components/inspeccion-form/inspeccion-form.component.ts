@@ -265,7 +265,7 @@ export class InspeccionFormComponent implements OnInit {
       (
         this.elementoSelect != null &&
         this.elementoSelect.calificacion != null &&
-        this.elementoSelect.calificacion.recomendacion != null &&
+        this.elementoSelect.calificacion.opcionCalificacion != null &&
         this.elementoSelect.calificacion.opcionCalificacion.requerirDoc === true
       ) &&
       (
