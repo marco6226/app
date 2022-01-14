@@ -89,7 +89,7 @@ export class InicioComponent implements OnInit {
     this.offline = true;
     this.offlineToggle()
       .then(() => {
-        this.empresaSelect = event.detail.value.id;
+        this.empresaSelect = event.detail.value;
         console.log(this.empresaSelect);
 
         this.sesionService.setEmpresa(this.empresaSelect);
