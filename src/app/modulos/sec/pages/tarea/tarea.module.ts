@@ -1,3 +1,4 @@
+import { TareaSeguimientoComponent } from './../../components/tarea-seguimiento/tarea-seguimiento.component';
 import { TareaCierreComponent } from './../../components/tarea-cierre/tarea-cierre.component';
 import { TareaGeneralComponent } from './../../components/tarea-general/tarea-general.component';
 import { ComunModule } from './../../../com/comun.module';
@@ -20,9 +21,10 @@ import { MisTareasPageModule } from '../mis-tareas/mis-tareas.module';
     IonicModule,
     SafeBypassPipe,
     // MisTareasPageModule
+    // ComunModule
   ],
   exports:[SafeBypassPipe],
-  declarations: [TareaCierreComponent, SafeBypassPipe ],
-  entryComponents: [SafeBypassPipe],
+  declarations: [TareaCierreComponent, SafeBypassPipe, TareaGeneralComponent, TareaSeguimientoComponent],
+  entryComponents: [SafeBypassPipe,],
 })
 export class TareaPageModule {}

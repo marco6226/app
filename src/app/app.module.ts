@@ -1,3 +1,5 @@
+import { TareaCierreComponent } from './modulos/sec/components/tarea-cierre/tarea-cierre.component';
+import { TareaGeneralComponent } from './modulos/sec/components/tarea-general/tarea-general.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -30,6 +32,8 @@ import { EmpleadoService } from './modulos/com/services/empleado.service';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { MisTareasPageModule } from './modulos/sec/pages/mis-tareas/mis-tareas.module';
 import { MisTareasPage } from './modulos/sec/pages/mis-tareas/mis-tareas.page';
+import { TareaPage } from './modulos/sec/pages/tarea/tarea.page';
+import { TareaSeguimientoComponent } from './modulos/sec/components/tarea-seguimiento/tarea-seguimiento.component';
 
 // class SQLiteMock {
 //   public create(config: SQLiteDatabaseConfig): Promise<SQLiteObject> {
@@ -48,10 +52,23 @@ import { MisTareasPage } from './modulos/sec/pages/mis-tareas/mis-tareas.page';
 @NgModule({
     declarations: [
         AppComponent,
-        MisTareasPage
+        MisTareasPage,
+        TareaPage,
+        TareaGeneralComponent,
+        TareaSeguimientoComponent,
+        TareaCierreComponent
     ],
-    entryComponents: [],
-    imports: [BrowserModule, BrowserAnimationsModule, IonicModule.forRoot({ hardwareBackButton: false }), AppRoutingModule, ComunModule, HttpClientModule, AutoCompleteModule],
+    entryComponents: [TareaPage],
+    imports: [
+        BrowserModule, 
+        BrowserAnimationsModule, 
+        IonicModule.forRoot({ hardwareBackButton: false }), 
+        AppRoutingModule, 
+        ComunModule, 
+        HttpClientModule, 
+        AutoCompleteModule,
+        
+    ],
     providers: [
         // FileTransfer,
         MensajeUsuarioService,
