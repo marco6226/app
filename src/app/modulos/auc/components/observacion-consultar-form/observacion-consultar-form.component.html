@@ -118,6 +118,12 @@
 </ion-content>
 
 <!-- start -->
+<ion-fab class="iconSup" vertical="bottom" horizontal="start" slot="fixed" >
+  <ion-fab-button (click)="onTarjetaEdit()">
+    <ion-icon name="create"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+
 <ion-fab class="iconSup" vertical="bottom" horizontal="end" slot="fixed" *ngIf="!isGestionar">
   <ion-fab-button (click)="onTarjetaSelect()">
     <ion-icon name="create"></ion-icon>

@@ -2,6 +2,8 @@ import { NgModule, Component } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './modulos/com/components/login/login.component';
 import { InicioComponent } from './modulos/com/components/inicio/inicio.component';
+import { MisTareasPageModule } from './modulos/sec/pages/mis-tareas/mis-tareas.module';
+import { MisTareasPage } from './modulos/sec/pages/mis-tareas/mis-tareas.page';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -35,9 +37,16 @@ const routes: Routes = [
         path: 'sec/consultaTareas',
         loadChildren: './modulos/sec/pages/consulta-tareas/consulta-tareas.module#ConsultaTareasPageModule'
       },
+      // {
+      //   path: 'sec/misTareas',
+      //   loadChildren: './modulos/sec/pages/mis-tareas/mis-tareas.module#MisTareasPageModule'
+      // },
       {
-        path: 'sec/misTareas',
-        loadChildren: './modulos/sec/pages/mis-tareas/mis-tareas.module#MisTareasPageModule'
+        path: 'sec',
+        children:[
+          {path:'misTareas', component: MisTareasPage},
+          {path:'misTareas/:id', component: MisTareasPage}
+        ]
       },
       {
         path: 'sec/secInicio',

@@ -13,6 +13,7 @@ import { ObservacionFormComponent } from '../observacion-form/observacion-form.c
 import { ObservacionSyncComponent } from '../observaciones-sync/observacion-sync.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { SesionService } from '../../../com/services/sesion.service';
+import { ObservacionEditarComponent } from '../observacion-editar/observacion-editar.component';
 
 @Component({
   selector: 'app-observacion-consultar-form',
@@ -167,6 +168,21 @@ export class ObservacionConsultarFormComponent implements OnInit {
         });      
   }
   
+  async onTarjetaEdit() {
+    this.tarjeta = this.observacionLista[0].tarjeta;
+    console.log(this.observacionLista)
+    const modal = await this.modalController.create({
+      component: ObservacionEditarComponent,
+      //componentProps: { value: this.tarjeta },
+      //componentProps: { value: this.observacion, operacion:"GET" },
+      componentProps: { tarjeta: this.tarjeta, operacion:"GET", observacion: this.observacion },
+      cssClass: 'NoSE'
+    });
+    modal.onDidDismiss().then(
+      resp => this.onModalDismiss(resp.data)
+    );
+    return await modal.present();
+  }
   
   async onTarjetaSelect() {
     this.tarjeta = this.observacionLista[0].tarjeta;
@@ -176,8 +192,9 @@ export class ObservacionConsultarFormComponent implements OnInit {
       //componentProps: { value: this.tarjeta },
       //componentProps: { value: this.observacion, operacion:"GET" },
       componentProps: { value: this.tarjeta, operacion:"GET", value1: this.observacion },
-      cssClass: 'NoSE'
+      cssClass: 'modal-fullscreen'
     });
+    modal.lastChild
     modal.onDidDismiss().then(
       resp => this.onModalDismiss(resp.data)
     );
@@ -190,5 +207,11 @@ export class ObservacionConsultarFormComponent implements OnInit {
       this.obserSyncComp.adicionarObservacion(obser);
     }
   }
+
+  checarTipoObservacion( datos, label): boolean {
+    // return tipoObservacion && label ? tipoObservacion === label : false ;
+    return datos === label;
+}
+
 
 }

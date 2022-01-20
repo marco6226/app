@@ -32,4 +32,10 @@
         </ion-thumbnail>
         <ion-label>Mis Tareas</ion-label>
     </ion-item>
+    <ion-item button (click)="navegar('/app/sec/misTareas/'+1)" *sTienePermiso="['SEC_GET_TAR']">
+        <ion-thumbnail slot="start">
+            <div class="icon icon-asign-tareas"></div>
+        </ion-thumbnail>
+        <ion-label>Mis Tareas</ion-label>
+    </ion-item>
 </ion-content>

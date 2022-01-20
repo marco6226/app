@@ -1,7 +1,7 @@
 import { TareaComponent } from './../../components/tarea/tarea.component';
 import { TareaPage } from './../tarea/tarea.page';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SesionService } from '../../../com/services/sesion.service';
 import { FilterQuery } from '../../../com/entities/filter-query';
 import { TareaService } from '../../services/tarea.service';
@@ -33,10 +33,11 @@ export class MisTareasPage implements OnInit {
     private sesionService: SesionService,
     private router: Router,
     public modalController: ModalController,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
-
+    console.log(this.route.snapshot.paramMap.get("id"))
     this.loading = true;
 
     let statuses = {
@@ -62,22 +63,58 @@ export class MisTareasPage implements OnInit {
       { field: 'estado', value1: 'FINALIZADA', criteria: Criteria.NOT_EQUALS }
     ];
 
-    this.tareaService.findByDetailsByEmpleado(id).then(
-      async resp => { 
-          this.tareasList = resp;
-          this.tareasList = await Promise.all(this.tareasList.map(async tarea => {
-              let status = await this.verifyStatus(tarea);
-              tarea.estado = statuses[status];
-              tarea.fecha_proyectada = new Date(tarea.fecha_proyectada).toISOString();
-              return tarea;
-          }));
-          this.loading = false;
-          
-           let estados = this.tareasList.map(x => x.estado)
-         
-          
-      }            
-  );
+
+    if(this.route.snapshot.paramMap.get("id")!=null){
+      this.tareaService.findByDetailsByEmpleado(id).then(
+        async resp => { 
+            this.tareasList = resp;
+            this.tareasList = await Promise.all(this.tareasList.map(async tarea => {
+                let status = await this.verifyStatus(tarea);
+                tarea.estado = statuses[status];
+                tarea.fecha_proyectada = new Date(tarea.fecha_proyectada).toISOString();
+                return tarea;
+            }));
+            this.loading = false;
+            console.log(resp,this.tareasList)
+             let estados = this.tareasList.map(x => x.estado)
+        });
+    }
+    else{
+      // this.tareaService.findByFilter(fq)
+      // .then(resp => {
+      //   console.log(resp)
+      //   // this.tareasList = [];
+      //   // (resp['data']).forEach(tarea => {
+      //   //   let obj = FilterQuery.dtoToObject(tarea);
+      //   //   this.tareasList.push(obj);
+      //   // });
+      //   // this.loading = false;
+      // })
+      // .catch(err => {
+      //   this.loading = false;
+      // });
+      console.log(this.tareaService.findByDetailsByAll())
+      this.tareaService.findByFilter(fq).then(
+        async resp => { 
+            this.tareasList = [];
+            this.tareasList = await Promise.all(this.tareasList.map(async tarea => {
+                let status = await this.verifyStatus(tarea);
+                tarea.estado = statuses[status];
+                tarea.fecha_proyectada = new Date(tarea.fecha_proyectada).toISOString();
+                return tarea;
+            }));
+
+            this.loading = false;
+            
+             let estados = this.tareasList.map(x => x.estado)
+             console.log(this.tareasList)
+             this.tareasList = this.tareasList.data;
+             console.log(this.tareasList)
+        });
+        
+    }
+
+    
   }
 
   navegar(url) {

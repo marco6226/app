@@ -75,6 +75,13 @@ public findByDetailsByEmpleado(id) {
   return a
 }
 
+public findByDetailsByAll() {
+ 
+  let a = this.http.get(this.end_point+'details/', this.getRequestHeaders(this.headers)).toPromise();
+  console.log();
+  return a
+}
+
   getClassName(): string {
     return "TareaService";
   }

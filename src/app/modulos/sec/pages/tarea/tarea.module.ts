@@ -11,13 +11,15 @@ import { TareaPageRoutingModule } from './tarea-routing.module';
 
 import { TareaPage } from './tarea.page';
 import { SafeBypassPipe } from '../../../com/pipes/safe-bypass.pipe';
+import { MisTareasPageModule } from '../mis-tareas/mis-tareas.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    SafeBypassPipe
+    SafeBypassPipe,
+    // MisTareasPageModule
   ],
   exports:[SafeBypassPipe],
   declarations: [TareaCierreComponent, SafeBypassPipe ],

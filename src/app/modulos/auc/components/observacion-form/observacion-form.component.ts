@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { ModalController, AlertController, IonSelectOption } from '@ionic/angular';
 import { Tarjeta } from '../../entities/tarjeta';
@@ -35,6 +35,12 @@ export class ObservacionFormComponent implements OnInit {
     consultar: boolean;
     disabled: boolean= false;
     areaResp: Area;
+
+    @Input() operacion;
+    @Input() value: Tarjeta;
+    @Input() value1: Observacion;
+    isVisible: boolean=true;
+    formGet: FormGroup;
 
     options: CameraOptions = {
         quality: 75,
@@ -75,28 +81,77 @@ export class ObservacionFormComponent implements OnInit {
             area: [null, Validators.required],
             personasobservadas: null,
             personasabordadas: null,
-        });
+        });        
     }
 
-    ngOnInit() {
+    async ngOnInit() {
+        console.log(this.operacion, this.value, this.value1)
         this.idEmpresa = this.sesionService.getEmpresa().id;
         console.log(this.idEmpresa);
 
-        this.modalController.getTop().then((data) => {
-            let tarjeta = (<any>data).componentProps.value;
-            this.tarjeta = JSON.parse(JSON.stringify(tarjeta));
-            this.tarjeta.campos = JSON.parse(this.tarjeta.campos);
-            console.log(tarjeta)            
-            if (this.tarjeta.usarCausaRaiz) {
-                this.offlineService.querySistemaCausaRaiz().then((data) => (this.sistemaCausaRaiz = <SistemaCausaRaiz>data));
+            await this.modalController.getTop().then((data) => {
+                let tarjeta = (<any>data).componentProps.value;
+                this.tarjeta = JSON.parse(JSON.stringify(tarjeta));
+                this.tarjeta.campos = JSON.parse(this.tarjeta.campos);
+                console.log(tarjeta)            
+                if (this.tarjeta.usarCausaRaiz) {
+                    this.offlineService.querySistemaCausaRaiz().then((data) => (this.sistemaCausaRaiz = <SistemaCausaRaiz>data));
+                }
+                if (this.tarjeta.usarNivelRiesgo) {
+                    this.offlineService.querySistemaNivelRiesgo().then((data) => (this.sistemaNivelRiesgo = <SistemaNivelRiesgo>data['data'][0]));
+                }
+            });
+
+            if(this.operacion == 'GET'){
+                
+                this.tarjeta = this.value;
+
+                setTimeout(() => {
+                    this.isVisible=false
+                }, 5);
+                
+
+                this.formGet = this.fb.group({
+                    id: this.value1.id,
+                    tipoObservacion: [this.value1.tipoObservacion, Validators.required],
+                    afecta: this.value1.afecta,
+                    descripcion: [this.value1.descripcion, Validators.required],
+                    recomendacion: this.value1.recomendacion,
+                    nivelRiesgo: this.value1.nivelRiesgo,
+                    causaRaiz: null,
+                    area: [this.value1.area, Validators.required],
+                    personasobservadas: this.value1.personasobservadas,
+                    personasabordadas: this.value1.personasabordadas,
+                });
+
+                // this.formGet.value.id = this.value1.id
+                // this.formGet.value.tipoObservacion = this.value1.tipoObservacion;
+                // this.formGet.value.afecta = this.value1.afecta;
+                // this.formGet.value.descripcion = this.value1.descripcion;
+                // this.formGet.value.recomendacion = this.value1.recomendacion;
+                // this.formGet.value.nivelRiesgo = this.value1.nivelRiesgo;
+                // this.formGet.value.causaRaiz;
+                // this.formGet.value.area = this.value1.area;
+                // this.formGet.value.personasobservadas = this.value1.personasobservadas;
+                // this.formGet.value.personasabordadas = this.value1.personasabordadas ;
+
+
+                this.form.value.id = this.value1.id
+                this.form.value.tipoObservacion = this.value1.tipoObservacion;
+                this.form.value.afecta = this.value1.afecta;
+                this.form.value.descripcion = this.value1.descripcion;
+                this.form.value.recomendacion = this.value1.recomendacion;
+                this.form.value.nivelRiesgo = this.value1.nivelRiesgo;
+                this.form.value.causaRaiz;
+                this.form.value.area = this.value1.area;
+                this.form.value.personasobservadas = this.value1.personasobservadas;
+                this.form.value.personasabordadas = this.value1.personasabordadas ;
+                console.log("form",this.form.value,this.form.valid)
+                console.log("formGet",this.formGet.value,this.formGet.valid)
+                this.leerObservacionSeleccionada();
+                console.log("form",this.form.value,this.form.valid)
+                console.log("formGet",this.formGet.value,this.formGet.valid)
             }
-            if (this.tarjeta.usarNivelRiesgo) {
-                this.offlineService.querySistemaNivelRiesgo().then((data) => (this.sistemaNivelRiesgo = <SistemaNivelRiesgo>data['data'][0]));
-            }
-        });
-        //if tarjeta.id != null
-        //console.log(this.tarjeta.id)
-        this.leerObservacionSeleccionada();
     }
 
     anterior() {
@@ -260,15 +315,52 @@ export class ObservacionFormComponent implements OnInit {
     }
 
       async leerObservacionSeleccionada(){
-        await this.modalController.getTop()
-        .then(data => {
-          this.consultar = (<any>data).componentProps.operacion == 'GET';
-          if (this.consultar == true) {
-            this.datosTarjeta = (<any>data).componentProps.value1;
+          console.log("hola",this.datosTarjeta, this.value1)
+          console.log("hola2",this.tarjeta, this.value)
+
+        //   console.log(this.tarjeta.implicacionList, this.datosTarjeta.implicacionList)
+        // this.tarjeta = this.value;
+        // this.datosTarjeta = this.value1;
+        // await this.modalController.getTop()
+        // .then(data => {
+        //   this.consultar = (<any>data).componentProps.operacion == 'GET';
+        //   if (this.consultar == true) {
+        //     this.datosTarjeta = (<any>data).componentProps.value1;
+            this.datosTarjeta = this.value1
             this.areaResp=this.datosTarjeta.area;
-            Util.cargarSeleccionArbol('implicacionlist', this.tarjeta.implicacionList, this.datosTarjeta.implicacionList,'id');
+            Util.cargarSeleccionArbol('implicacionlist', this.tarjeta.implicacionList, this.value1.implicacionList,'id');
+            for(let i = 0; i<this.tarjeta.implicacionList.length;i++){
+                Util.cargarSeleccionArbol('implicacionlist', this.tarjeta.implicacionList[i].implicacionList, this.value1.implicacionList,'id');
+            }
             this.disabled = false;
-          }
-        });
+        //   }
+        // });
+      }
+    
+      ok(){
+          console.log("form",this.form.value,this.form.valid)
+        //   console.log("formGet",this.formGet.value,this.formGet.valid)
+
+        //   console.log('value',this.value)
+
+        //   console.log('value1',this.value1)
+        //   console.log(this.tarjeta.implicacionList)
+
+        //   console.log(this.value1.implicacionList)
+
+        //   this.tarjeta.implicacionList = this.value1.implicacionList
+        // Util.cargarSeleccionArbol('implicacionlist', this.tarjeta.implicacionList, this.value1.implicacionList,'id');
+        // for(let i = 0; i<this.tarjeta.implicacionList.length;i++){
+        //     Util.cargarSeleccionArbol('implicacionlist', this.tarjeta.implicacionList[i].implicacionList, this.value1.implicacionList,'id');
+        // }
+
+         
+      }
+
+
+      editarObservacion(){
+          if(this.formGet.valid){
+            console.log("guardo")
+          }          
       }
 }

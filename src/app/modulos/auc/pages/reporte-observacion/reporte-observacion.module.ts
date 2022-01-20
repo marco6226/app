@@ -12,6 +12,7 @@ import { TreeModule } from '../../../com/components/tree/tree.component';
 import { ComunModule } from '../../../com/comun.module';
 import { ObservacionSyncComponent } from '../../components/observaciones-sync/observacion-sync.component';
 import { AreaSelectorModule } from '../../../com/components/area-selector/area-selector.component';
+import { ObservacionEditarComponent } from '../../components/observacion-editar/observacion-editar.component';
 
 const routes: Routes = [
     {
@@ -23,7 +24,7 @@ const routes: Routes = [
 @NgModule({
     imports: [ComunModule, CommonModule, FormsModule, ReactiveFormsModule, IonicModule, TreeModule, RouterModule.forChild(routes), AreaSelectorModule],
     exports: [ComunModule],
-    entryComponents: [ObservacionFormComponent,ObservacionConsultarFormComponent],
-    declarations: [ReporteObservacionPage, ObservacionFormComponent, ObservacionSyncComponent, ObservacionConsultarFormComponent],
+    entryComponents: [ObservacionFormComponent,ObservacionConsultarFormComponent,ObservacionEditarComponent],
+    declarations: [ReporteObservacionPage, ObservacionFormComponent, ObservacionSyncComponent, ObservacionConsultarFormComponent,ObservacionEditarComponent],
 })
 export class ReporteObservacionPageModule {}

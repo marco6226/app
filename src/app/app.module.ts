@@ -28,6 +28,8 @@ import { TienePermisoDirective } from './modulos/com/directives/tiene-permiso.di
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { EmpleadoService } from './modulos/com/services/empleado.service';
 import { AutoCompleteModule } from 'primeng/autocomplete';
+import { MisTareasPageModule } from './modulos/sec/pages/mis-tareas/mis-tareas.module';
+import { MisTareasPage } from './modulos/sec/pages/mis-tareas/mis-tareas.page';
 
 // class SQLiteMock {
 //   public create(config: SQLiteDatabaseConfig): Promise<SQLiteObject> {
@@ -44,7 +46,10 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 // }
 
 @NgModule({
-    declarations: [AppComponent],
+    declarations: [
+        AppComponent,
+        MisTareasPage
+    ],
     entryComponents: [],
     imports: [BrowserModule, BrowserAnimationsModule, IonicModule.forRoot({ hardwareBackButton: false }), AppRoutingModule, ComunModule, HttpClientModule, AutoCompleteModule],
     providers: [
