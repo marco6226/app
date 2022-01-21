@@ -13,6 +13,7 @@ import { AuthService } from './auth.service';
 import { MensajeUsuario } from '../entities/mensaje-usuario';
 import { CambioPasswdService } from '../services/cambio-passwd.service';
 import { MensajeUsuarioService } from './mensaje-usuario.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class HttpAuthInterceptor implements HttpInterceptor {
@@ -24,6 +25,7 @@ export class HttpAuthInterceptor implements HttpInterceptor {
     public authService: AuthService,
     public cambioPasswdService: CambioPasswdService,
     public mensajeUsuarioService: MensajeUsuarioService,
+    public router: Router,
   ) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -67,7 +69,11 @@ export class HttpAuthInterceptor implements HttpInterceptor {
   getObservable(msg: MensajeUsuario, error, req, next): Observable<HttpEvent<any>> {
     switch (msg.codigo) {
       case 1_001:
-        //if (!this.inflightAuthRequest) {
+        this.authService.logout();               
+                    
+                    setTimeout(() => {
+                        this.router.navigate(['/login']);
+                    }, 1000);
         this.inflightAuthRequest = this.authService.refreshToken();
         if (!this.inflightAuthRequest) {
           return throwError(error);
@@ -91,6 +97,18 @@ export class HttpAuthInterceptor implements HttpInterceptor {
             return next.handle(authReqRepeat);
           })
         );
+      case 1_002: 
+        this.authService.logout();               
+                    
+                    setTimeout(() => {
+                        this.router.navigate(['/login']);
+                    }, 1000);
+      case 1_004: 
+                    this.authService.logout();               
+                                
+                    setTimeout(() => {
+                                    this.router.navigate(['/login']);
+                                }, 1000);       
       case 2_001:
         this.mensajeUsuarioService.showMessage({ mensaje: 'Contraseña expirada', detalle: 'Su contraseña ha expirado, por favor realice el cambio', tipoMensaje: 'warn' });
         this.cambioPasswdService.setVisible(true);
