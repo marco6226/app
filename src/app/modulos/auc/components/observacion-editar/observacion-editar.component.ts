@@ -168,31 +168,32 @@ export class ObservacionEditarComponent implements OnInit {
 
   guardarObservacion() {
       let observacion = new Observacion();
-      observacion.tipoObservacion = this.form.value.tipoObservacion;
-      observacion.descripcion = this.form.value.descripcion;
+      observacion.tipoObservacion = this.formGet.value.tipoObservacion;
+      observacion.descripcion = this.formGet.value.descripcion;
 
       let implicacionList = [];
       this.buildList('implicacionList', this.tarjeta.implicacionList, implicacionList);
       observacion.implicacionList = implicacionList;
 
-      observacion.area = this.form.value.area;
-      this.areaResp = this.form.value.area;
+      observacion.area = this.formGet.value.area;
+      this.areaResp = this.formGet.value.area;
       this.disabled = false;
-      observacion.afecta = this.form.value.afecta;
-      observacion.recomendacion = this.form.value.recomendacion;
+      observacion.afecta = this.formGet.value.afecta;
+      observacion.recomendacion = this.formGet.value.recomendacion;
 
       let causaRaizList = [];
       if (this.sistemaCausaRaiz != null && this.sistemaCausaRaiz.causaRaizList.length > 0) this.buildList('causaRaizList', this.sistemaCausaRaiz.causaRaizList, causaRaizList);
       observacion.causaRaizList = causaRaizList;
 
-      observacion.personasabordadas = this.form.value.personasabordadas;
-      observacion.personasobservadas = this.form.value.personasobservadas;
+      observacion.personasabordadas = this.formGet.value.personasabordadas;
+      observacion.personasobservadas = this.formGet.value.personasobservadas;
 
 
-      observacion.nivelRiesgo = this.form.value.nivelRiesgo;
+      observacion.nivelRiesgo = this.formGet.value.nivelRiesgo;
       observacion.tarjeta = new Tarjeta();
       observacion.tarjeta.id = this.tarjeta.id;
       observacion.tarjeta.nombre = this.tarjeta.nombre;
+      observacion.id = this.formGet.value.id;
       this.guardando = true;
       this.persistirObservacion(observacion)
           .then((resp) => {
@@ -202,6 +203,7 @@ export class ObservacionEditarComponent implements OnInit {
           .catch((err) => {
               this.guardando = false;
           });
+    // this.persistirObservacion2(observacion)
   }
 
   persistirObservacion(observacion: Observacion): Promise<any> {
@@ -214,7 +216,7 @@ export class ObservacionEditarComponent implements OnInit {
               resolve(observacion);
           });
       } else {
-          return this.observacionService.create(observacion).then((data) => {
+          return this.observacionService.update(observacion).then((data) => {
               observacion.id = (<Observacion>data).id;
 
               let cod = 1;
@@ -225,6 +227,10 @@ export class ObservacionEditarComponent implements OnInit {
           });
       }
   }
+
+  persistirObservacion2(observacion: Observacion){
+   console.log(observacion)
+}
 
   manageResponse(observacion: Observacion) {
       this.modalController.dismiss(observacion).then((resp) =>
