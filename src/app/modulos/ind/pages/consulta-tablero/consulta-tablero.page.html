@@ -17,6 +17,12 @@
     <div *ngIf="loading == true">
         <ion-spinner class="main-spinner" name="dots" color="primary"></ion-spinner>
     </div>
+    <div class="chart-container" >
+        <canvas id="myChart"></canvas>
+    </div>
+    <div class="chart-container" >
+        <canvas id="torta"></canvas>
+    </div>
 
     <div *ngIf="tablerosCargados == false">
         <p style="color:#888;padding:25px">
@@ -41,7 +47,7 @@
 
         <sm-panelGrafica [kpi]="kpi" [data]="kpi.modelo.dataChart" (onRangoFechasEvent)="actualizarFechas($event, kpi, pnlCharts)"
             #pnlCharts (onSave)="onChartSave($event, pnlCharts)" (onRefresh)="refresh(kpi, $event, pnlCharts)"></sm-panelGrafica>
-    </div>
+    </div>    
 
 
 </ion-content>
