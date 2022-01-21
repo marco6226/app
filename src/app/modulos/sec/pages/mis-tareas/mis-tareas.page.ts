@@ -24,6 +24,8 @@ export class MisTareasPage implements OnInit {
   loading: boolean = true;
   tareaSelect: Tarea;
   es: any;
+  arrayIdsareas  = [];
+  titulo: string;
  
 
   constructor(
@@ -37,7 +39,7 @@ export class MisTareasPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.route.snapshot.paramMap.get("id"))
+    //console.log(this.route.snapshot.paramMap.get("id"))
     this.loading = true;
 
     let statuses = {
@@ -50,6 +52,10 @@ export class MisTareasPage implements OnInit {
   }
 
     let areas: string = this.sesionService.getPermisosMap()['SEC_GET_TAR'].areas;
+    areas = areas.replace('{', '');
+    areas = areas.replace('}', '');     
+    this.arrayIdsareas.push (areas.valueOf());
+    
 
     let id = this.sesionService.getUsuario().id;
     let fq = new FilterQuery();
@@ -65,6 +71,7 @@ export class MisTareasPage implements OnInit {
 
 
     if(this.route.snapshot.paramMap.get("id")!=null){
+      this.titulo ="Mis tareas"
       this.tareaService.findByDetailsByEmpleado(id).then(
         async resp => { 
             this.tareasList = resp;
@@ -80,23 +87,10 @@ export class MisTareasPage implements OnInit {
         });
     }
     else{
-      // this.tareaService.findByFilter(fq)
-      // .then(resp => {
-      //   console.log(resp)
-      //   // this.tareasList = [];
-      //   // (resp['data']).forEach(tarea => {
-      //   //   let obj = FilterQuery.dtoToObject(tarea);
-      //   //   this.tareasList.push(obj);
-      //   // });
-      //   // this.loading = false;
-      // })
-      // .catch(err => {
-      //   this.loading = false;
-      // });
-      console.log(this.tareaService.findByDetailsByAll())
-      this.tareaService.findByFilter(fq).then(
+      this.titulo ="Tareas"
+      this.tareaService.findByDetailsByAll(this.arrayIdsareas).then(
         async resp => { 
-            this.tareasList = [];
+            this.tareasList = resp;
             this.tareasList = await Promise.all(this.tareasList.map(async tarea => {
                 let status = await this.verifyStatus(tarea);
                 tarea.estado = statuses[status];
@@ -105,11 +99,8 @@ export class MisTareasPage implements OnInit {
             }));
 
             this.loading = false;
-            
+            console.log(this.tareasList)
              let estados = this.tareasList.map(x => x.estado)
-             console.log(this.tareasList)
-             this.tareasList = this.tareasList.data;
-             console.log(this.tareasList)
         });
         
     }

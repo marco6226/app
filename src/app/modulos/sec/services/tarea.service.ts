@@ -75,10 +75,10 @@ public findByDetailsByEmpleado(id) {
   return a
 }
 
-public findByDetailsByAll() {
+public findByDetailsByAll(areas) {
  
-  let a = this.http.get(this.end_point+'details/', this.getRequestHeaders(this.headers)).toPromise();
-  console.log();
+  let a = this.http.get(this.end_point+'detalle/'+areas, this.getRequestHeaders(this.headers)).toPromise();
+  console.log("todas",a);
   return a
 }
 
