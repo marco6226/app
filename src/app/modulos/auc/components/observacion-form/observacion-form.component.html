@@ -231,15 +231,4 @@
         </ion-fab-button>
     </ion-fab>
 
-    <ion-fab *ngIf="!guardando && operacion=='GET'" vertical="top" horizontal="end" slot="fixed">
-        <ion-fab-button (click)="editarObservacion()" [disabled]="!formGet.valid">
-            <ion-icon name="save"></ion-icon>
-        </ion-fab-button>
-    </ion-fab>
-
-    <ion-fab vertical="bottom" horizontal="start" slot="fixed">
-        <ion-fab-button (click)="ok()">
-            <ion-icon name="save"></ion-icon>
-        </ion-fab-button>
-    </ion-fab>
 </ion-content>

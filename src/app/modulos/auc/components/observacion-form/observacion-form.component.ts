@@ -337,27 +337,6 @@ export class ObservacionFormComponent implements OnInit {
         // });
       }
     
-      ok(){
-          console.log("form",this.form.value,this.form.valid)
-        //   console.log("formGet",this.formGet.value,this.formGet.valid)
-
-        //   console.log('value',this.value)
-
-        //   console.log('value1',this.value1)
-        //   console.log(this.tarjeta.implicacionList)
-
-        //   console.log(this.value1.implicacionList)
-
-        //   this.tarjeta.implicacionList = this.value1.implicacionList
-        // Util.cargarSeleccionArbol('implicacionlist', this.tarjeta.implicacionList, this.value1.implicacionList,'id');
-        // for(let i = 0; i<this.tarjeta.implicacionList.length;i++){
-        //     Util.cargarSeleccionArbol('implicacionlist', this.tarjeta.implicacionList[i].implicacionList, this.value1.implicacionList,'id');
-        // }
-
-         
-      }
-
-
       editarObservacion(){
           if(this.formGet.valid){
             console.log("guardo")

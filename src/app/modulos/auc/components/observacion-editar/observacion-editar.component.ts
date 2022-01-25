@@ -187,13 +187,13 @@ export class ObservacionEditarComponent implements OnInit {
 
       observacion.personasabordadas = this.formGet.value.personasabordadas;
       observacion.personasobservadas = this.formGet.value.personasobservadas;
-
+      observacion.id = this.observacion.id
 
       observacion.nivelRiesgo = this.formGet.value.nivelRiesgo;
       observacion.tarjeta = new Tarjeta();
       observacion.tarjeta.id = this.tarjeta.id;
       observacion.tarjeta.nombre = this.tarjeta.nombre;
-      observacion.id = this.formGet.value.id;
+    //   observacion.id = this.formGet.value.id;
       this.guardando = true;
       this.persistirObservacion(observacion)
           .then((resp) => {
@@ -217,7 +217,7 @@ export class ObservacionEditarComponent implements OnInit {
           });
       } else {
           return this.observacionService.update(observacion).then((data) => {
-              observacion.id = (<Observacion>data).id;
+            //   observacion.id = (<Observacion>data).id;
 
               let cod = 1;
               this.imagenes.forEach((url) => {
@@ -288,25 +288,7 @@ export class ObservacionEditarComponent implements OnInit {
           }
           this.disabled = false;
     }
-  
-    ok(){
-        this.formGet.value.id = this.observacion.id
-        // this.formGet.value.tipoObservacion = this.observacion.tipoObservacion;
-        // this.formGet.value.afecta = this.observacion.afecta;
-        // this.formGet.value.descripcion = this.observacion.descripcion;
-        // this.formGet.value.recomendacion = this.observacion.recomendacion;
-        // this.formGet.value.nivelRiesgo = this.observacion.nivelRiesgo;
-        // this.formGet.value.causaRaiz;
-        // this.formGet.value.area = this.observacion.area;
-        // this.formGet.value.personasobservadas = this.observacion.personasobservadas;
-        // this.formGet.value.personasabordadas = this.observacion.personasabordadas ;
-
-        console.log("form",this.formGet.value)
-      
-       
-    }
-
-
+ 
     editarObservacion(){
         if(this.formGet.valid){
           console.log("guardo")
