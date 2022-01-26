@@ -43,6 +43,9 @@ export class InspeccionConsultarFormComponent implements OnInit {
     nombreEmpleado: string;
     cargo: string;
 
+    equipo: string;
+    observacion: string;
+
     // Form: FormGroup;
     public FormHseq: FormGroup;
     public FormIng: FormGroup;
@@ -80,6 +83,13 @@ export class InspeccionConsultarFormComponent implements OnInit {
         }
   };
 
+  EstadoOptionList = [
+        { label: "Disponible", value: "Disponible" },
+        { label: "Parado por lluvia", value: "Parado por lluvia" },
+        { label: "Reparación", value: "Reparación" },
+        { label: "Varado", value: "Varado" },
+        { label: "Operativo", value: "Operativo" },
+    ];
 
 
 
@@ -123,6 +133,8 @@ export class InspeccionConsultarFormComponent implements OnInit {
 
             this.inspeccion = (<any>data).componentProps.value;
             this.id = this.inspeccion.id;
+            this.equipo = this.inspeccion.equipo;
+            this.observacion = this.inspeccion.observacion;
             return (<any>data).componentProps.value;
         });
     }
@@ -236,7 +248,7 @@ export class InspeccionConsultarFormComponent implements OnInit {
         else if(tipo=='ING'){
             this.FormIng.value.concepto = "Aceptado"
         }
-        this.guardarVistoBueno(tipo)
+        this.guardarVistoBueno()
     }
 
     botonDenegar(tipo: string){
@@ -246,15 +258,18 @@ export class InspeccionConsultarFormComponent implements OnInit {
         else if(tipo=='ING'){
             this.FormIng.value.concepto = "Denegado"
         }
-        this.guardarVistoBueno(tipo)    
+        this.guardarVistoBueno()    
     }
     
-    async guardarVistoBueno(tipo: string){
+    async guardarVistoBueno(){
         try {
            
             let inspeccion = new Inspeccion();
             inspeccion.area = this.area;
             inspeccion = this.inspeccion
+
+            inspeccion.equipo = this.equipo;
+            inspeccion.observacion = this.observacion;
 
             if(this.FormHseq.value.concepto == 'Aceptado'||this.FormHseq.value.concepto == 'Denegado'){
                 inspeccion.fechavistohse = new Date(this.FormHseq.value.fecha);
@@ -267,8 +282,8 @@ export class InspeccionConsultarFormComponent implements OnInit {
                 inspeccion.empleadoing = this.empleado;
                 inspeccion.conceptoing = this.FormIng.value.concepto;
             }
-            console.log(inspeccion.fechavistoing)
-           
+
+            console.log(inspeccion, inspeccion.equipo)
                        
             inspeccion.id = this.inspeccion.id
            
@@ -386,6 +401,12 @@ export class InspeccionConsultarFormComponent implements OnInit {
         } else {
             this.minDateHse = this.maxDateHse;
         }
+    }
+
+    guardarEstadoMaquina(){
+        console.log(this.observacion)
+        console.log(this.equipo)
+        this.guardarVistoBueno()
     }
     
 }

@@ -117,8 +117,36 @@
                 </ion-card-content>
             </ion-card>
         </ion-slide>
+        
+        <ion-slide>
+          <ion-card class="tarjeta">
+            <ion-card-title>
+                <ion-item>
+                    <ion-label class="tarjetaTitulo" color="primary">Estado de la maquina</ion-label>
+                </ion-item>
+                <ion-card-content>
+                  <ion-item>
+                    <ion-label position="stacked">Estado</ion-label>
+                    <ion-select okText="Aceptar" cancelText="Cancelar" [(ngModel)]="equipo" value="Disponible">
+                        <ion-select-option *ngFor="let a of EstadoOptionList" [value]="a.label">{{ a.label }}</ion-select-option>
+                    </ion-select>
+                  </ion-item>
+                  <ion-item *ngIf="idEmpresa != '16'">
+                    <ion-label position="stacked">Observaciones:</ion-label>
+                    <ion-textarea maxlength="510" [(ngModel)]="observacion" [value]="observacion"></ion-textarea>
+                </ion-item> 
+                <!-- <ion-item> -->
+                  <ion-button shape="round" slot="start" [disabled]="isEmpleadoValid" color="primary" (click)="guardarEstadoMaquina()">
+                    <ion-icon slot="start" name="save"></ion-icon>
+                    <ion-label>Guardar</ion-label>
+                  </ion-button>
+                <!-- </ion-item> -->
+                </ion-card-content>
+            </ion-card-title>
+          </ion-card>
+        </ion-slide>
 
-    <ion-slide>
+      <ion-slide>
         <ion-grid>
           <ion-row>
             <ion-col>
