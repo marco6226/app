@@ -51,6 +51,7 @@ export class InspeccionConsultarFormComponent implements OnInit {
     public FormIng: FormGroup;
     permisoHse:boolean=false;
     permisoIngenieria:boolean=false;
+    estado:boolean=false;
     mostarHseGet: boolean=true;
     mostarIngGet: boolean=true;
     maxDateHse: string = new Date().toISOString();
@@ -307,7 +308,7 @@ export class InspeccionConsultarFormComponent implements OnInit {
         
         this.permisoHse = this.sesionService.getPermisosMap()["HSE"];
         this.permisoIngenieria = this.sesionService.getPermisosMap()["INGENIERIA"];
-        
+        this.estado = this.sesionService.getPermisosMap()["INP_GET_ESTADO"];
         if(this.permisoHse){
             this.selectDateHse = this.maxDateHse;      
             if(this.inspeccion.conceptohse != null){
