@@ -15,6 +15,7 @@
     (completeMethod)="buscarEmpleado($event)"
     [(ngModel)]="_value"
     *ngIf="_value?.id == null"
+    (onClear)="resetEmpleado()"
 >
     <ng-template let-empleado pTemplate="item">
         <div class="ui-helper-clearfix">

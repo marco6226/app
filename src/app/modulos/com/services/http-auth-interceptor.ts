@@ -68,7 +68,7 @@ export class HttpAuthInterceptor implements HttpInterceptor {
 
   getObservable(msg: MensajeUsuario, error, req, next): Observable<HttpEvent<any>> {
     switch (msg.codigo) {
-      case 1_001:
+       case 1_001:
         this.authService.logout();               
                     
                     setTimeout(() => {
@@ -103,12 +103,14 @@ export class HttpAuthInterceptor implements HttpInterceptor {
                     setTimeout(() => {
                         this.router.navigate(['/login']);
                     }, 1000);
+return
       case 1_004: 
                     this.authService.logout();               
                                 
                     setTimeout(() => {
                                     this.router.navigate(['/login']);
-                                }, 1000);       
+                                }, 1000);   
+                                 return    
       case 2_001:
         this.mensajeUsuarioService.showMessage({ mensaje: 'Contraseña expirada', detalle: 'Su contraseña ha expirado, por favor realice el cambio', tipoMensaje: 'warn' });
         this.cambioPasswdService.setVisible(true);

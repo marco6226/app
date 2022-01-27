@@ -61,6 +61,13 @@ export class FormularioTareasComponent implements OnInit {
         this.cargarAreas();
     }
 
+    resetEmpleado(){
+        console.log(this.selectionEmpleado);
+        this.selectionEmpleado=false;
+        
+        console.log(this.selectionEmpleado);
+    }
+
     cargarAreas() {
         this.loading = true;
         this.areasCargadas = null;

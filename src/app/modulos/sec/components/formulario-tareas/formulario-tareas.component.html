@@ -22,7 +22,7 @@
             <p>Descripción: {{ tarea?.descripcion }}</p>
             <p>Tipo de acción: {{ tarea?.tipoAccion }}</p>
             <p>Jerarquia de control: {{ tarea?.jerarquia }}</p>
-            <p>Empleado responsable: {{ empResponsable?.primerNombre + empResponsable?.primerApellido }}</p>
+            <p>Empleado responsable: {{ tarea?.empResponsable?.primerNombre }} {{ tarea?.empResponsable?.primerApellido }}</p>
             <p>Fecha: {{ tarea?.fechaProyectada | date: 'dd/MM/yyyy' }}</p>
             <p>Ubicación: {{ tarea.areaResponsable?.nombre }}</p>
         </div>
@@ -60,21 +60,23 @@
             </ion-select>
         </ion-item>
 
-        <ion-item *ngIf="selectionEmpleado">
-            <ion-avatar slot="end">
-              <img *ngIf="!evento.usuario?.icon" name="person-circle-outline">
-              <img *ngIf="evento.usuario?.icon" [src]="evento.usuario?.icon">
-            </ion-avatar>
+        <ion-item  *ngIf="selectionEmpleado" click="resetEmpleado()">
+            
             <ion-label position="stacked" style="margin-bottom: 10px;">
               <h3>Empleado</h3>
               <ion-label>{{nombreEmpleado}}</ion-label>
             </ion-label>
+            <ion-button  (click)="resetEmpleado()">
+                limpiar
+            </ion-button>
+
         </ion-item>
+    
             <ion-label *ngIf="!selectionEmpleado" position="stacked">
-                <h3>Empleado</h3>
+                <h3>Empleado selector</h3>
             </ion-label>
             <sm-empleado-selector *ngIf="!selectionEmpleado" position="stacked" [(ngModel)]="empResponsable" [disabled]="guardando == true" appendTo="ion-modal" (onSelect)="onSelection($event)"></sm-empleado-selector>
-        
+       
        <!--  <p-autoComplete
             placeholder="Empleado"
             (onSelect)="onSelection($event)"
@@ -102,7 +104,15 @@
 
         <ion-item>
             <ion-label position="stacked">Fecha proyectada*</ion-label>
-            <ion-datetime display-format="DD/MM/YYYY" picker-format="YYYY MMMM DD" [(ngModel)]="fechaProyectada"></ion-datetime>
+            <ion-datetime
+             display-format="DD/MM/YYYY"
+             picker-format="YYYY MMMM DD"
+             cancelText="Cancelar"
+             doneText="Ok"                      
+             displayFormat="DD/MM/YYYY"
+             monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre"
+              [(ngModel)]="fechaProyectada"
+              ></ion-datetime>
         </ion-item>
 
         <ion-item>
