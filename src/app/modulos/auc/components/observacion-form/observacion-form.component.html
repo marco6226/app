@@ -102,21 +102,13 @@
                         
                        
                     
-                <!-- </ion-item> -->
-<!-- 
-                <ion-item>
-                    <ion-label >Categorías</ion-label>
-                    <sm-tree [nodes]="value1.tarjeta.implicacionList" field="implicacionList" label="nombre" [expanded]="true">                        
-                    </sm-tree>
-                    
-                </ion-item> -->
-
-                <ion-item>
-                    <ion-label >Categorías</ion-label>
+               
+                
+                    <ion-label  style="margin-left: 16px;color: black;font-size: 12px;" position="stacked" >Categorías:</ion-label>
                     <sm-tree [nodes]="tarjeta?.implicacionList" field="implicacionList" label="nombre" [expanded]="true">                        
                     </sm-tree>
                     
-                </ion-item>
+                
             </ion-card>
 
             <ion-card [style.display]="segments['detalle'] ? 'block' : 'none'" *ngIf="tarjeta?.usarNivelRiesgo || tarjeta?.usarCausaRaiz">

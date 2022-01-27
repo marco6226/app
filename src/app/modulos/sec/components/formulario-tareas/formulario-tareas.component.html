@@ -73,9 +73,9 @@
         </ion-item>
     
             <ion-label *ngIf="!selectionEmpleado" position="stacked">
-                <h3>Empleado selector</h3>
+                <h3>Empleado</h3>
             </ion-label>
-            <sm-empleado-selector *ngIf="!selectionEmpleado" position="stacked" [(ngModel)]="empResponsable" [disabled]="guardando == true" appendTo="ion-modal" (onSelect)="onSelection($event)"></sm-empleado-selector>
+            <sm-empleado-selector style="width: 98%" *ngIf="!selectionEmpleado" position="stacked" [(ngModel)]="empResponsable" [disabled]="guardando == true" appendTo="ion-modal" (onSelect)="onSelection($event)"></sm-empleado-selector>
        
        <!--  <p-autoComplete
             placeholder="Empleado"
@@ -115,7 +115,7 @@
               ></ion-datetime>
         </ion-item>
 
-        <ion-item>
+        <!-- <ion-item>
             <ion-label position="stacked">Area responsable*</ion-label>
 
             <div *ngIf="loading == true">
@@ -131,9 +131,11 @@
             <ion-select *ngIf="areasCargadas == true" okText="Aceptar" cancelText="Cancelar" [(ngModel)]="areaResp">
                 <ion-select-option *ngFor="let area of areasList" [value]="area">{{area.nombre}}</ion-select-option>
             </ion-select>
-        </ion-item>
 
-        <sm-areaSelector *ngIf="!esProgramada" [(ngModel)]="areaResp" [disabled]="guardando == true" appendTo="ion-modal"></sm-areaSelector>
+        </ion-item> -->
+       
+
+        <sm-areaSelector formControlName="areaResp"  [(ngModel)]="areaResp" appendTo="ion-modal"></sm-areaSelector>
         
         <ion-button *ngIf="idxTareaEditar < 0" expand="full" (click)="adicionarTarea()">Adicionar actividad</ion-button>
         <ion-button *ngIf="idxTareaEditar >= 0" (click)="modificarTarea()" color="success">
