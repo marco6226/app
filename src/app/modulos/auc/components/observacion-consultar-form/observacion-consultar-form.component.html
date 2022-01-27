@@ -10,27 +10,29 @@
 </ion-header>
 
 <ion-content *ngFor="let observacion of observacionLista" >
-  
-  <ion-card class="tarjeta">
-    <ion-item>
-      <ion-label class="tarjetaTitulo" color="primary">Registro gráfico</ion-label>
-    </ion-item>
-    <ion-card-content>
-      <div>
-        <ion-list *ngIf="imagenesList?.length == 0" style="text-align: center;">
-          <div>
-            <ion-icon class="evidencia" name="eye-off"></ion-icon>            
-          </div>
-        </ion-list>
-        
-        <ion-list *ngIf="imagenesList?.length > 0">
-          <ion-img [src]="imagenesList[0].source[0]"></ion-img>
-        </ion-list>
-      </div>      
-    </ion-card-content>   
-  </ion-card>
-
   <ion-slides #slider pager="true">
+
+    <ion-slide>
+      <ion-card class="tarjeta">
+        <ion-item>
+          <ion-label class="tarjetaTitulo" color="primary">Registro gráfico</ion-label>
+        </ion-item>
+        <ion-card-content>
+          <div>
+            <ion-list *ngIf="imagenesList?.length == 0" style="text-align: center;">
+              <div>
+                <ion-icon class="evidencia" name="eye-off"></ion-icon>            
+              </div>
+            </ion-list>
+            
+            <ion-list *ngIf="imagenesList?.length > 0">
+              <ion-img [src]="imagenesList[0].source[0]"></ion-img>
+            </ion-list>
+          </div>      
+        </ion-card-content>   
+      </ion-card>
+    </ion-slide>
+
     <ion-slide>
       <ion-card class="tarjeta">
         <ion-card-title>
@@ -82,34 +84,35 @@
           <p>{{observacion.usuarioReporta.email}}</p>
         </ion-card-content>   
       </ion-card>
-    </ion-slide>
-      
-    <ion-slide *ngIf="observacion.motivo != null && !isGestionar">
-      <ion-card class="tarjeta">
-        <ion-card-title>
-          <ion-item>
-            <ion-label class="tarjetaTitulo" color="primary">Observaciones</ion-label>
-          </ion-item>
-        </ion-card-title>
-        <ion-card-content class="tarjetaContenido">
-          <ion-label>{{observacion.motivo}}</ion-label>
-        </ion-card-content>   
-      </ion-card>
-    </ion-slide>
+    </ion-slide>      
 
-    <ion-slide *ngIf="isGestionar">
+    <ion-slide >
       <ion-card class="tarjeta">
         <ion-card-title>
           <ion-item>
             <ion-label class="tarjetaTitulo" color="primary">Observaciones</ion-label>
           </ion-item>
         </ion-card-title>
-        <ion-card-content class="tarjetaContenido">
-          <!-- <ion-input [(ngModel)]="observacion.motivo"></ion-input> -->
-          <!-- <ion-input (click)="ok()" [(ngModel)]="motivo"></ion-input> -->
-          <ion-input (click)="CambioObs='true'" [(ngModel)]="motivo"></ion-input>
-          <!-- <ion-label>{{motivo}}</ion-label> -->
+        <ion-card-content class="tarjetaContenido">        
+          <ion-input [(ngModel)]="motivo"></ion-input>  
+
+          <div *ngIf="observacion.aceptada==true">
+            <ion-fab  class="validado">
+              <ion-fab-button color="success" >
+                <ion-icon name="checkmark"></ion-icon>
+              </ion-fab-button>                      
+            </ion-fab>
+          </div>
           
+          <div *ngIf="observacion.aceptada==false">
+            <ion-fab class="validado">
+              <ion-fab-button color="danger" >
+                <ion-icon name="close"></ion-icon>
+              </ion-fab-button> 
+            </ion-fab>
+          </div>
+
+
         </ion-card-content>   
       </ion-card>
     </ion-slide>
@@ -117,41 +120,26 @@
   </ion-slides>
 </ion-content>
 
-<!-- start -->
-<ion-fab class="iconSup" vertical="bottom" horizontal="end" slot="fixed" >
+<ion-fab vertical="bottom" horizontal="end" slot="fixed" >
   <ion-fab-button (click)="onTarjetaEdit()">
     <ion-icon name="create"></ion-icon>
   </ion-fab-button>
 </ion-fab>
 
-<ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="!isGestionar">
+
+<ion-fab horizontal="end" vertical="bottom" slot="fixed" class="iconSup">
   <ion-fab-button>
-    <ion-icon name="checkmark-circle-outline" (click)="gestionarObservacion()"></ion-icon>
+    <ion-icon name="checkmark-circle-outline"></ion-icon>
   </ion-fab-button>
+  <ion-fab-list side="top">
+    <ion-fab-button color="danger" class="ionfabDen">
+      <ion-icon name="close" (click)="guardarGestionObervacion('denegar')" color="light"></ion-icon>
+    </ion-fab-button>
+    <ion-label class="labelFloat">Denegar</ion-label>
+    <ion-fab-button color="success" class="ionfabAce">
+      <ion-icon name="checkmark" (click)="guardarGestionObervacion('aceptar')" color="light"></ion-icon>
+    </ion-fab-button>
+    <ion-label class="labelFloat">Aceptar</ion-label>    
+  </ion-fab-list>
 </ion-fab>
 
-<!-- Gestionar -->
-<ion-fab vertical="bottom" horizontal="end" slot="fixed" class="iconSupD" *ngIf="isGestionar">
-  <ion-fab-button class="aprobar">
-    <ion-icon name="arrow-back" (click)="back()" color="light" ></ion-icon>
-  </ion-fab-button>
-</ion-fab>
-
-<ion-fab class="iconSup" vertical="bottom" horizontal="end" slot="fixed" *ngIf="isGestionar">
-  <ion-fab-button color="danger" [disabled]="!CambioObs">
-    <ion-icon name="close" (click)="guardarGestionObervacion('denegar')" color="light"></ion-icon>
-    <ion-label class="aprobar">Denegar</ion-label>
-  </ion-fab-button>
-</ion-fab>
-
-<ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="isGestionar">
-  <ion-fab-button class="aprobar" color="success" [disabled]="!CambioObs">
-    <ion-icon name="checkmark" (click)="guardarGestionObervacion('aceptar')" color="light" ></ion-icon>
-    <ion-label class="aprobar">Aprobar</ion-label>
-  </ion-fab-button>
-</ion-fab>
-
-<!-- modificar -->
-
-
-<!-- *ngIf="isGestionar" -->

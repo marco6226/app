@@ -251,5 +251,20 @@ export class AuthService {
     });
 }
 
+sendNotificationObservacionDenegada(email: string, observacion) {
+  console.log("Enviar notificacion a: (" + email + ")");
+  let body = observacion;
+  let endpoint = this.authEndPoint + "enviarCorreoDenegada/" + email;
+  return new Promise((resolve, reject) => {
+      this.httpInt
+          .post(endpoint, body)
+          .map((res) => res)
+          .subscribe(
+              (res) => resolve(res),
+              (err) => reject(err)
+          );
+      console.log("Enviada a:" + email);
+  });
+}
 
 }

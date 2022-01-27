@@ -62,3 +62,38 @@ ion-slides {
     //--bullet-opacity: 1;
     //--bullet-opacity-active: .1;
  } 
+
+//  div{
+//     ion-label{
+//         background: rgba(0, 0, 0, 0.8);
+//         color: white;
+//         position: relative;
+//         right: 73px;
+//         bottom: 35px;
+//         padding: 4px;
+//     }
+//  } 
+ .labelFloat{
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    position: relative;
+    right: 60px;
+    top: 36px;
+    padding: 3px;
+ }
+
+ .ionfabDen{
+    margin-bottom: 0px;
+    margin-right: 12px;
+ }
+
+ .ionfabAce{
+    margin-bottom: -20px;
+    margin-right: 12px;
+ }
+
+ .validado{
+    position: fixed;
+    right: 12px;
+    top: 12px;
+}
