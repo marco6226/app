@@ -77,12 +77,12 @@
                 <sm-areaSelector *ngIf="isVisible" formControlName="area" [disabled]="guardando == true" appendTo="ion-modal"></sm-areaSelector>
                 <sm-areaSelector formControlName="area" [(ngModel)]="areaResp" [disabled]="guardando == true" appendTo="ion-modal"></sm-areaSelector>
 
-                <ion-item>
-                    <ion-label ></ion-label>
+                
+                    <ion-label  style="margin-left: 16px;color: black;font-size: 13px;" position="stacked" >Categorías:</ion-label>
                     <sm-tree [nodes]="tarjeta.implicacionList" field="implicacionList" label="nombre" [expanded]="true">                        
                     </sm-tree>
                     
-                </ion-item>
+                
 
             </ion-card>
         </form>

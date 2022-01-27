@@ -68,7 +68,7 @@ export class HttpAuthInterceptor implements HttpInterceptor {
 
   getObservable(msg: MensajeUsuario, error, req, next): Observable<HttpEvent<any>> {
     switch (msg.codigo) {
-      case 1_001:
+       case 1_001:
         this.authService.logout();               
                     
                     setTimeout(() => {
@@ -98,15 +98,16 @@ export class HttpAuthInterceptor implements HttpInterceptor {
           })
         );
       case 1_002: 
-        this.authService.logout();             
+                    
                     
         setTimeout(() => {
             this.router.navigate(['/login']);
             return;
         }, 1000);
          
+return
       case 1_004: 
-        this.authService.logout();     
+                         this.authService.logout();     
         setTimeout(() => {
             this.router.navigate(['/login']);
             return;

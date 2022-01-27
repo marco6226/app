@@ -19,6 +19,7 @@ import { EmpleadoService } from '../../services/empleado.service';
 export class EmpleadoSelectorComponent implements OnInit, ControlValueAccessor {
     @Input() _value: Empleado;
     @Input('readOnly') disabled: boolean;
+    @Input() cargar: boolean;
     @Output('onSelect') onSelect = new EventEmitter<Empleado>();
     propagateChange = (_: any) => {};
     empleadosList: Empleado[];
@@ -46,6 +47,8 @@ export class EmpleadoSelectorComponent implements OnInit, ControlValueAccessor {
     registerOnChange(fn) {
         this.propagateChange = fn;
     }
+
+  
 
     // Component methods
     buscarEmpleado(event) {
