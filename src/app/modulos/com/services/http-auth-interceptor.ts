@@ -98,19 +98,21 @@ export class HttpAuthInterceptor implements HttpInterceptor {
           })
         );
       case 1_002: 
-        this.authService.logout();               
                     
-                    setTimeout(() => {
-                        this.router.navigate(['/login']);
-                    }, 1000);
+                    
+        setTimeout(() => {
+            this.router.navigate(['/login']);
+            return;
+        }, 1000);
+         
 return
       case 1_004: 
-                    this.authService.logout();               
-                                
-                    setTimeout(() => {
-                                    this.router.navigate(['/login']);
-                                }, 1000);   
-                                 return    
+                         this.authService.logout();     
+        setTimeout(() => {
+            this.router.navigate(['/login']);
+            return;
+        }, 1000);     
+
       case 2_001:
         this.mensajeUsuarioService.showMessage({ mensaje: 'Contraseña expirada', detalle: 'Su contraseña ha expirado, por favor realice el cambio', tipoMensaje: 'warn' });
         this.cambioPasswdService.setVisible(true);

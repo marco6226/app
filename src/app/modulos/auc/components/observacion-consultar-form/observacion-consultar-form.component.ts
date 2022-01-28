@@ -1,3 +1,4 @@
+import { AuthService } from './../../../com/services/auth.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DirectorioService } from './../../../ado/services/directorio.service';
 //import { Usuario } from 'app/modulos/empresa/entities/usuario';
@@ -28,7 +29,7 @@ export class ObservacionConsultarFormComponent implements OnInit {
   consultar: boolean;
   observacion: Observacion;
   listado: boolean=true;
-  CambioObs: boolean=false;
+  CambioObs: boolean=true;
   imagenesList: any = [];
   isGestionar: boolean=false;
   motivo: string;
@@ -45,14 +46,22 @@ export class ObservacionConsultarFormComponent implements OnInit {
     private observacionService: ObservacionService,
     private directorioService: DirectorioService,
     private domSanitizer: DomSanitizer,
-    public sesionService: SesionService
-
+    public sesionService: SesionService,
+    private authService: AuthService
   ) { }
 
   async ngOnInit() { 
-    this.idEmpresa = this.sesionService.getEmpresa().id;   
+
+    this.idEmpresa = this.sesionService.getEmpresa().id;
+
     await this.leerObservacionSeleccionada();
-    this.cargaDatosLista();  
+
+    await this.cargaDatosLista();  
+
+    setTimeout(() => {
+      this.motivo = this.observacion.motivo;
+    }, 200);
+    
   }
 
   async leerObservacionSeleccionada(){
@@ -131,17 +140,7 @@ export class ObservacionConsultarFormComponent implements OnInit {
     return date.toLocaleString();
   }
 
-  gestionarObservacion(){
-    this.motivo = this.observacionLista.motivo;
-    this.isGestionar = true;
-    
-  }
-
-  back(){
-    this.isGestionar = false;
-    this.CambioObs = false;
-  }
-
+  
   async FinishReturn(){
     console.log(this.msg)
     const alert = await this.alertController.create({
@@ -157,15 +156,41 @@ export class ObservacionConsultarFormComponent implements OnInit {
     await alert.present();
   }
 
-  guardarGestionObervacion(tipoEstado: string){
-    this.observacion.motivo = this.motivo;
-    this.observacionService
-        .guardarGestionObervacion(this.observacion, tipoEstado)
-        .then((data) => {
-            /* this.visibleObservacion = false;*/
-          this.msg = "La observación ha sido aceptada correctamente"; 
-          this.FinishReturn();
-        });      
+  async guardarGestionObervacion(tipoEstado: string){
+
+    if(this.motivo != null && this.motivo != ""){
+      
+      console.log(tipoEstado)
+      this.observacion.motivo = this.motivo;
+      console.log(this.observacion)
+      this.observacionService
+          .guardarGestionObervacion(this.observacion, tipoEstado)
+          .then((data) => {
+            if(tipoEstado=='aceptar'){
+              this.msg = "La observación ha sido aceptada correctamente"; 
+            }
+            else{
+              this.msg = "La observación ha sido denegada correctamente"; 
+            }            
+            this.FinishReturn();
+          });
+          if(tipoEstado == 'denegar') {     
+            this.authService.sendNotificationObservacionDenegada(
+              this.observacion.usuarioReporta.email,
+              this.observacion
+            );
+          }
+    }
+    else{
+      const alert = await this.alertController.create({
+        header: 'la Observación no puede estar vacia',
+        message: this.msg,
+        buttons: [{
+          text: 'ok',
+        },]
+      });
+      await alert.present();
+    }
   }
   
   async onTarjetaEdit() {
@@ -173,8 +198,6 @@ export class ObservacionConsultarFormComponent implements OnInit {
     console.log(this.observacionLista)
     const modal = await this.modalController.create({
       component: ObservacionEditarComponent,
-      //componentProps: { value: this.tarjeta },
-      //componentProps: { value: this.observacion, operacion:"GET" },
       componentProps: { tarjeta: this.tarjeta, operacion:"GET", observacion: this.observacion },
       cssClass: 'NoSE'
     });
@@ -189,8 +212,6 @@ export class ObservacionConsultarFormComponent implements OnInit {
     console.log(this.observacionLista)
     const modal = await this.modalController.create({
       component: ObservacionFormComponent,
-      //componentProps: { value: this.tarjeta },
-      //componentProps: { value: this.observacion, operacion:"GET" },
       componentProps: { value: this.tarjeta, operacion:"GET", value1: this.observacion },
       cssClass: 'modal-fullscreen'
     });
@@ -209,7 +230,6 @@ export class ObservacionConsultarFormComponent implements OnInit {
   }
 
   checarTipoObservacion( datos, label): boolean {
-    // return tipoObservacion && label ? tipoObservacion === label : false ;
     return datos === label;
 }
 
