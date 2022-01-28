@@ -328,6 +328,7 @@ export class InspeccionFormComponent implements OnInit {
       inspeccion.programacion = this.programacion;
       inspeccion.area = this.programacion.area;
       inspeccion.area.id = this.programacion.area.id;
+     // inspeccion.listaInspeccion.formulario = this.programacion.listaInspeccion.formulario;
       console.log(this.programacion)
 
       inspeccion.listaInspeccion = this.programacion.listaInspeccion;
@@ -337,6 +338,7 @@ export class InspeccionFormComponent implements OnInit {
       inspeccion.listaInspeccion.listaInspeccionPK = this.listaInspeccion.listaInspeccionPK;
       inspeccion.listaInspeccion.nombre = this.listaInspeccion.nombre;
       inspeccion.listaInspeccion.codigo = this.listaInspeccion.codigo;
+      inspeccion.listaInspeccion.formulario = this.listaInspeccion.formulario;
     }
 
     this.listaInspeccion.formulario.campoList.forEach(campo => {
@@ -351,6 +353,9 @@ export class InspeccionFormComponent implements OnInit {
       }
       inspeccion.respuestasCampoList.push(respCampo);
     });
+    inspeccion.listaInspeccion.formulario = this.listaInspeccion.formulario;
+    console.log(inspeccion)
+
     return inspeccion;
   }
 
@@ -515,6 +520,8 @@ export class InspeccionFormComponent implements OnInit {
           arrayResultadoVar1.forEach(element => {
             element.elementoInspeccionPadre=[]
           });
+
+          console.log(inspeccion)
 
           let dato = inspeccion.listaInspeccion.formulario.campoList.filter(item=>{
             return item.nombre.includes('Numero económico')
