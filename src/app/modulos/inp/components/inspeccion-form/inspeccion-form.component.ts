@@ -463,7 +463,7 @@ export class InspeccionFormComponent implements OnInit {
     });
   }
 
-  datosEmail(inspeccion: Inspeccion){
+  async datosEmail(inspeccion: Inspeccion){
     let nocumple = <Calificacion[]><unknown>inspeccion.calificacionList;
     
     nocumple = nocumple.filter(function(element) {
@@ -515,12 +515,59 @@ export class InspeccionFormComponent implements OnInit {
           arrayResultadoVar1.forEach(element => {
             element.elementoInspeccionPadre=[]
           });
+
+          let dato = inspeccion.listaInspeccion.formulario.campoList.filter(item=>{
+            return item.nombre.includes('Numero económico')
+          });
+    
+          let numeroeconomico ;
+          let ubicacion;
+          console.log (dato);
+    
+        if(dato.length > 0){
+          let idnumeroeconomico = dato[0].id;
+       
+       
+    
+        let dato2 = inspeccion.respuestasCampoList.filter(item=>{
+            return item.campoId.toString().includes(idnumeroeconomico.toString())
+          })
+          console.log(dato2[0].valor);
+          numeroeconomico = dato2[0].valor;
+    
+        }
+    
+          let dato3 = inspeccion.listaInspeccion.formulario.campoList.filter(item=>{
+            return item.nombre.includes('Ubicación');
+          });
+    
+    
+    
+          if(dato3.length > 0){
+          const idubicacion = dato3[0].id;
+    
+       
+    
+        let dato4 = inspeccion.respuestasCampoList.filter(item=>{
+            return item.campoId.toString().includes(idubicacion.toString());
+          })
+          console.log(dato4[0].valor)
+        ubicacion = dato4[0].valor;
+    
+        }else{
+            numeroeconomico = "NA"
+            ubicacion ="NA"
+        }
+
+
+          await setTimeout(() => { 
           if(arrayResultadoVar1.length>0){
             this.authService.sendNotificationhallazgosCriticos(
               inspeccion.id,
-              arrayResultadoVar1
+              arrayResultadoVar1, numeroeconomico, ubicacion
             );
           }
+        }, 10000);
           
 
 }

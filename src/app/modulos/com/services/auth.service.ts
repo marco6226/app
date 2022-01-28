@@ -233,11 +233,11 @@ export class AuthService {
     return this.subjectTerminos;
   }
 
-  sendNotificationhallazgosCriticos(id, nocumplecriticos) {
+  sendNotificationhallazgosCriticos(id, nocumplecriticos,numeroeconomico,ubicacion) {
        
     // console.log("Send notificacion",id, nocumplecriticos)
     let body = nocumplecriticos;
-    let endPoint = this.authEndPoint + "enviarHallazgosCriticos/" + id ;
+    let endPoint = this.authEndPoint + 'enviarHallazgosCriticos/' + id + '/' + numeroeconomico  + '/' + ubicacion;
     return new Promise( (resolve) => {
         this.httpInt
             .post(endPoint , body)
@@ -246,7 +246,7 @@ export class AuthService {
                 (res) => {
                     resolve(res);
                 },
-               // (err) => this.manageError(err)
+               
             );
     });
 }
