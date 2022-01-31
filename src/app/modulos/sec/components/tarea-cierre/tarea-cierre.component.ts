@@ -147,8 +147,7 @@ export class TareaCierreComponent implements OnInit{
       resp => {
         this.empleado = (<Empleado[]>resp['data'])[0];
         if (this.empleado != null) {
-          this.nombreEmpleado = this.empleado.primerNombre + " " + this.empleado.segundoNombre + " " +
-           this.empleado.primerApellido + " " + this.empleado.segundoApellido
+          this.nombreEmpleado = this.empleado.primerNombre + " " + this.empleado.primerApellido
         }
       }
     );

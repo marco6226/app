@@ -1,3 +1,4 @@
+import { FiltroModule } from './modulos/inp/components/inspecciones-realizadas/filtro/filtro.module';
 import { TareaCierreComponent } from './modulos/sec/components/tarea-cierre/tarea-cierre.component';
 import { TareaGeneralComponent } from './modulos/sec/components/tarea-general/tarea-general.component';
 import { NgModule } from '@angular/core';
@@ -56,9 +57,9 @@ import { TareaSeguimientoComponent } from './modulos/sec/components/tarea-seguim
         TareaPage,
         TareaGeneralComponent,
         TareaSeguimientoComponent,
-        TareaCierreComponent
+        TareaCierreComponent,
     ],
-    entryComponents: [TareaPage],
+    entryComponents: [TareaPage,TareaCierreComponent],
     imports: [
         BrowserModule, 
         BrowserAnimationsModule, 
@@ -67,7 +68,7 @@ import { TareaSeguimientoComponent } from './modulos/sec/components/tarea-seguim
         ComunModule, 
         HttpClientModule, 
         AutoCompleteModule,
-        
+        // FiltroModule
     ],
     providers: [
         // FileTransfer,
