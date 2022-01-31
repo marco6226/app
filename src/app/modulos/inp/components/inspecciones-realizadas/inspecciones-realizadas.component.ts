@@ -18,6 +18,9 @@ export class InspeccionesRealizadasComponent implements OnInit {
     @Output('onInspSelect') onInspSelect = new EventEmitter<Inspeccion>();
     inspList: Inspeccion[];
 
+    filtroToogle: boolean = false;
+    rotarIcon: string='rotate(0deg)';
+
     loading: boolean;
     inspCargadas: boolean;
     filtFechaHasta: any;
@@ -26,10 +29,21 @@ export class InspeccionesRealizadasComponent implements OnInit {
     count: number;
     tituloButton: String = 'Filtrar';
 
+    textoFilt: string;
+    campoFilt: string;
+    fechaDesde: Date = new Date('1/01/1990');
+    fechaHasta: Date = new Date();
+    ListaUbicacion: Inspeccion[];
+
+
+
     constructor(private offlineService: OfflineService, private storageService: StorageService, public modalController: ModalController) {}
 
     ngOnInit() {
         this.cargarRealizadas();
+        setTimeout(() => {
+            this.extraerUbicacion();            
+        }, 1000);
     }
 
 
@@ -74,6 +88,37 @@ export class InspeccionesRealizadasComponent implements OnInit {
         this.count = 0;
         this.cargarListasFiltro(this.filtFechaDesde, this.filtFechaHasta);
     }
+    
+
+    filtrarInspecciones(){
+
+        this.filtroToogle = !this.filtroToogle;
+
+        if(this.filtroToogle){
+            this.rotarIcon='rotate(180deg)'
+        }
+        else{
+            this.rotarIcon='rotate(0deg)'
+        }
+
+        console.log("ok")
+        // console.log(this.inspList)
+        // let data = this.inspList
+        // this.color="blue"
+        // let filto= "BOGOTA D.C."
+        // this.rotard='rotate(180deg)';
+        // data.filter(item => {
+        //     return item.equipo.includes(filto)
+        // });
+        
+        // console.log(data)
+        // this.textoFilt="23"
+        // let data = this.inspList.filter(item=>{
+        //     return item.equipo
+        // })
+
+    }
+
     filtrarFechaDesde(event) {
         this.filtFechaDesde = event.detail.value;
         if (this.filtFechaHasta != null && !this.buttonText) {
@@ -122,5 +167,30 @@ export class InspeccionesRealizadasComponent implements OnInit {
             this.filtFechaHasta = new Date()
             this.cargarRealizadas();
         }
+    }
+
+    ok(){
+       this.extraerUbicacion();
+    }
+
+    borrarFiltros(){
+        this.textoFilt='';
+        this.campoFilt='';
+        this.fechaDesde = new Date('1/01/1990');
+        this.fechaHasta = new Date();
+        
+    }
+
+    extraerUbicacion(){
+        console.log(this.inspList)
+          
+          var hash = {};
+          this.ListaUbicacion = this.inspList.filter(function(current) {
+            var exists = !hash[current.area.nombre];
+            hash[current.area.nombre] = true;
+            return exists;
+          });
+          
+          console.log(this.ListaUbicacion);
     }
 }

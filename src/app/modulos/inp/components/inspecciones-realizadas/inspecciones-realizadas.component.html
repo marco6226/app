@@ -7,11 +7,9 @@
         <a *ngIf="inspCargadas == false" (click)="this.cargarRealizadas()">Reintentar</a>
     </p>
 </div>
-
+<!-- 
 <ion-slides>
     <div style="width: 100%">
-        <!--Fecha-->
-        <!-- <ion-label position="stacked"> <ion-card-subtitle style="margin-left: 3%">Filtrar por fecha</ion-card-subtitle> </ion-label> -->
         <ion-item>
             <ion-icon name="search" slot="start"></ion-icon>
 
@@ -45,11 +43,91 @@
                 {{ tituloButton }}
             </ion-button>
         </ion-item>
+        <ion-item>
+            <ion-button shape="round"  (click)="ok()">
+                ok
+            </ion-button>
+        </ion-item>
     </div>
-</ion-slides>
-<ion-card *ngFor="let inspeccion of inspList">
+</ion-slides> -->
+
+<!-- <ion-button shape="round"  (click)="ok()">
+    ok
+</ion-button> -->
+
+<ion-item style="width: 100%;">
+    <ion-card style="width: 100%;">
+
+        <ion-card-content *ngIf="filtroToogle" style="width: 100%;">
+
+            <ion-item>
+                <ion-icon slot="start" name="calendar"></ion-icon>
+                <ion-label position="floating">Desde</ion-label>     
+                <ion-datetime   
+                    cancelText="Cancelar"
+                    doneText="Ok"         
+                    displayFormat="DD/MM/YYYY"
+                    picker-format="DD, MMMM, YYYY"         
+                    monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre"
+                    [(ngModel)]="fechaDesde"
+                    ></ion-datetime> 
+            </ion-item>
+
+            <ion-item>
+                <ion-icon slot="start" name="calendar"></ion-icon>
+                <ion-label position="floating">Hasta</ion-label>     
+                <ion-datetime   
+                    cancelText="Cancelar"
+                    doneText="Ok"         
+                    displayFormat="DD/MM/YYYY"
+                    picker-format="DD, MMMM, YYYY"         
+                    monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre"
+                    [(ngModel)]="fechaHasta"
+                    ></ion-datetime> 
+            </ion-item>
+
+            <ion-item>
+                <ion-icon slot="start" name="git-commit"></ion-icon>
+                <ion-label position="floating">Codigo</ion-label>
+                <ion-input type="number" [(ngModel)]="textoFilt"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-icon slot="start" name="mail"></ion-icon>
+                <ion-label position="floating">Usuario Elabora</ion-label>          
+                <ion-input type="text" [(ngModel)]="campoFilt"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-icon slot="start" name="pin"></ion-icon>
+                <ion-label position="floating">Ubicación</ion-label>          
+                <!-- <ion-input type="text" [(ngModel)]="campoFilt"></ion-input> -->
+                <ion-select >
+                    <ion-select-option *ngFor="let cli of ListaUbicacion" [value]="cli.area.nombre">{{cli.area.nombre}}</ion-select-option>
+                </ion-select>
+            </ion-item>
+
+        </ion-card-content>
+        <ion-item>
+            <ion-label *ngIf="!filtroToogle">Filtros</ion-label>
+
+            <ion-button *ngIf="filtroToogle" slot="start" shape="round" (click)="borrarFiltros()" style="font-size: 10px; height: 24px; width: 113px;">
+                Borrar
+                <ion-icon slot="start" name="close-circle" color="light" [ngStyle]="{'transform': rotarIcon}"></ion-icon>
+            </ion-button>
+
+            <ion-button slot="end" shape="round" (click)="filtrarInspecciones()" >
+                <ion-icon name="funnel" color="light" [ngStyle]="{'transform': rotarIcon}"></ion-icon>
+            </ion-button>
+        </ion-item>        
+
+    </ion-card>    
+</ion-item>
+
+
+<ion-card *ngFor="let inspeccion of inspList | filtro: textoFilt: campoFilt: fechaDesde: fechaHasta">
     <ion-item>
-        <ion-label>{{inspeccion?.area.nombre}} </ion-label>        
+        <ion-label>{{inspeccion?.area.nombre}} </ion-label>
         <ion-button shape="round" size="small" color="tertiary" slot="end" (click)="abrirInspeccion(inspeccion)">Consultar <ion-icon slot="icon-only" name="search" ></ion-icon></ion-button>
     </ion-item>
     <ion-card-header>
