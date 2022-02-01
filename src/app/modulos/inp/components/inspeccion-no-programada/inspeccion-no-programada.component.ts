@@ -24,6 +24,12 @@ export class InspeccionNoProgramadaComponent implements OnInit {
   filtNombre: string;
   filtDescripcion: string;
 
+  codigoFilt: string;
+  nombreFilt: string;
+  descripcionFilt: string;
+  filtroToogle: boolean = false;
+  rotarIcon: string='rotate(0deg)';
+
   constructor(
     private offlineService: OfflineService,
   ) { }
@@ -144,6 +150,28 @@ export class InspeccionNoProgramadaComponent implements OnInit {
         this.loading = false;
         this.listasCargadas = false;
       });
+  }
+
+  filtrarInspecciones(){
+
+    this.filtroToogle = !this.filtroToogle;
+
+    if(this.filtroToogle){
+        this.rotarIcon='rotate(180deg)'
+    }
+    else{
+        this.rotarIcon='rotate(0deg)'
+    }
+}
+
+ok(){
+  console.log(this.listasInspeccion);
+}
+
+  borrarFiltros(){
+    this.codigoFilt='';
+    this.nombreFilt='';
+    this.descripcionFilt = '';
   }
 
 }

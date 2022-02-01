@@ -23,12 +23,24 @@ export class InspeccionesRealizadasNoProgamadasComponent implements OnInit {
   count: number;
   tituloButton: String = 'Filtrar';
 
+  textoFilt: string;
+  campoFilt: string;
+  fechaDesde: Date = new Date('1/01/1990');
+  fechaHasta: Date = new Date();
+  ListaUbicacion: Inspeccion[];
+  ubicaionFilt: string;
+  filtroToogle: boolean = false;
+  rotarIcon: string='rotate(0deg)';
+
   constructor(
     private offlineService: OfflineService,
     public modalController: ModalController) {}
 
   ngOnInit() {
       this.cargarRealizadas();
+      setTimeout(() => {
+        this.extraerUbicacion();            
+    }, 1000);
   }
 
 
@@ -65,59 +77,35 @@ export class InspeccionesRealizadasNoProgamadasComponent implements OnInit {
       this.onInspSelect.emit(inspeccion);
   }
 
-  filtrar() {
-      this.loading = true;
-      this.inspList = [];
-      this.count = 0;
-      this.cargarListasFiltro(this.filtFechaDesde, this.filtFechaHasta);
-  }
-  filtrarFechaDesde(event) {
-      this.filtFechaDesde = event.detail.value;
-      if (this.filtFechaHasta != null && !this.buttonText) {
-          this.filtrar();
-      }
-  }
+    filtrarInspecciones(){
 
-  filtrarFechaHasta(event) {
-      this.filtFechaHasta = event.detail.value;
+        this.filtroToogle = !this.filtroToogle;
 
-      if (this.filtFechaDesde != null && !this.buttonText) {
-          this.filtrar();
-      }
-  }
+        if(this.filtroToogle){
+            this.rotarIcon='rotate(180deg)'
+        }
+        else{
+            this.rotarIcon='rotate(0deg)'
+        }
+    }
 
-  cargarListasFiltro(desde: Date, hasta: Date) {
-      this.loading = true;
-      this.inspList = [];
-      this.offlineService
-          .queryRealizadasListBetweenNoProg(desde, hasta)
-          .then((resp) => {
-              this.inspList = [];
-              (<any[]>resp['data']).forEach((dto) => {
-                  console.log(resp);
-                  this.inspList.push(FilterQuery.dtoToObject(dto));
-              });
-              this.loading = false;
-              this.inspCargadas = true;
-          })
-          .catch((err) => {
-              this.loading = false;
-              this.inspCargadas = false;
-          });
-  }
-  Reset() {
-      if (this.buttonText) {
-          if (this.filtFechaDesde != null && this.filtFechaHasta != null) {
-              this.tituloButton = 'Borrar Filtro';
-              this.buttonText = false;
-              this.filtrar();
+    borrarFiltros(){
+        this.textoFilt='';
+        this.campoFilt='';
+        this.fechaDesde = new Date('1/01/1990');
+        this.fechaHasta = new Date();
+        this.ubicaionFilt = '';
+    }
+
+    extraerUbicacion(){
+          
+        var hash = {};
+        this.ListaUbicacion = this.inspList.filter(function(current) {
+          if(current.area.nombre != null){
+              var exists = !hash[current.area.nombre];
+              hash[current.area.nombre] = true;
+              return exists;
           }
-      } else {
-          this.tituloButton = 'Filtrar';
-          this.buttonText = true;
-          this.filtFechaDesde = new Date()
-          this.filtFechaHasta = new Date()
-          this.cargarRealizadas();
-      }
-  }
+        });
+    }
 }

@@ -1,18 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FiltroPipe } from './filtro.pipe';
+import { FiltroPipeInspecciones, FiltroPipeInspeccionesLista, FiltroPipeInspeccionesListaProg } from './filtro.pipe';
 
 
 
 @NgModule({
   declarations: [
-    FiltroPipe
+    FiltroPipeInspecciones,
+    FiltroPipeInspeccionesLista,
+    FiltroPipeInspeccionesListaProg
   ],
   imports: [
     // CommonModule    
   ],
   exports:[
-    FiltroPipe
+    FiltroPipeInspecciones,
+    FiltroPipeInspeccionesLista,
+    FiltroPipeInspeccionesListaProg
   ],
   entryComponents:[
     // FiltroPipe

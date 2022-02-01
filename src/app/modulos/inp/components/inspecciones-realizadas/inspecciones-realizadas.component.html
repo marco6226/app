@@ -7,53 +7,6 @@
         <a *ngIf="inspCargadas == false" (click)="this.cargarRealizadas()">Reintentar</a>
     </p>
 </div>
-<!-- 
-<ion-slides>
-    <div style="width: 100%">
-        <ion-item>
-            <ion-icon name="search" slot="start"></ion-icon>
-
-            <ion-label position="stacked"> Desde: </ion-label>
-            <ion-datetime
-                cancelText="Cancelar"
-                doneText="Ok"
-                max="2022"
-                displayFormat="DD/MM/YYYY"
-                picker-format="DD, MMMM, YYYY"
-                monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre"
-                (ionChange)="filtrarFechaDesde($event)"
-            ></ion-datetime>
-        </ion-item>
-        <ion-item>
-            <ion-icon name="search" slot="start"></ion-icon>
-            <ion-label position="stacked"> Hasta: </ion-label>
-            <ion-datetime
-                min="{{ filtFechaDesde | date: 'yyyy-MM-dd' }}"
-                max="2022"
-                cancelText="Cancelar"
-                doneText="Ok"
-                displayFormat="DD/MM/YYYY"
-                picker-format="DD, MMMM, YYYY"
-                monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre"
-                (ionChange)="filtrarFechaHasta($event)"
-            ></ion-datetime>
-        </ion-item>
-        <ion-item>
-            <ion-button shape="round"  (click)="Reset()">
-                {{ tituloButton }}
-            </ion-button>
-        </ion-item>
-        <ion-item>
-            <ion-button shape="round"  (click)="ok()">
-                ok
-            </ion-button>
-        </ion-item>
-    </div>
-</ion-slides> -->
-
-<!-- <ion-button shape="round"  (click)="ok()">
-    ok
-</ion-button> -->
 
 <ion-item style="width: 100%;">
     <ion-card style="width: 100%;">
@@ -88,7 +41,7 @@
 
             <ion-item>
                 <ion-icon slot="start" name="git-commit"></ion-icon>
-                <ion-label position="floating">Codigo</ion-label>
+                <ion-label position="floating">Código</ion-label>
                 <ion-input type="number" [(ngModel)]="textoFilt"></ion-input>
             </ion-item>
 
@@ -100,9 +53,8 @@
 
             <ion-item>
                 <ion-icon slot="start" name="pin"></ion-icon>
-                <ion-label position="floating">Ubicación</ion-label>          
-                <!-- <ion-input type="text" [(ngModel)]="campoFilt"></ion-input> -->
-                <ion-select >
+                <ion-label position="floating">Ubicación</ion-label>
+                <ion-select [(ngModel)]="ubicaionFilt">
                     <ion-select-option *ngFor="let cli of ListaUbicacion" [value]="cli.area.nombre">{{cli.area.nombre}}</ion-select-option>
                 </ion-select>
             </ion-item>
@@ -125,7 +77,7 @@
 </ion-item>
 
 
-<ion-card *ngFor="let inspeccion of inspList | filtro: textoFilt: campoFilt: fechaDesde: fechaHasta">
+<ion-card *ngFor="let inspeccion of inspList | filtroProg: textoFilt: campoFilt: fechaDesde: fechaHasta: ubicaionFilt">
     <ion-item>
         <ion-label>{{inspeccion?.area.nombre}} </ion-label>
         <ion-button shape="round" size="small" color="tertiary" slot="end" (click)="abrirInspeccion(inspeccion)">Consultar <ion-icon slot="icon-only" name="search" ></ion-icon></ion-button>
@@ -139,12 +91,6 @@
             {{inspeccion?.programacion_area_nombre}} 
         </ion-card-subtitle>
     </ion-card-header>
-    <!-- <ion-card-content *ngIf="inspeccion.offlineDone > 0">
-        <p>
-            Pdte sincronizar:
-            <ion-badge color="warning">{{ inspeccion.offlineDone }}</ion-badge>
-        </p>
-    </ion-card-content> -->
 </ion-card>
 
 <ion-card *ngIf="inspList?.length == 0" class="NoFound">

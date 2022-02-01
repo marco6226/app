@@ -1,4 +1,4 @@
-import { FiltroPipe } from './../inp/components/inspecciones-realizadas/filtro/filtro.pipe';
+import { FiltroPipeInspecciones, FiltroPipeInspeccionesLista, FiltroPipeInspeccionesListaProg } from './../inp/components/inspecciones-realizadas/filtro/filtro.pipe';
 import { TareaGeneralComponent } from './../sec/components/tarea-general/tarea-general.component';
 import { AutocompleteComponent } from './components/autocomplete/autocomplete.component';
 import { EmpleadoSelectorComponent } from './components/empleado-selector/empleado-selector.component';
@@ -60,7 +60,9 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
         ObservacionTarjetasComponent,
         EmpleadoSelectorComponent,
         AutoCompleteModule,
-        FiltroPipe
+        FiltroPipeInspecciones,
+        FiltroPipeInspeccionesLista,
+        FiltroPipeInspeccionesListaProg
     ],
     declarations: [
         MensajeUsuarioComponent,
@@ -76,7 +78,9 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
         ObservacionTarjetasComponent,
         EmpleadoSelectorComponent,
         AutocompleteComponent,
-        FiltroPipe
+        FiltroPipeInspecciones,
+        FiltroPipeInspeccionesLista,
+        FiltroPipeInspeccionesListaProg
     ],
     providers: [
         HttpInt,

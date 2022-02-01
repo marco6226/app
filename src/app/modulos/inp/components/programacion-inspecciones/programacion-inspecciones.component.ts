@@ -26,10 +26,21 @@ export class ProgramacionInspeccionesComponent implements OnInit {
     buttonText: boolean = true;
     tituloButton: String = 'Filtrar';
 
+    nombreFilt: string;
+    fechaDesde: Date = new Date('1/01/1990');
+    fechaHasta: Date = new Date();
+    ListaUbicacion: Programacion[];
+    ubicaionFilt: string;
+    filtroToogle: boolean = false;
+    rotarIcon: string='rotate(0deg)';
+
     constructor(private storageService: StorageService, private offlineService: OfflineService) {}
 
     ngOnInit() {
         this.cargarProgramacion();
+        setTimeout(() => {
+            this.extraerUbicacion();            
+        }, 1000);
     }
 
     cargarProgramacion() {
@@ -69,59 +80,40 @@ export class ProgramacionInspeccionesComponent implements OnInit {
     onProgSelect(prog: Programacion) {
         this.onProgramacionSelect.emit(prog);
     }
-    /* *********************** Filtros ********************************* */
-    filtrarFechaDesde(event) {
-        this.filtFechaDesde = event.detail.value;
-        if (this.filtFechaHasta != null && !this.buttonText) {
-            this.filtrar();
+    
+    filtrarInspecciones(){
+
+        this.filtroToogle = !this.filtroToogle;
+
+        if(this.filtroToogle){
+            this.rotarIcon='rotate(180deg)'
+        }
+        else{
+            this.rotarIcon='rotate(0deg)'
         }
     }
 
-    filtrarFechaHasta(event) {
-        this.filtFechaHasta = event.detail.value;
-        if (this.filtFechaDesde != null && !this.buttonText) {
-            this.filtrar();
-        }
+
+    borrarFiltros(){
+        this.nombreFilt='';
+        this.fechaDesde = new Date('1/01/1990');
+        this.fechaHasta = new Date();
+        this.ubicaionFilt = '';
     }
 
-    filtrar() {
-        this.loading = true;
-        this.programacionLista = [];
-        this.count = 0;
-        this.cargarListasFiltro(this.filtFechaDesde, this.filtFechaHasta);
-    }
+    extraerUbicacion(){
+          
+        var hash = {};
+        this.ListaUbicacion = this.programacionList.filter(function(current) {
+          if(current.area.nombre != null){
+              var exists = !hash[current.area.nombre];
+              hash[current.area.nombre] = true;
+              return exists;
+          }
+        });
+  }
 
-    cargarListasFiltro(desde: Date, hasta: Date) {
-        this.loading = true;
-        this.programacionList = [];
-        this.offlineService
-            .queryProgramacionListBetween(desde, hasta)
-            .then((resp) => {
-                this.programacionList = [];
-                (<any[]>resp['data']).forEach((dto) => {
-                    console.log(resp);
-                    this.programacionList.push(FilterQuery.dtoToObject(dto));
-                });
-                this.loading = false;
-                this.progCargada = true;
-            })
-            .catch((err) => {
-                this.loading = false;
-                this.progCargada = false;
-            });
-    }
-
-    Reset() {
-        if (this.buttonText) {
-            if (this.filtFechaDesde != null && this.filtFechaHasta != null) {
-                this.tituloButton = 'Borrar Filtro';
-                this.buttonText = false;
-                this.filtrar();
-            }
-        } else {
-            this.tituloButton = 'Filtrar';
-            this.buttonText = true;
-            this.cargarProgramacion();
-        }
+    ok(){
+        console.log(this.programacionList, this.ListaUbicacion)
     }
 }

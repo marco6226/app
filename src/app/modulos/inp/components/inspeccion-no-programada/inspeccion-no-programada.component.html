@@ -1,32 +1,47 @@
-<!--Listas-->
-<ion-slides>    
-    <div style="width: 100%;">      
-      <!--Codigo-->
+<ion-item style="width: 100%;">
+  <ion-card style="width: 100%;">
+
+      <ion-card-content *ngIf="filtroToogle" style="width: 100%;">
+
+          <ion-item>
+              <ion-icon slot="start" name="git-commit"></ion-icon>
+              <ion-label position="floating">Código</ion-label>
+              <ion-input type="text" [(ngModel)]="codigoFilt"></ion-input>
+          </ion-item>
+
+          <ion-item>
+              <ion-icon slot="start" name="copy"></ion-icon>
+              <ion-label position="floating">Nombre</ion-label>          
+              <ion-input type="text" [(ngModel)]="nombreFilt"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-icon slot="start" name="document"></ion-icon>
+            <ion-label position="floating">Descripción</ion-label>          
+            <ion-input type="text" [(ngModel)]="descripcionFilt"></ion-input>
+        </ion-item>
+
+      </ion-card-content>
+      
       <ion-item>
-        <ion-icon name="search" slot="start"></ion-icon>
-        <ion-label position="stacked">
-          Código
-        </ion-label>
-        <ion-input (ionChange)="filtrarCodigo($event)" clear-input="true" debounce="500"></ion-input>
-      </ion-item>
-      <!--Nombre-->
-      <ion-item>
-        <ion-icon name="search" slot="start"></ion-icon>
-        <ion-label position="stacked">
-          Nombre
-        </ion-label>
-        <ion-input (ionChange)="filtrarNombre($event)" clear-input="true" debounce="500"></ion-input>
-      </ion-item>
-      <!--Descripcion-->
-      <ion-item>
-        <ion-icon name="search" slot="start"></ion-icon>
-        <ion-label position="stacked">
-          Descripcion
-        </ion-label>
-        <ion-input (ionChange)="filtrarDescripcion($event)" clear-input="true" debounce="500"></ion-input>
-      </ion-item>
-    </div>
-</ion-slides>
+          <ion-label *ngIf="!filtroToogle">Filtros</ion-label>
+
+          <ion-button *ngIf="filtroToogle" slot="start" shape="round" (click)="borrarFiltros()" style="font-size: 10px; height: 24px; width: 113px;">
+              Borrar
+              <ion-icon slot="start" name="close-circle" color="light" [ngStyle]="{'transform': rotarIcon}"></ion-icon>
+          </ion-button>
+
+          <ion-button slot="end" shape="round" (click)="filtrarInspecciones()" >
+              <ion-icon name="funnel" color="light" [ngStyle]="{'transform': rotarIcon}"></ion-icon>
+          </ion-button>
+      </ion-item>        
+
+  </ion-card>    
+</ion-item>
+<!-- 
+<ion-button (click)="ok()">
+  Ok
+</ion-button> -->
 
 <div *ngIf="loading == true">
     <ion-spinner class="main-spinner" name="dots" color="primary"></ion-spinner>
@@ -39,7 +54,7 @@
     </p>
 </div>
 
-<ion-card *ngFor="let lista of listasInspeccion; let i = index">
+<ion-card *ngFor="let lista of listasInspeccion | filtroLista: codigoFilt: nombreFilt: descripcionFilt">
     <ion-card-header>
         <ion-item>
             <h6>{{lista.nombre}}</h6>            
