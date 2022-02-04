@@ -170,10 +170,11 @@ export class FormularioTareasComponent implements OnInit {
         this.descripcion = tarea.descripcion;
         this.tipoAccion = tarea.tipoAccion;
         this.jerarquia = tarea.jerarquia;
-        this.empResponsable = this.empResponsable;
+        this.empResponsable = tarea.empResponsable;
         this.fechaProyectada = tarea.fechaProyectada;
         this.areaResp = tarea.areaResponsable;
         this.idxTareaEditar = idx;
+        this.nombreEmpleado =tarea.empResponsable.primerNombre + " " + tarea.empResponsable.primerApellido;
         document.querySelector('#form-tareas').scrollIntoView({
             behavior: 'smooth',
         });
