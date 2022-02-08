@@ -20,14 +20,16 @@ export class EmpleadoSelectorComponent implements OnInit, ControlValueAccessor {
     @Input() _value: Empleado;
     @Input('readOnly') disabled: boolean;
     @Input() cargar: boolean;
-    @Output('onSelect') onSelect = new EventEmitter<Empleado>();
+    @Output('changeSelection') onSelect = new EventEmitter<any>();
     propagateChange = (_: any) => {};
     empleadosList: Empleado[];
     suggestions: any[];
 
     constructor(private empleadoService: EmpleadoService) {}
 
-    ngOnInit() {}
+    ngOnInit() {
+        // this.empleadoService.buscar('1').then((data) => (this.empleadosList = <Empleado[]>data));
+    }
 
     writeValue(value: Empleado) {
         this.value = value;
@@ -68,5 +70,16 @@ export class EmpleadoSelectorComponent implements OnInit, ControlValueAccessor {
         if (!this.disabled) {
             this.value = null;
         }
+    }
+    
+    changeSelection(event: Event){
+        console.log(event);
+        this.onSelect.emit(event);
+    }
+
+    ok(){
+        console.log("ok",this.empleadosList,this._value)
+        console.log(this.empleadoService)
+        // console.log(empleado)
     }
 }

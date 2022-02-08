@@ -33,9 +33,9 @@ import { ConfiguracionGeneralService } from './services/configuracion-general.se
 import { ActaService } from '../cop/services/acta.service';
 import { HTMLSanitizerService } from './services/html-sanitizer.service';
 import { TerminosCondicionesComponent } from './components/terminos-condiciones/terminos-condiciones.component';
+import { AutoCompleteModule } from 'ionic4-auto-complete';
 
-import { AutoCompleteModule } from 'primeng/autocomplete';
-
+// import { AutoCompleteModule } from 'primeng/autocomplete';
 @NgModule({
     imports: [
         CommonModule, 
@@ -62,7 +62,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
         AutoCompleteModule,
         FiltroPipeInspecciones,
         FiltroPipeInspeccionesLista,
-        FiltroPipeInspeccionesListaProg
+        FiltroPipeInspeccionesListaProg,
     ],
     declarations: [
         MensajeUsuarioComponent,
@@ -80,7 +80,8 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
         AutocompleteComponent,
         FiltroPipeInspecciones,
         FiltroPipeInspeccionesLista,
-        FiltroPipeInspeccionesListaProg
+        FiltroPipeInspeccionesListaProg,
+        
     ],
     providers: [
         HttpInt,

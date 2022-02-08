@@ -1,5 +1,6 @@
 import { Area } from './area';
 import { Cargo } from './cargo';
+import { Usuario } from './usuario';
 
 export class Empleado {
     id: string;
@@ -34,7 +35,7 @@ export class Empleado {
     jefeInmediato: Empleado;
     regional: string;
     correoPersonal: string;
-    // usuario: Usuario;
+    usuario: Usuario;
     // configuracionJornadaList: ConfiguracionJornada[];
     // horasExtraList: HorasExtra[];
     // documentosList: Documento[];

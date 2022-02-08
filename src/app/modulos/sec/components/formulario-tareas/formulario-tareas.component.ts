@@ -28,6 +28,7 @@ export class FormularioTareasComponent implements OnInit {
     nombreEmpleado: string;
     evento;
     selectionEmpleado: boolean = false;
+    isEnabled:boolean=false;
 
     idxTareaEditar: number = -1;
     @Output('onEvent') onEvent = new EventEmitter();
@@ -143,7 +144,7 @@ export class FormularioTareasComponent implements OnInit {
             return false;
         }
         if (this.empResponsable == null) {
-            this.presentToast('Debe completar el campo jerarquía');
+            this.presentToast('Debe completar el campo empleado');
             return false;
         }
         if (this.fechaProyectada == null) {
@@ -228,7 +229,7 @@ export class FormularioTareasComponent implements OnInit {
         await alert.present();
     }
     onSelection(event){
-        console.log(event)
+        console.log("----->",event)
         let nombre;
         if(event.primerNombre != null){
             nombre = event.primerNombre;

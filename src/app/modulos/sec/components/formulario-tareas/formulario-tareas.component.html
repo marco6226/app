@@ -75,7 +75,7 @@
             <ion-label *ngIf="!selectionEmpleado" position="stacked">
                 <h3>Empleado</h3>
             </ion-label>
-            <sm-empleado-selector style="width: 98%" *ngIf="!selectionEmpleado" position="stacked" [(ngModel)]="empResponsable" [disabled]="guardando == true" appendTo="ion-modal" (onSelect)="onSelection($event)"></sm-empleado-selector>
+            <sm-empleado-selector style="width: 98%" *ngIf="!selectionEmpleado" position="stacked" [(ngModel)]="empResponsable" [disabled]="guardando == true" appendTo="ion-modal" (changeSelection)="onSelection($event)"></sm-empleado-selector>
        
        <!--  <p-autoComplete
             placeholder="Empleado"

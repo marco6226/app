@@ -30,11 +30,13 @@ import { TienePermisoDirective } from './modulos/com/directives/tiene-permiso.di
 // import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 import { AppVersion } from '@ionic-native/app-version/ngx';
 import { EmpleadoService } from './modulos/com/services/empleado.service';
-import { AutoCompleteModule } from 'primeng/autocomplete';
+// import { AutoCompleteModule } from 'primeng/autocomplete';
 import { MisTareasPageModule } from './modulos/sec/pages/mis-tareas/mis-tareas.module';
 import { MisTareasPage } from './modulos/sec/pages/mis-tareas/mis-tareas.page';
 import { TareaPage } from './modulos/sec/pages/tarea/tarea.page';
 import { TareaSeguimientoComponent } from './modulos/sec/components/tarea-seguimiento/tarea-seguimiento.component';
+import { AutoCompleteModule } from 'ionic4-auto-complete';
+
 
 // class SQLiteMock {
 //   public create(config: SQLiteDatabaseConfig): Promise<SQLiteObject> {
