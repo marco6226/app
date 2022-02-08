@@ -176,6 +176,7 @@ export class FormularioTareasComponent implements OnInit {
         this.areaResp = tarea.areaResponsable;
         this.idxTareaEditar = idx;
         this.nombreEmpleado =tarea.empResponsable.primerNombre + " " + tarea.empResponsable.primerApellido;
+        this.selectionEmpleado = true;
         document.querySelector('#form-tareas').scrollIntoView({
             behavior: 'smooth',
         });
