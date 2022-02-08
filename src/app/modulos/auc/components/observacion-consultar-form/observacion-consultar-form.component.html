@@ -68,11 +68,11 @@
           </ion-item>
         </ion-card-title>
         <ion-card-content class="tarjetaContenido">
-          <div>
-            <h2 class="subtitulos">Personas observadas:</h2>
+          <div *ngIf="idEmpresa == '16'">
+            <h2  class="subtitulos">Personas observadas:</h2>
             <ion-label>{{observacion.personasobservadas}}</ion-label>
           </div>
-          <div>
+          <div *ngIf="idEmpresa == '16'">
             <h2 class="subtitulos">Personas abordadas:</h2>
             <ion-label>{{observacion.personasabordadas}}</ion-label>
           </div>
