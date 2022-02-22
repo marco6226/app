@@ -1,4 +1,3 @@
-import { TareaGeneralComponent } from './../tarea-general/tarea-general.component';
 import { ComunModule } from './../../../com/comun.module';
 import { TareaComponent } from './tarea.component';
 import { RouterModule, Routes } from '@angular/router';

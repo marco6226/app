@@ -19,15 +19,25 @@ import { MisTareasPageModule } from '../mis-tareas/mis-tareas.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    SafeBypassPipe,
+    // SafeBypassPipe,
     // MisTareasPageModule
     // ComunModule
+    ComunModule
   ],
-  exports:[SafeBypassPipe],
+  exports:[
+    // SafeBypassPipe
+  ],
   declarations: [
-    TareaPage
-    // TareaCierreComponent, SafeBypassPipe, TareaGeneralComponent, TareaSeguimientoComponent
+    TareaPage,
+    // TareaCierreComponent, 
+    // SafeBypassPipe, 
+    TareaGeneralComponent, 
+    TareaSeguimientoComponent,
+    TareaCierreComponent
   ],
-  entryComponents: [SafeBypassPipe,],
+  entryComponents: [
+    TareaPage
+    // SafeBypassPipe,
+  ],
 })
 export class TareaPageModule {}
