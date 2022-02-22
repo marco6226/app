@@ -11,7 +11,7 @@ import { FiltroPipeInspecciones, FiltroPipeInspeccionesLista, FiltroPipeInspecci
     FiltroPipeInspeccionesListaProg
   ],
   imports: [
-    // CommonModule    
+    // CommonModule
   ],
   exports:[
     FiltroPipeInspecciones,

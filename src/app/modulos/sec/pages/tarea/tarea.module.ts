@@ -24,7 +24,10 @@ import { MisTareasPageModule } from '../mis-tareas/mis-tareas.module';
     // ComunModule
   ],
   exports:[SafeBypassPipe],
-  declarations: [TareaCierreComponent, SafeBypassPipe, TareaGeneralComponent, TareaSeguimientoComponent],
+  declarations: [
+    TareaPage
+    // TareaCierreComponent, SafeBypassPipe, TareaGeneralComponent, TareaSeguimientoComponent
+  ],
   entryComponents: [SafeBypassPipe,],
 })
 export class TareaPageModule {}

@@ -34,6 +34,7 @@ import { ActaService } from '../cop/services/acta.service';
 import { HTMLSanitizerService } from './services/html-sanitizer.service';
 import { TerminosCondicionesComponent } from './components/terminos-condiciones/terminos-condiciones.component';
 import { AutoCompleteModule } from 'ionic4-auto-complete';
+import { FiltroModule } from '../inp/components/inspecciones-realizadas/filtro/filtro.module';
 
 // import { AutoCompleteModule } from 'primeng/autocomplete';
 @NgModule({
@@ -44,6 +45,8 @@ import { AutoCompleteModule } from 'ionic4-auto-complete';
         IonicModule, 
         ReactiveFormsModule, 
         AutoCompleteModule,
+        FiltroModule
+
     ],
     exports: [
         FormsModule,
@@ -60,9 +63,10 @@ import { AutoCompleteModule } from 'ionic4-auto-complete';
         ObservacionTarjetasComponent,
         EmpleadoSelectorComponent,
         AutoCompleteModule,
-        FiltroPipeInspecciones,
-        FiltroPipeInspeccionesLista,
-        FiltroPipeInspeccionesListaProg,
+        // FiltroPipeInspecciones,
+        // FiltroPipeInspeccionesLista,
+        // FiltroPipeInspeccionesListaProg,
+        FiltroModule
     ],
     declarations: [
         MensajeUsuarioComponent,
@@ -78,9 +82,9 @@ import { AutoCompleteModule } from 'ionic4-auto-complete';
         ObservacionTarjetasComponent,
         EmpleadoSelectorComponent,
         AutocompleteComponent,
-        FiltroPipeInspecciones,
-        FiltroPipeInspeccionesLista,
-        FiltroPipeInspeccionesListaProg,
+        // FiltroPipeInspecciones,
+        // FiltroPipeInspeccionesLista,
+        // FiltroPipeInspeccionesListaProg,
         
     ],
     providers: [

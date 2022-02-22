@@ -1,3 +1,4 @@
+import { TareaModule } from './modulos/sec/components/tarea/tarea.module';
 import { FiltroModule } from './modulos/inp/components/inspecciones-realizadas/filtro/filtro.module';
 import { TareaCierreComponent } from './modulos/sec/components/tarea-cierre/tarea-cierre.component';
 import { TareaGeneralComponent } from './modulos/sec/components/tarea-general/tarea-general.component';
@@ -55,13 +56,16 @@ import { AutoCompleteModule } from 'ionic4-auto-complete';
 @NgModule({
     declarations: [
         AppComponent,
-        MisTareasPage,
-        TareaPage,
-        TareaGeneralComponent,
-        TareaSeguimientoComponent,
-        TareaCierreComponent,
+        // MisTareasPage,
+        // TareaPage,
+        // TareaGeneralComponent,
+        // TareaSeguimientoComponent,
+        // TareaCierreComponent,
     ],
-    entryComponents: [TareaPage,TareaCierreComponent],
+    entryComponents: [
+        // TareaPage,
+        //TareaCierreComponent
+    ],
     imports: [
         BrowserModule, 
         BrowserAnimationsModule, 
@@ -70,6 +74,8 @@ import { AutoCompleteModule } from 'ionic4-auto-complete';
         ComunModule, 
         HttpClientModule, 
         AutoCompleteModule,
+        // TareaModule,
+        MisTareasPageModule
         // FiltroModule
     ],
     providers: [

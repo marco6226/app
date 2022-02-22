@@ -12,6 +12,7 @@ import { ComunModule } from '../../../com/comun.module'
 import { IonicModule } from '@ionic/angular';
 import { MisTareasPage } from './mis-tareas.page';
 import { TareaEvidencesComponent } from '../../components/tarea-evidences/tarea-evidences.component';
+import { TareaModule } from '../../components/tarea/tarea.module';
 
 
 const routes: Routes = [
@@ -27,20 +28,21 @@ const routes: Routes = [
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
+    TareaModule
   ],
   exports: [],
   providers: [],
   entryComponents: [
-    TareaComponent, 
-    TareaPage, 
-    TareaGeneralComponent, 
-    TareaCierreComponent,
-    TareaSeguimientoComponent,
-    TareaEvidencesComponent
+    // TareaComponent, 
+    // TareaModule, 
+    // TareaGeneralComponent, 
+    // TareaCierreComponent,
+    // TareaSeguimientoComponent,
+    // TareaEvidencesComponent
   ],
   declarations: [
     MisTareasPage,
-    TareaComponent,
+    // TareaComponent,
     TareaPage,
     TareaGeneralComponent,
     TareaCierreComponent,
