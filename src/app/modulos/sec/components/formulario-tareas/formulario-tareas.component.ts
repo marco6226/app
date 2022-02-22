@@ -252,9 +252,9 @@ export class FormularioTareasComponent implements OnInit {
     }
 }
 
-@NgModule({
-    imports: [CommonModule, TreeModule, IonicModule],
-    exports: [FormularioTareasComponent],
-    declarations: [FormularioTareasComponent],
-})
-export class FormulariotareasModule {}
+// @NgModule({
+//     imports: [CommonModule, TreeModule, IonicModule],
+//     exports: [FormularioTareasComponent],
+//     declarations: [FormularioTareasComponent],
+// })
+// export class FormulariotareasModule {}

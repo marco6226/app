@@ -13,8 +13,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^8.2.14",
-    "@angular/cdk": "^13.0.2",
+    "@angular/animations": "^7.2.2",
     "@angular/common": "^7.2.2",
     "@angular/core": "^7.2.2",
     "@angular/forms": "^7.2.2",
@@ -55,15 +54,14 @@
     "crypto-js": "^3.1.9-1",
     "ionic4-auto-complete": "^2.9.9",
     "primeicons": "^5.0.0",
-    "primeng": "^8.0.0",
     "rxjs": "~6.5.1",
     "rxjs-compat": "^6.6.7",
     "sass": "^1.44.0",
     "save": "^2.4.0",
     "to": "^0.2.9",
     "tslib": "^1.9.0",
-    "update": "^0.7.4",
-    "zone.js": "~0.8.29"
+    "update": "^0.4.2",
+    "zone.js": "^0.10.2"
   },
   "devDependencies": {
     "@angular-devkit/architect": "~0.13.8",
@@ -79,10 +77,11 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~12.0.0",
     "codelyzer": "~4.5.0",
+    "cordova-android": "^10.1.1",
     "cordova-ios": "^6.2.0",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
-    "karma": "~4.1.0",
+    "karma": "^6.3.16",
     "karma-chrome-launcher": "~2.2.0",
     "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-jasmine": "~1.1.2",
@@ -112,8 +111,8 @@
     },
     "platforms": [
       "browser",
-      "android",
-      "ios"
+      "ios",
+      "android"
     ]
   }
 }

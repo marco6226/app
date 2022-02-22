@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AlertController, ModalController } from '@ionic/angular';
-import { SelectItem } from 'primeng/primeng';
 import { DirectorioService } from '../../../ado/services/directorio.service';
 import { Criteria, Filter } from '../../../com/entities/filter';
 import { FilterQuery } from '../../../com/entities/filter-query';
@@ -66,7 +65,7 @@ export class InspeccionConsultarFormComponent implements OnInit {
 
     // imagenesList: any=[];
     id: string;
-    nivelRiesgoList: SelectItem[] = [{ label: '--seleccione--', value: null }];
+   // nivelRiesgoList: SelectItem[] = [{ label: '--seleccione--', value: null }];
     listaInspeccion: ListaInspeccion;
     area: Area;
     firma = [];
@@ -167,11 +166,11 @@ export class InspeccionConsultarFormComponent implements OnInit {
         filter.field = 'seleccionado';
         filter.value1 = 'true';
         filterQuery.filterList = [filter];
-        this.sistemaNivelRiesgoService.findByFilter(filterQuery).then(
-            resp => (<SistemaNivelRiesgo>resp['data'][0]).nivelRiesgoList.forEach(element => {
-                this.nivelRiesgoList.push({ label: element.nombre, value: element.id });
-            })
-        );
+        // this.sistemaNivelRiesgoService.findByFilter(filterQuery).then(
+        //     resp => (<SistemaNivelRiesgo>resp['data'][0]).nivelRiesgoList.forEach(element => {
+        //         this.nivelRiesgoList.push({ label: element.nombre, value: element.id });
+        //     })
+        // );
     }
 
     anterior() {

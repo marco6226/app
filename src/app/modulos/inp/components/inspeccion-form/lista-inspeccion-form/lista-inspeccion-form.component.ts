@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Message, OverlayPanel } from 'primeng/primeng';
 import { stringify } from 'querystring';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ElementoInspeccion } from '../../../entities/elemento-inspeccion';
@@ -42,7 +41,7 @@ export class ListaInspeccionFormComponent implements OnInit {
     elementoSelect: ElementoInspeccion;
     imagenesList: any[] = [];
     imgMap: any = {};
-    msgs: Message[] = [];
+    //msgs: Message[] = [];
     tipoHallazgoList: TipoHallazgo[];
     es: any;
     fechaActual = new Date();

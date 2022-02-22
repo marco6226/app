@@ -1,7 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
-import { TreeNode } from 'primeng/api';
 import { NivelRiesgo } from '../../../../../com/entities/nivel-riesgo';
 import { Calificacion } from '../../../../entities/calificacion';
 import { ElementoInspeccion } from '../../../../entities/elemento-inspeccion';
@@ -17,7 +16,7 @@ import { EvidenciasElementoInspeccionComponent } from '../evidencias-elemento-in
   styleUrls: ['./elemento-inspeccion-node.component.scss']
 })
 export class ElementoInspeccionNodeComponent implements OnInit {
-  files: TreeNode[];
+  // files: TreeNode[];
 
   @Output() onElementoClick = new EventEmitter<any>();
   @Input("value") value: ElementoInspeccion[];

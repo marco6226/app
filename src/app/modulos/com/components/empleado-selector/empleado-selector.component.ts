@@ -25,7 +25,7 @@ export class EmpleadoSelectorComponent implements OnInit, ControlValueAccessor {
     empleadosList: Empleado[];
     suggestions: any[];
 
-    constructor(private empleadoService: EmpleadoService) {}
+    constructor(public empleadoService: EmpleadoService) {}
 
     ngOnInit() {
         // this.empleadoService.buscar('1').then((data) => (this.empleadosList = <Empleado[]>data));
