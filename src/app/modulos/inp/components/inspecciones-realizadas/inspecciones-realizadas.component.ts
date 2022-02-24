@@ -41,9 +41,9 @@ export class InspeccionesRealizadasComponent implements OnInit {
 
     ngOnInit() {
         this.cargarRealizadas();
-        setTimeout(() => {
-            this.extraerUbicacion();            
-        }, 1000);
+        // setTimeout(() => {
+        //     this.extraerUbicacion();            
+        // }, 1000);
     }
 
 
@@ -90,6 +90,7 @@ export class InspeccionesRealizadasComponent implements OnInit {
         else{
             this.rotarIcon='rotate(0deg)'
         }
+        this.extraerUbicacion();
     }
 
     borrarFiltros(){
@@ -103,12 +104,14 @@ export class InspeccionesRealizadasComponent implements OnInit {
     extraerUbicacion(){
           
           var hash = {};
-          this.ListaUbicacion = this.inspList.filter(function(current) {
-            if(current.area.nombre != null){
-                var exists = !hash[current.area.nombre];
-                hash[current.area.nombre] = true;
-                return exists;
-            }
-          });
+          if(this.inspList.length>0){
+            this.ListaUbicacion = this.inspList.filter(function(current) {
+                if(current.area.nombre != null){
+                    var exists = !hash[current.area.nombre];
+                    hash[current.area.nombre] = true;
+                    return exists;
+                }
+              });
+          }          
     }
 }

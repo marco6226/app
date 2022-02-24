@@ -38,9 +38,9 @@ export class ProgramacionInspeccionesComponent implements OnInit {
 
     ngOnInit() {
         this.cargarProgramacion();
-        setTimeout(() => {
-            this.extraerUbicacion();            
-        }, 1000);
+        // setTimeout(() => {
+        //     this.extraerUbicacion();            
+        // }, 1000);
     }
 
     cargarProgramacion() {
@@ -91,6 +91,7 @@ export class ProgramacionInspeccionesComponent implements OnInit {
         else{
             this.rotarIcon='rotate(0deg)'
         }
+        this.extraerUbicacion();
     }
 
 
@@ -104,13 +105,15 @@ export class ProgramacionInspeccionesComponent implements OnInit {
     extraerUbicacion(){
           
         var hash = {};
-        this.ListaUbicacion = this.programacionList.filter(function(current) {
-          if(current.area.nombre != null){
-              var exists = !hash[current.area.nombre];
-              hash[current.area.nombre] = true;
-              return exists;
-          }
-        });
+        if(this.programacionList.length>0){
+            this.ListaUbicacion = this.programacionList.filter(function(current) {
+                if(current.area.nombre != null){
+                    var exists = !hash[current.area.nombre];
+                    hash[current.area.nombre] = true;
+                    return exists;
+                }
+            });
+        }        
   }
 
     ok(){

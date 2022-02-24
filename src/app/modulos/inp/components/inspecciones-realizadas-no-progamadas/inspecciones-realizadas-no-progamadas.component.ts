@@ -36,11 +36,11 @@ export class InspeccionesRealizadasNoProgamadasComponent implements OnInit {
     private offlineService: OfflineService,
     public modalController: ModalController) {}
 
-  ngOnInit() {
-      this.cargarRealizadas();
-      setTimeout(() => {
-        this.extraerUbicacion();            
-    }, 1000);
+  async ngOnInit() {
+    await this.cargarRealizadas();
+    // setTimeout(() => {
+    //     this.extraerUbicacion();            
+    // }, 5000);
   }
 
 
@@ -51,11 +51,14 @@ export class InspeccionesRealizadasNoProgamadasComponent implements OnInit {
           .queryInspeccionesRealizadasNoProg()
           .then((resp) => {
               this.inspList=[];
-              (<any[]>resp['data']).forEach((dto) => {
-                  this.inspList.push(FilterQuery.dtoToObject(dto)); 
+              (<any[]>resp['data']).forEach(async (dto) => {
+                  await this.inspList.push(FilterQuery.dtoToObject(dto)); 
               });
               this.loading = false;
               this.inspCargadas = true;
+            //   setTimeout(() => {
+                // this.extraerUbicacion();            
+            //   }, 1000);
           })
           .catch((err) => {
               this.loading = false;
@@ -87,6 +90,7 @@ export class InspeccionesRealizadasNoProgamadasComponent implements OnInit {
         else{
             this.rotarIcon='rotate(0deg)'
         }
+        this.extraerUbicacion(); 
     }
 
     borrarFiltros(){
@@ -98,14 +102,17 @@ export class InspeccionesRealizadasNoProgamadasComponent implements OnInit {
     }
 
     extraerUbicacion(){
-          
+        console.log("filtro ubicacion")  
         var hash = {};
-        this.ListaUbicacion = this.inspList.filter(function(current) {
-          if(current.area.nombre != null){
-              var exists = !hash[current.area.nombre];
-              hash[current.area.nombre] = true;
-              return exists;
-          }
-        });
+        if(this.inspList.length>0){
+           this.ListaUbicacion = this.inspList.filter(function(current) {
+                if(current.area.nombre != null){
+                    var exists = !hash[current.area.nombre];
+                    hash[current.area.nombre] = true;
+                    return exists;
+                }
+            }); 
+        }
+        
     }
 }
