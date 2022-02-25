@@ -11,7 +11,8 @@
     <!-- <ion-item>  --> 
     <p>OBS-{{observacion.id}} </p>
     <p>{{observacion.descripcion}}</p>
-    <p>{{convertirAFecha(observacion.fechaObservacion)}}</p>    
+    <p>{{convertirAFecha(observacion.fechaObservacion)}}</p>   
+    <ion-label style="color : black ; font-size : 16px">{{observacion.area.nombre}}</ion-label>
     <ion-item>
       <ion-chip class="chip" slot="end" *ngIf="observacion.aceptada == null && observacion.tipoObservacion != 'Positivas'"  fill="solid" color="medium">
         <ion-label class="chip" color="medium">

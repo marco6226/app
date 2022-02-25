@@ -544,7 +544,7 @@ export class StorageService {
     }
 
     borrarProgramaciones() {
-        this.database.executeSql('DELETE FROM inp_programacion_v2 WHERE empresa_id = ?', [this.getEmpresa().id]).catch((err) => {
+        this.database.executeSql('IF EXISTS (DELETE FROM inp_programacion_v2 WHERE empresa_id = ?)', [this.getEmpresa().id]).catch((err) => {
             console.log(err);
         });
     }

@@ -79,6 +79,7 @@ export class OfflineService {
         } else {
             let filterQuery = new FilterQuery();
             filterQuery.sortField = 'nombre';
+            filterQuery.rows = 10
             filterQuery.sortOrder = -1;
             if (!completo) {
                 filterQuery.fieldList = ['listaInspeccionPK', 'nombre', 'codigo', 'descripcion', 'estado'];
@@ -189,6 +190,9 @@ export class OfflineService {
         if (this.sessionService.getOfflineMode()) {
             return this.storageService.getSyncObservaciones();
         } else {
+            
+            let areasPermiso = this.sessionService.getPermisosMap()['AUC_GET_OBS'].areas;
+            console.log(areasPermiso)
             let filterQuery = new FilterQuery();
             filterQuery.offset = 0;
             //filterQuery.rows = 30
@@ -196,12 +200,15 @@ export class OfflineService {
             filterQuery.sortField = 'fechaObservacion';
             filterQuery.sortOrder = 1;
             if (!completo) {
-                filterQuery.fieldList = ['id', 'fechaObservacion', 'tipoObservacion', 'descripcion', 'nivelRiesgo_nombre', 'personasobservadas', 'personasabordadas', 'aceptada'];
+                filterQuery.fieldList = ['id', 'fechaObservacion', 'tipoObservacion', 'descripcion', 'nivelRiesgo_nombre', 'personasobservadas', 'personasabordadas', 'aceptada','area',
+                'area_id',
+                'area_nombre'];
                 filterQuery.filterList = [];
                 /* filterQuery.filterList.push({
                     criteria: Criteria.NOT_EQUALS,
                     field: "estado",
                     value1: "inactivo"});*/
+                    filterQuery.filterList.push({ criteria: Criteria.CONTAINS, field: 'area.id', value1: areasPermiso });
             }
             return this.observacionService.findByFilter(filterQuery);
         }
@@ -248,6 +255,7 @@ export class OfflineService {
             let filterQuery = new FilterQuery();
             filterQuery.sortField = 'fecha';
             filterQuery.sortOrder = 1;
+            filterQuery.rows = 10
             filterQuery.fieldList = ['id', 'fecha', 'area_id','area_nombre', 'listaInspeccion_listaInspeccionPK', 'listaInspeccion_nombre', 'numeroInspecciones', 'numeroRealizadas'];
             let areas = this.sessionService.getPermisosMap()['INP_GET_PROG'].areas;
             filterQuery.filterList = [
@@ -325,7 +333,7 @@ export class OfflineService {
         // } else {
         let filterQuery = new FilterQuery();
         filterQuery.offset = 0;
-        //filterQuery.rows = 30
+        filterQuery.rows = 10
         filterQuery.count = true;
         filterQuery.sortField = 'fechaRealizada';
         filterQuery.sortOrder = 1;
@@ -406,7 +414,7 @@ export class OfflineService {
         // } else {
         let filterQuery = new FilterQuery();
         filterQuery.offset = 0;
-        //filterQuery.rows = 30
+        filterQuery.rows = 10
         filterQuery.count = true;
         filterQuery.sortField = 'fechaRealizada';
         filterQuery.sortOrder = 1;
@@ -704,15 +712,15 @@ export class OfflineService {
         });
     }
     clearLocalStorage() {
-        this.storageService.borrarSistemaNivelRiesgo();
-        this.storageService.borrarProgramaciones();
-        this.storageService.borrarAreas();
-        this.storageService.borrarTarjetas();
-        this.storageService.borrarSistemaCausaRaiz();
-        this.storageService.borrarActasCopasst();
-        this.storageService.borrarDesviaciones();
-        this.storageService.borrarSistemaCausaInmediata();
-        this.storageService.borrarListasInspeccion();
-        this.storageService.borrarManualesUsuario();
+        // this.storageService.borrarSistemaNivelRiesgo();
+        // this.storageService.borrarProgramaciones();
+        // this.storageService.borrarAreas();
+        // this.storageService.borrarTarjetas();
+        // this.storageService.borrarSistemaCausaRaiz();
+        // this.storageService.borrarActasCopasst();
+        // this.storageService.borrarDesviaciones();
+        // this.storageService.borrarSistemaCausaInmediata();
+        // this.storageService.borrarListasInspeccion();
+        // this.storageService.borrarManualesUsuario();
     }
 }

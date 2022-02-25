@@ -85,13 +85,10 @@ export class InicioComponent implements OnInit {
   }
 
   cambiarEmpresa(event) {
-    console.log("entro a cambiar empresa");
     this.offline = true;
     this.offlineToggle()
       .then(() => {
         this.empresaSelect = event.detail.value;
-        console.log(this.empresaSelect);
-
         this.sesionService.setEmpresa(this.empresaSelect);
         this.cargarPermisos()
           .then(() => {
@@ -104,11 +101,6 @@ export class InicioComponent implements OnInit {
       .catch(err => {
         console.log(err);
       });
-      console.log(event);
-
-      console.log(this.empresaSelect);
-      console.log(this.cargarPermisos());
-      console.log("salio a cambiar empresa");
   }
 
   logout() {
@@ -165,10 +157,8 @@ export class InicioComponent implements OnInit {
   }
 
   offlineToggle() {
-    console.log("entro a offlinetoogle");
     return new Promise<void>((resolve, reject) => {
       this.offline = !this.offline;
-      console.log(this.offline);
       if (this.offline) {
         let loading = this.showLoading('Cargando datos...');
         this.offlineService.loadData().then(
@@ -190,7 +180,6 @@ export class InicioComponent implements OnInit {
         );
       } else {
         let loading = this.showLoading('Activando modo online...');
-        console.log(loading);
         this.offlineService.sincronizar().then(
           resp => loading
             .then(loadPop => loadPop.dismiss())

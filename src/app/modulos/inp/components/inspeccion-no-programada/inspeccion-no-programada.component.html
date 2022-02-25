@@ -67,7 +67,7 @@
         </ion-card-content>
     </ion-card-header>
 </ion-card>
-
+<ion-button color="light" (click)="loadMore()" *ngIf="!this.disabled" expand="full" color="primary">Ver mas registros</ion-button>
 <ion-card *ngIf="listasInspeccion?.length ==0" class="NoFound">
   <ion-icon name="search" slot="start"></ion-icon>
   <ion-label>

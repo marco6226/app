@@ -3,6 +3,8 @@ import { Observacion } from './../../entities/observacion';
 import { OfflineService } from './../../../com/services/offline.service';
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { ObservacionConsultarFormComponent } from '../observacion-consultar-form/observacion-consultar-form.component';
+import { SesionService } from '../../../com/services/sesion.service';
+
 
 @Component({
   selector: 'app-observacion-consultar',
@@ -15,13 +17,16 @@ export class ObservacionConsultarComponent implements OnInit {
   observacionLista: Observacion[];
   loading: boolean;
   observacionList: any;
+  areasPermiso: string;
   
   constructor(
     private offlineService: OfflineService,
     public modalController: ModalController,
+    private sesionService: SesionService,
   ) { }
 
   ngOnInit() {
+    this.areasPermiso = this.sesionService.getPermisosMap()['AUC_GET_OBS'].areas;
     this.cargarObservaciones();
   }
     

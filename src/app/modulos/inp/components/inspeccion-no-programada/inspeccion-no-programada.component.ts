@@ -89,7 +89,7 @@ export class InspeccionNoProgramadaComponent implements OnInit {
     filterQuery.count = true;
     filterQuery.sortOrder = 1;
     filterQuery.offset = 0 + this.count;
-    //filterQuery.rows = 3 ;
+    filterQuery.rows = 10 ;
     
     
     filterQuery.fieldList = ['nombre','codigo','descripcion','estado'];
