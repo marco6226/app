@@ -14,6 +14,9 @@ export class InspeccionNoProgramadaComponent implements OnInit {
 
   @Output("onListaSelect") onListaSelect = new EventEmitter<ListaInspeccion>();
   listasInspeccion: ListaInspeccion[];
+  listaSecundaria: ListaInspeccion[];
+
+  topLimit = 10;
 
   loading: boolean;
   listasCargadas: boolean;
@@ -89,7 +92,7 @@ export class InspeccionNoProgramadaComponent implements OnInit {
     filterQuery.count = true;
     filterQuery.sortOrder = 1;
     filterQuery.offset = 0 + this.count;
-    filterQuery.rows = 10 ;
+    // filterQuery.rows = 10 ;
     
     
     filterQuery.fieldList = ['nombre','codigo','descripcion','estado'];
@@ -142,9 +145,11 @@ export class InspeccionNoProgramadaComponent implements OnInit {
     this.listasCargadas = null;
     this.offlineService.queryListasInspeccionFiltro(filterQuery)
       .then(resp => {
-        this.listasInspeccion = resp['data'];
+        this.listaSecundaria=[];
+        this.listaSecundaria = resp['data'];
         this.loading = false;
         this.listasCargadas = true;
+        this.listasInspeccion = this.listaSecundaria.slice(0,this.topLimit);
       })
       .catch(err => {
         this.loading = false;
@@ -173,5 +178,17 @@ ok(){
     this.nombreFilt='';
     this.descripcionFilt = '';
   }
+
+  loadData(event) {
+    setTimeout(() => {
+      console.log('Done');
+      this.topLimit +=10;
+      event.target.complete();
+      this.listasInspeccion = this.listaSecundaria.slice(0,this.topLimit);
+      if (this.listasInspeccion.length == this.listaSecundaria.length) {
+        event.target.disabled = true;
+      }
+    }, 500);
+}
 
 }
