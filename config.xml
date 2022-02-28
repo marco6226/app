@@ -117,7 +117,6 @@
     <plugin name="cordova-plugin-camera" spec="~4.0.3" />
     <plugin name="cordova-plugin-file" spec="^6.0.1" />
     <plugin name="cordova-plugin-file-opener2" spec="~2.2.0" />
-    <plugin name="cordova-sqlite-storage" spec="^3.2.1" />
     <allow-navigation href="http://localhost:8100" sessionid="acd78f86" />
     <allow-navigation href="http://localhost:8101" sessionid="4566d046" />
     <plugin name="cordova-plugin-app-version" spec="^0.1.9" />

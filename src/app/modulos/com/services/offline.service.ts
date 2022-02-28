@@ -712,15 +712,15 @@ export class OfflineService {
         });
     }
     clearLocalStorage() {
-        // this.storageService.borrarSistemaNivelRiesgo();
-        // this.storageService.borrarProgramaciones();
-        // this.storageService.borrarAreas();
-        // this.storageService.borrarTarjetas();
-        // this.storageService.borrarSistemaCausaRaiz();
-        // this.storageService.borrarActasCopasst();
-        // this.storageService.borrarDesviaciones();
-        // this.storageService.borrarSistemaCausaInmediata();
-        // this.storageService.borrarListasInspeccion();
-        // this.storageService.borrarManualesUsuario();
+        this.storageService.borrarSistemaNivelRiesgo();
+        this.storageService.borrarProgramaciones();
+        this.storageService.borrarAreas();
+        this.storageService.borrarTarjetas();
+        this.storageService.borrarSistemaCausaRaiz();
+        this.storageService.borrarActasCopasst();
+        this.storageService.borrarDesviaciones();
+        this.storageService.borrarSistemaCausaInmediata();
+        this.storageService.borrarListasInspeccion();
+        this.storageService.borrarManualesUsuario();
     }
 }
