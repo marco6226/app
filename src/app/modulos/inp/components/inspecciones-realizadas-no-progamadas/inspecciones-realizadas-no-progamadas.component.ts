@@ -14,6 +14,8 @@ import { InspeccionConsultarFormComponent } from '../inspeccion-consultar-form/i
 export class InspeccionesRealizadasNoProgamadasComponent implements OnInit {
   @Output('onInspSelect') onInspSelect = new EventEmitter<Inspeccion>();
   inspList: Inspeccion[];
+  listaSecundaria: Inspeccion[];
+  topLimit = 10;
 
   loading: boolean;
   inspCargadas: boolean;
@@ -51,11 +53,13 @@ export class InspeccionesRealizadasNoProgamadasComponent implements OnInit {
           .queryInspeccionesRealizadasNoProg()
           .then((resp) => {
               this.inspList=[];
+              this.listaSecundaria=[];
               (<any[]>resp['data']).forEach(async (dto) => {
-                  await this.inspList.push(FilterQuery.dtoToObject(dto)); 
+                  await this.listaSecundaria.push(FilterQuery.dtoToObject(dto)); 
               });
               this.loading = false;
               this.inspCargadas = true;
+              this.inspList = this.listaSecundaria.slice(0,this.topLimit);
             //   setTimeout(() => {
                 // this.extraerUbicacion();            
             //   }, 1000);
@@ -114,5 +118,17 @@ export class InspeccionesRealizadasNoProgamadasComponent implements OnInit {
             }); 
         }
         
+    }
+
+    loadData(event) {
+        setTimeout(() => {
+          console.log('Done');
+          this.topLimit +=10;
+          event.target.complete();
+          this.inspList = this.listaSecundaria.slice(0,this.topLimit);
+          if (this.inspList.length == this.listaSecundaria.length) {
+            event.target.disabled = true;
+          }
+        }, 500);
     }
 }

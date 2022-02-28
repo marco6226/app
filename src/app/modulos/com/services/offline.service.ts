@@ -79,7 +79,7 @@ export class OfflineService {
         } else {
             let filterQuery = new FilterQuery();
             filterQuery.sortField = 'nombre';
-            filterQuery.rows = 10
+            // filterQuery.rows = 10
             filterQuery.sortOrder = -1;
             if (!completo) {
                 filterQuery.fieldList = ['listaInspeccionPK', 'nombre', 'codigo', 'descripcion', 'estado'];
@@ -255,7 +255,7 @@ export class OfflineService {
             let filterQuery = new FilterQuery();
             filterQuery.sortField = 'fecha';
             filterQuery.sortOrder = 1;
-            filterQuery.rows = 10
+            // filterQuery.rows = 10
             filterQuery.fieldList = ['id', 'fecha', 'area_id','area_nombre', 'listaInspeccion_listaInspeccionPK', 'listaInspeccion_nombre', 'numeroInspecciones', 'numeroRealizadas'];
             let areas = this.sessionService.getPermisosMap()['INP_GET_PROG'].areas;
             filterQuery.filterList = [
@@ -333,7 +333,7 @@ export class OfflineService {
         // } else {
         let filterQuery = new FilterQuery();
         filterQuery.offset = 0;
-        filterQuery.rows = 10
+        // filterQuery.rows = 10
         filterQuery.count = true;
         filterQuery.sortField = 'fechaRealizada';
         filterQuery.sortOrder = 1;
@@ -414,7 +414,7 @@ export class OfflineService {
         // } else {
         let filterQuery = new FilterQuery();
         filterQuery.offset = 0;
-        filterQuery.rows = 10
+        // filterQuery.rows = 10
         filterQuery.count = true;
         filterQuery.sortField = 'fechaRealizada';
         filterQuery.sortOrder = 1;

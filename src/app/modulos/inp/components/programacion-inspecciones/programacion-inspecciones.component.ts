@@ -20,6 +20,9 @@ export class ProgramacionInspeccionesComponent implements OnInit {
     progCargada: boolean;
 
     programacionLista: Programacion[];
+    listaSecundaria: Programacion[];
+    topLimit = 10;
+
     count = 0;
     filtFechaDesde: Date;
     filtFechaHasta: Date;
@@ -50,12 +53,14 @@ export class ProgramacionInspeccionesComponent implements OnInit {
             .queryProgramacionList()
             .then((resp) => {
                 this.programacionList = [];
+                this.listaSecundaria=[];
                 (<any[]>resp['data']).forEach((dto) => {
                     // console.log(resp);
-                    this.programacionList.push(FilterQuery.dtoToObject(dto));
+                    this.listaSecundaria.push(FilterQuery.dtoToObject(dto));
                 });
                 this.loading = false;
                 this.progCargada = true;
+              this.programacionList = this.listaSecundaria.slice(0,this.topLimit);
             })
             .catch((err) => {
                 this.loading = false;
@@ -116,7 +121,15 @@ export class ProgramacionInspeccionesComponent implements OnInit {
         }        
   }
 
-    ok(){
-        console.log(this.programacionList, this.ListaUbicacion)
-    }
+  loadData(event) {
+    setTimeout(() => {
+      console.log('Done');
+      this.topLimit +=10;
+      event.target.complete();
+      this.programacionList = this.listaSecundaria.slice(0,this.topLimit);
+      if (this.programacionList.length == this.listaSecundaria.length) {
+        event.target.disabled = true;
+      }
+    }, 500);
+}
 }
