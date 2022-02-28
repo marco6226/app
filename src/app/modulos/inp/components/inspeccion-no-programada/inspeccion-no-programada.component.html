@@ -53,9 +53,7 @@
         <a *ngIf="listasCargadas == false" (click)="cargarListas()">Reintentar</a>
     </p>
 </div>
-<div>
-    <ion-button (click)="ok()">ok</ion-button>
-</div>
+
 <ion-card *ngFor="let lista of listasInspeccion | filtroLista: codigoFilt: nombreFilt: descripcionFilt">
     <ion-card-header>
         <ion-item>

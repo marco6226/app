@@ -49,7 +49,6 @@ export class InspeccionNoProgramadaComponent implements OnInit {
         // this.listasInspeccion = resp['data'];
         // this.loading = false;
         // this.listasCargadas = true;
-
         this.listaSecundaria=[];
         this.listaSecundaria = resp['data'];
         this.loading = false;
@@ -173,10 +172,6 @@ export class InspeccionNoProgramadaComponent implements OnInit {
     else{
         this.rotarIcon='rotate(0deg)'
     }
-}
-
-ok(){
-  console.log(this.listasInspeccion);
 }
 
   borrarFiltros(){
