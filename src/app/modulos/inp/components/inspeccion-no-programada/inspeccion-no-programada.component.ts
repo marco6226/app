@@ -46,9 +46,15 @@ export class InspeccionNoProgramadaComponent implements OnInit {
     this.listasCargadas = null;
     this.offlineService.queryListasInspeccion()
       .then(resp => {
-        this.listasInspeccion = resp['data'];
+        // this.listasInspeccion = resp['data'];
+        // this.loading = false;
+        // this.listasCargadas = true;
+
+        this.listaSecundaria=[];
+        this.listaSecundaria = resp['data'];
         this.loading = false;
         this.listasCargadas = true;
+        this.listasInspeccion = this.listaSecundaria.slice(0,this.topLimit);
       })
       .catch(err => {
         this.loading = false;
