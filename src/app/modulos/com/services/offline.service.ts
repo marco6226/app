@@ -21,6 +21,7 @@ import { ManualService } from './manual.service';
 import { InspeccionService } from '../../inp/services/inspeccion.service';
 import { Platform } from '@ionic/angular';
 
+
 @Injectable()
 export class OfflineService {
     public toggleSubject = new Subject<boolean>();
@@ -46,6 +47,18 @@ export class OfflineService {
         private platform: Platform
     ) {
         this.sessionService = this.storageService.getSessionService();
+        platform.ready().then(() => {
+
+            if (this.platform.is('android')) {
+                console.log("running on Android device!");
+            }
+            if (this.platform.is('ios')) {
+                console.log("running on iOS device!");
+            }
+            if (this.platform.is('mobileweb')) {
+                console.log("running in a browser on mobile!");
+            }
+        });
     }
 
     getOfflineMode(): boolean {
@@ -712,6 +725,10 @@ export class OfflineService {
         });
     }
     clearLocalStorage() {
+        if (!this.platform.is('mobileweb')) {
+            console.log("running in mobile!");
+        
+        console.log(this.platform)
         this.storageService.borrarSistemaNivelRiesgo();
         this.storageService.borrarProgramaciones();
         this.storageService.borrarAreas();
@@ -722,5 +739,6 @@ export class OfflineService {
         this.storageService.borrarSistemaCausaInmediata();
         this.storageService.borrarListasInspeccion();
         this.storageService.borrarManualesUsuario();
+    }
     }
 }

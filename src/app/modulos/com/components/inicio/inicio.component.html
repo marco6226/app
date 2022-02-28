@@ -4,7 +4,7 @@
     <ion-header style="text-align: center;" color="primary">
 
       <ion-select *ngIf="empresasList?.length > 1" compareWith="id" placeholder="--Empresa--" [value]="empresaSelect" (ionChange)="cambiarEmpresa($event)">
-        <ion-select-option *ngFor="let emp of empresasList" [value]="emp">{{emp.razonSocial}}</ion-select-option>
+        <ion-select-option *ngFor="let emp of empresasList" [value]="emp">{{emp.nombreComercial}}</ion-select-option>
       </ion-select>
       <ion-item>
         <img [src]="empresaSelect?.logo" style="width:50%;margin: auto;" />
