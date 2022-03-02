@@ -1,8 +1,14 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>
+    
+  <ion-item lines="none" (click)="navegar('/app/login')" class="irlogin">
+    <ion-label >
       SIGESS
-    </ion-title>
+    </ion-label>
+  </ion-item>
+  
+    
+    <ion-item size="small" slot="end" shape="round" class="campana" (click)="navegar('/app/sec/misTareas/1')"><ion-icon name="notifications-outline"></ion-icon></ion-item>
     <ion-buttons slot="end">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -56,4 +62,9 @@
       <p style="float: right;color:#aaa;">v{{version}}</p>
     </div>
   </ion-item>
+  <a href="whatsapp://send?phone=+573177613792" class="btn-wsp" target="_blank">
+    
+    <ion-icon class="btn-wsp2" name="logo-whatsapp" size="medium"></ion-icon>Soporte Técnico
+      
+  </a>
 </ion-footer>

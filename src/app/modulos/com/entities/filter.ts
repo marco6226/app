@@ -1,7 +1,7 @@
 
 export class Filter {
-    field: string;
-    value1: string;
+    field?: string;
+    value1?: string;
     value2?: string;
     criteria: Criteria;
     isExpression?:Boolean;

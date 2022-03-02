@@ -73,6 +73,29 @@ export class DirectorioService extends ServiceCRUD<Directorio>{
     });
   }
 
+  uploadv2(fileToUpload: File, modulo) {
+
+    let endPoint = modulo == 'cop' ? this.end_point + 'cop/upload' : this.end_point + 'uploadv2';
+
+    let formData: FormData = new FormData();
+
+    if (fileToUpload != null)
+        formData.append('file', fileToUpload, fileToUpload.name);
+    if (modulo != null)
+        formData.append("mod", modulo);
+
+    return new Promise((resolve) => {
+        this.httpInt
+            .postFile(endPoint, formData)
+            .subscribe(
+                (res) => {
+                    resolve(res);
+                },
+                (err) => this.manageError(err)
+            );
+    });
+  }
+
   removerDocumento(documentoId: string) {
     return new Promise(resolve => {
       this.httpInt.delete(this.end_point + 'documento/' + documentoId)

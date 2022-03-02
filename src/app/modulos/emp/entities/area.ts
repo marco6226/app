@@ -8,7 +8,7 @@ export class Area {
   tipoArea: TipoArea;
   areaPadre: Area;
   areaList: Area[];
-
+  estructura:string;
   numero: number;
-
+  contacto: string;
 }

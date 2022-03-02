@@ -13,4 +13,5 @@ export class ElementoInspeccion {
     numero: number;
     calificacion: Calificacion;
     tipoHallazgoList: TipoHallazgo[];
+    criticidad:string;
 }

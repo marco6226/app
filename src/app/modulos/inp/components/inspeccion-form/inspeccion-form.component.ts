@@ -1,3 +1,4 @@
+import { AuthService } from './../../../com/services/auth.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalController, AlertController, ToastController, PopoverController } from '@ionic/angular';
 import { Programacion } from '../../entities/programacion';
@@ -59,7 +60,8 @@ export class InspeccionFormComponent implements OnInit {
     public inspeccionService: InspeccionService,
     public offlineService: OfflineService,
     public msgService: MensajeUsuarioService,
-    public dirService: DirectorioService
+    public dirService: DirectorioService,
+    private authService: AuthService,
   ) { }
 
   ngOnInit() {
@@ -91,10 +93,10 @@ export class InspeccionFormComponent implements OnInit {
       });
   }
 
-  construirListaAreas(listado: Area[], areas: Area[]) {
+  construirListaAreas(listado: Area[], areas: Area[] ) {
     for (let i = 0; i < areas.length; i++) {
       let area = areas[i];
-      let areaObj = <Area>{ id: area.id, nombre: area.nombre };
+      let areaObj = <Area>{ id: area.id, nombre: area.nombre, contacto: area.contacto };
       listado.push(areaObj);
       if (area.areaList != null && area.areaList.length > 0) {
         this.construirListaAreas(listado, area.areaList);
@@ -108,7 +110,6 @@ export class InspeccionFormComponent implements OnInit {
     this.offlineService.queryListaInspeccion(this.listaPk.id, this.listaPk.version)
       .then(data => {
         this.listaInspeccion = (<ListaInspeccion[]>data['data'])[0];
-        console.log(this.listaInspeccion);
         this.indexarElementos(this.listaInspeccion.elementoInspeccionList, null);
         this.loadingLI = false;
         this.listaCargada = true;
@@ -153,7 +154,7 @@ export class InspeccionFormComponent implements OnInit {
   }
 
   anterior() {
-    if (!this.validarRequerirFoto()) {
+    if (!this.validarRequerirFoto() || !this.validarDescripcion()) {
       return;
     }
     this.numeroPreguntaActual -= 1;
@@ -225,11 +226,11 @@ export class InspeccionFormComponent implements OnInit {
 
 
   siguiente() {
-    if (this.numeroPreguntaActual == this.indicePreguntas.length - 1) {
+    if (this.numeroPreguntaActual === this.indicePreguntas.length - 1) {
       this.visibleGuardar = true;
       return;
     }
-    if (!this.validarRequerirFoto()) {
+    if (!this.validarRequerirFoto() || !this.validarDescripcion()) {
       return;
     }
 
@@ -243,7 +244,7 @@ export class InspeccionFormComponent implements OnInit {
         this.elementoSelect != null &&
         this.elementoSelect.calificacion != null &&
         this.elementoSelect.calificacion.opcionCalificacion != null &&
-        this.elementoSelect.calificacion.opcionCalificacion.requerirDoc == true
+        this.elementoSelect.calificacion.opcionCalificacion.requerirDoc === true
       ) &&
       (
         this.elementoSelect.calificacion['img_key'] == null ||
@@ -252,6 +253,29 @@ export class InspeccionFormComponent implements OnInit {
     ) {
       this.presentToast(
         "Debe especificar al menos una fotografía para la calificación \""
+        + this.elementoSelect.calificacion.opcionCalificacion.nombre + "\""
+      );
+      return false;
+    }
+    return true;
+  }
+
+  validarDescripcion() {
+    if (
+      (
+        this.elementoSelect != null &&
+        this.elementoSelect.calificacion != null &&
+        this.elementoSelect.calificacion.opcionCalificacion != null &&
+        this.elementoSelect.calificacion.opcionCalificacion.requerirDoc === true
+      ) &&
+      (
+        this.elementoSelect.calificacion.recomendacion == null ||
+        this.elementoSelect.calificacion.recomendacion === ''
+      )
+    ) {
+
+      this.presentToast(
+        "Debe agregar una descripción al adjuntar evidencia de la calificación \""
         + this.elementoSelect.calificacion.opcionCalificacion.nombre + "\""
       );
       return false;
@@ -302,12 +326,19 @@ export class InspeccionFormComponent implements OnInit {
     inspeccion.respuestasCampoList = [];
     if (this.esProgramada) {
       inspeccion.programacion = this.programacion;
+      inspeccion.area = this.programacion.area;
+      inspeccion.area.id = this.programacion.area.id;
+     // inspeccion.listaInspeccion.formulario = this.programacion.listaInspeccion.formulario;
+      console.log(this.programacion)
+
+      inspeccion.listaInspeccion = this.programacion.listaInspeccion;
     } else {
       inspeccion.area = this.area;
       inspeccion.listaInspeccion = new ListaInspeccion();
       inspeccion.listaInspeccion.listaInspeccionPK = this.listaInspeccion.listaInspeccionPK;
       inspeccion.listaInspeccion.nombre = this.listaInspeccion.nombre;
       inspeccion.listaInspeccion.codigo = this.listaInspeccion.codigo;
+      inspeccion.listaInspeccion.formulario = this.listaInspeccion.formulario;
     }
 
     this.listaInspeccion.formulario.campoList.forEach(campo => {
@@ -322,6 +353,9 @@ export class InspeccionFormComponent implements OnInit {
       }
       inspeccion.respuestasCampoList.push(respCampo);
     });
+    inspeccion.listaInspeccion.formulario = this.listaInspeccion.formulario;
+    console.log(inspeccion)
+
     return inspeccion;
   }
 
@@ -341,12 +375,13 @@ export class InspeccionFormComponent implements OnInit {
     let inspeccion = this.generarInspeccion(true);
     if (inspeccion == null)
       return;
+      
 
     this.guardando = true;
     this.persistirInspeccion(inspeccion)
       .then(data => {
         this.guardando = false;
-        this.manageResponse(data);
+          this.manageResponse(data);        
         if (this.inspPend != null)
           this.storageService.borrarInspeccionPendiente(this.inspPend);
       })
@@ -357,17 +392,18 @@ export class InspeccionFormComponent implements OnInit {
 
   persistirInspeccion(inspeccion: Inspeccion): Promise<any> {
     if (this.offlineService.getOfflineMode()) {
-      return new Promise((resolve, reject) => {
+      return new Promise(async (resolve, reject) => {
         inspeccion.fechaRealizada = new Date();
         inspeccion['hash'] = inspeccion.fechaRealizada.toISOString();
-        this.storageService.guardarInspeccion(inspeccion)
+        
+        await this.storageService.guardarInspeccion(inspeccion)
           .then(() => resolve(inspeccion))
-          .catch(err => reject(err));
+          .catch(err => reject(err));          
       });
     } else {
       return this.inspeccionService.create(inspeccion)
         .then(resp => {
-          let inp = <Inspeccion>resp;
+          let inp = <Inspeccion>resp;         
           for (let i = 0; i < inp.calificacionList.length; i++) {
             let calf = inp.calificacionList[i];
             let imgsUrls = inspeccion.calificacionList[i]['img_key'];
@@ -383,6 +419,7 @@ export class InspeccionFormComponent implements OnInit {
               });
             }
           }
+          this.datosEmail(inp)
         });
     }
   }
@@ -401,6 +438,7 @@ export class InspeccionFormComponent implements OnInit {
   async abrirMenu() {
     const popover = await this.popoverController.create({
       component: MenuListaComponent,
+      cssClass: 'popover-content.sc-ion-popover-md',
       componentProps: { 'listaInspeccion': this.listaInspeccion }
     });
     popover.onDidDismiss()
@@ -411,8 +449,9 @@ export class InspeccionFormComponent implements OnInit {
   }
 
   redireccionar(indice: number) {
-    if (!this.validarRequerirFoto())
+    if (!this.validarRequerirFoto() || !this.validarDescripcion()) {
       return;
+    }
 
     if (indice == null)
       return;
@@ -428,5 +467,116 @@ export class InspeccionFormComponent implements OnInit {
         this.numeroRespondidas += 1;
     });
   }
+
+  async datosEmail(inspeccion: Inspeccion){
+    let nocumple = <Calificacion[]><unknown>inspeccion.calificacionList;
+    
+    nocumple = nocumple.filter(function(element) {
+        return element.opcionCalificacion.valor === 0;
+       
+        
+      });
+      
+      let arrraynocumple = [];
+
+      nocumple.map(item =>{
+        arrraynocumple.push(item.elementoInspeccion.id)
+      return arrraynocumple;
+      })
+    
+    
+      let criticos = <ElementoInspeccion[]><unknown>this.listaInspeccion.elementoInspeccionList;
+    
+      let  var1=[]
+
+      for (let idx = 0; idx < criticos.length; idx++){
+        let criticosInterno = <ElementoInspeccion[]><unknown>this.listaInspeccion.elementoInspeccionList[idx].elementoInspeccionList;
+        var1.push( criticosInterno.filter(function(element) {
+            return element.criticidad === 'Alto' || element.criticidad === 'Medio' ;
+          }));
+      }
+
+      const newArray = []
+      for (let idx = 0; idx < var1.length; idx++){
+      var1[idx].map(item =>{
+        newArray.push(item.id,item.criticidad,item.codigo,item.nombre)
+        return newArray
+        })
+    }
+
+    let arrayResultadoVar1=[]
+          for (let idx = 0; idx < var1.length; idx++){
+            var1[idx].map(item =>{
+                   newArray.push(item.id)
+                   arrraynocumple.forEach(element => {
+                       if(item.id == element){
+                           arrayResultadoVar1.push(item)
+                       }
+                   });
+            return newArray
+            })
+          }
+
+          arrayResultadoVar1.forEach(element => {
+            element.elementoInspeccionPadre=[]
+          });
+
+          console.log(inspeccion)
+
+          let dato = inspeccion.listaInspeccion.formulario.campoList.filter(item=>{
+            return item.nombre.includes('Numero económico')
+          });
+    
+          let numeroeconomico ;
+          let ubicacion;
+          console.log (dato);
+    
+        if(dato.length > 0){
+          let idnumeroeconomico = dato[0].id;
+       
+       
+    
+        let dato2 = inspeccion.respuestasCampoList.filter(item=>{
+            return item.campoId.toString().includes(idnumeroeconomico.toString())
+          })
+          console.log(dato2[0].valor);
+          numeroeconomico = dato2[0].valor;
+    
+        }
+    
+          let dato3 = inspeccion.listaInspeccion.formulario.campoList.filter(item=>{
+            return item.nombre.includes('Ubicación');
+          });
+    
+    
+    
+          if(dato3.length > 0){
+          const idubicacion = dato3[0].id;
+    
+       
+    
+        let dato4 = inspeccion.respuestasCampoList.filter(item=>{
+            return item.campoId.toString().includes(idubicacion.toString());
+          })
+          console.log(dato4[0].valor)
+        ubicacion = dato4[0].valor;
+    
+        }else{
+            numeroeconomico = "NA"
+            ubicacion ="NA"
+        }
+
+
+          await setTimeout(() => { 
+          if(arrayResultadoVar1.length>0){
+            this.authService.sendNotificationhallazgosCriticos(
+              inspeccion.id,
+              arrayResultadoVar1, numeroeconomico, ubicacion
+            );
+          }
+        }, 10000);
+          
+
+}
 
 }

@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
@@ -9,7 +11,7 @@ import { Camera } from '@ionic-native/camera/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { MensajeUsuarioService } from './modulos/com/services/mensaje-usuario.service'
+import { MensajeUsuarioService } from './modulos/com/services/mensaje-usuario.service';
 import { SesionService } from './modulos/com/services/sesion.service';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -24,6 +26,10 @@ import { SQLite, SQLiteDatabaseConfig, SQLiteObject } from '@ionic-native/sqlite
 import { TienePermisoDirective } from './modulos/com/directives/tiene-permiso.directive';
 // import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 import { AppVersion } from '@ionic-native/app-version/ngx';
+import { EmpleadoService } from './modulos/com/services/empleado.service';
+// import { AutoCompleteModule } from 'primeng/autocomplete';
+import { MisTareasPageModule } from './modulos/sec/pages/mis-tareas/mis-tareas.module';
+import { AutoCompleteModule } from 'ionic4-auto-complete';
 
 
 // class SQLiteMock {
@@ -41,34 +47,48 @@ import { AppVersion } from '@ionic-native/app-version/ngx';
 // }
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  entryComponents: [],
-  imports: [
-    BrowserModule,
-    IonicModule.forRoot({ hardwareBackButton: false }),
-    AppRoutingModule,
-    ComunModule,
-    HttpClientModule
-  ],
-  providers: [
-    // FileTransfer,
-    MensajeUsuarioService,
-    CambioPasswdService,
-    SesionService,
-    StatusBar,
-    SplashScreen,
-    Camera,
-    AuthService,
-    OfflineService,
-    SQLite,
-    StorageService,
-    AppVersion,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    // { provide: SQLite, useClass: SQLiteMock },
-    { provide: HTTP_INTERCEPTORS, useClass: HttpAuthInterceptor, multi: true }
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        // MisTareasPage,
+        // TareaPage,
+        // TareaGeneralComponent,
+        // TareaSeguimientoComponent,
+        // TareaCierreComponent,
+    ],
+    entryComponents: [
+        // TareaPage,
+        //TareaCierreComponent
+    ],
+    imports: [
+        BrowserModule, 
+        BrowserAnimationsModule, 
+        IonicModule.forRoot({ hardwareBackButton: false }), 
+        AppRoutingModule, 
+        ComunModule, 
+        HttpClientModule, 
+        AutoCompleteModule,
+        // TareaModule,
+        MisTareasPageModule
+        // FiltroModule
+    ],
+    providers: [
+        // FileTransfer,
+        MensajeUsuarioService,
+        CambioPasswdService,
+        EmpleadoService,
+        SesionService,
+        StatusBar,
+        SplashScreen,
+        Camera,
+        AuthService,
+        OfflineService,
+        SQLite,
+        StorageService,
+        AppVersion,
+        { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+        // { provide: SQLite, useClass: SQLiteMock },
+        { provide: HTTP_INTERCEPTORS, useClass: HttpAuthInterceptor, multi: true },
+    ],
+    bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
