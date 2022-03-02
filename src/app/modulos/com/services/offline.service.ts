@@ -725,6 +725,7 @@ export class OfflineService {
         });
     }
     clearLocalStorage() {
+        console.log(this.platform);
         if (!this.platform.is('mobileweb')) {
             console.log("running in mobile!");
         
