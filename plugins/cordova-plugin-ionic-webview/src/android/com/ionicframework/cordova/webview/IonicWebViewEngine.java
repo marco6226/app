@@ -10,8 +10,11 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
+import android.webkit.ServiceWorkerController;
+import android.webkit.ServiceWorkerClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import org.apache.cordova.ConfigXmlParser;
 import org.apache.cordova.CordovaInterface;
@@ -30,6 +33,7 @@ public class IonicWebViewEngine extends SystemWebViewEngine {
 
   private WebViewLocalServer localServer;
   private String CDV_LOCAL_SERVER;
+  private String scheme;
   private static final String LAST_BINARY_VERSION_CODE = "lastBinaryVersionCode";
   private static final String LAST_BINARY_VERSION_NAME = "lastBinaryVersionName";
 
@@ -58,19 +62,38 @@ public class IonicWebViewEngine extends SystemWebViewEngine {
     ConfigXmlParser parser = new ConfigXmlParser();
     parser.parse(cordova.getActivity());
 
-    String port = preferences.getString("WKPort", "8080");
-    CDV_LOCAL_SERVER = "http://localhost:" + port;
+    String hostname = preferences.getString("Hostname", "localhost");
+    scheme = preferences.getString("Scheme", "http");
+    CDV_LOCAL_SERVER = scheme + "://" + hostname;
 
-    localServer = new WebViewLocalServer(cordova.getActivity(), "localhost:" + port, true, parser);
-    WebViewLocalServer.AssetHostingDetails ahd = localServer.hostAssets("www");
+    localServer = new WebViewLocalServer(cordova.getActivity(), hostname, true, parser, scheme);
+    localServer.hostAssets("www");
 
     webView.setWebViewClient(new ServerClient(this, parser));
 
     super.init(parentWebView, cordova, client, resourceApi, pluginManager, nativeToJsMessageQueue);
+    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      final WebSettings settings = webView.getSettings();
+      int mode = preferences.getInteger("MixedContentMode", 0);
+      settings.setMixedContentMode(mode);
+    }
     SharedPreferences prefs = cordova.getActivity().getApplicationContext().getSharedPreferences(IonicWebView.WEBVIEW_PREFS_NAME, Activity.MODE_PRIVATE);
     String path = prefs.getString(IonicWebView.CDV_SERVER_PATH, null);
     if (!isDeployDisabled() && !isNewBinary() && path != null && !path.isEmpty()) {
       setServerBasePath(path);
+    }
+
+    boolean setAsServiceWorkerClient = preferences.getBoolean("ResolveServiceWorkerRequests", false);
+    ServiceWorkerController controller = null;
+
+    if (setAsServiceWorkerClient && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+        controller = ServiceWorkerController.getInstance();
+        controller.setServiceWorkerClient(new ServiceWorkerClient(){
+            @Override
+            public WebResourceResponse shouldInterceptRequest(WebResourceRequest request) {
+                return localServer.shouldInterceptRequest(request.getUrl(), request);
+            }
+        });
     }
   }
 
@@ -114,22 +137,27 @@ public class IonicWebViewEngine extends SystemWebViewEngine {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-      return localServer.shouldInterceptRequest(request.getUrl());
+      return localServer.shouldInterceptRequest(request.getUrl(), request);
     }
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
-      return localServer.shouldInterceptRequest(Uri.parse(url));
+      return localServer.shouldInterceptRequest(Uri.parse(url), null);
     }
 
     @Override
     public void onPageStarted(WebView view, String url, Bitmap favicon) {
       super.onPageStarted(view, url, favicon);
       String launchUrl = parser.getLaunchUrl();
-      if (!launchUrl.contains("http") && url.equals(launchUrl)) {
+      if (!launchUrl.contains(WebViewLocalServer.httpsScheme) && !launchUrl.contains(WebViewLocalServer.httpScheme) && url.equals(launchUrl)) {
         view.stopLoading();
-        view.loadUrl(CDV_LOCAL_SERVER);
+        // When using a custom scheme the app won't load if server start url doesn't end in /
+        String startUrl = CDV_LOCAL_SERVER;
+        if (!scheme.equalsIgnoreCase(WebViewLocalServer.httpsScheme) && !scheme.equalsIgnoreCase(WebViewLocalServer.httpScheme)) {
+          startUrl += "/";
+        }
+        view.loadUrl(startUrl);
       }
     }
 
@@ -137,7 +165,7 @@ public class IonicWebViewEngine extends SystemWebViewEngine {
     public void onPageFinished(WebView view, String url) {
       super.onPageFinished(view, url);
       view.loadUrl("javascript:(function() { " +
-              "window.WEBVIEW_SERVER_URL = '" + CDV_LOCAL_SERVER + "'" +
+              "window.WEBVIEW_SERVER_URL = '" + CDV_LOCAL_SERVER + "';" +
               "})()");
     }
   }

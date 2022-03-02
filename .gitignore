@@ -2,3 +2,10 @@ node_modules
 dist
 platforms
 www
+config.xml
+config.xml
+package.json
+package-lock.json
+.gitignore
+.vscode/settings.json
+plugins/android.json

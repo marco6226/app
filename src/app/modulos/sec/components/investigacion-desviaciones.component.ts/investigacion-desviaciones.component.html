@@ -177,8 +177,9 @@
     </ng-container>
 
     <ion-fab vertical="bottom" horizontal="end" slot="fixed" *ngIf="!guardando && !loading && !consultar">
-        <ion-fab-button (click)="guardarInvestigacion()">
+        <ion-fab-button [disabled]="isTareaList" (click)="guardarInvestigacion()">
             <ion-icon name="save"></ion-icon>
         </ion-fab-button>
     </ion-fab>
+    
 </ion-content>

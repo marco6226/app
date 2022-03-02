@@ -61,6 +61,7 @@ export class InvestigacionDesviacionesComponent implements OnInit {
   analisisNoEncontrado: boolean;
   guardando:boolean;
   loading: boolean = true;
+  isTareaList: boolean = true;
 
   constructor(
     private storageService: StorageService,
@@ -546,6 +547,14 @@ export class InvestigacionDesviacionesComponent implements OnInit {
 
   onEvent(event) {
     this.tareasList = event.data;
+    this.isTareaList = false;
+  }
+
+  ok(){
+    console.log(this.tareasList)
+    console.log(this.isTareaList)
+    this.isTareaList = !this.isTareaList
+    console.log(this.isTareaList)
   }
 
 }

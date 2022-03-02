@@ -1,35 +1,38 @@
 {
-  "_from": "cordova-plugin-market",
+  "_args": [
+    [
+      "cordova-plugin-market@1.2.0",
+      "/Users/apple/Documents/app/app"
+    ]
+  ],
+  "_from": "cordova-plugin-market@1.2.0",
   "_id": "cordova-plugin-market@1.2.0",
   "_inBundle": false,
   "_integrity": "sha1-YeNkKBR+lUAsZOr4bjFzeP/bJ08=",
   "_location": "/cordova-plugin-market",
   "_phantomChildren": {},
   "_requested": {
-    "type": "tag",
+    "type": "version",
     "registry": true,
-    "raw": "cordova-plugin-market",
+    "raw": "cordova-plugin-market@1.2.0",
     "name": "cordova-plugin-market",
     "escapedName": "cordova-plugin-market",
-    "rawSpec": "",
+    "rawSpec": "1.2.0",
     "saveSpec": null,
-    "fetchSpec": "latest"
+    "fetchSpec": "1.2.0"
   },
   "_requiredBy": [
-    "#USER",
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/cordova-plugin-market/-/cordova-plugin-market-1.2.0.tgz",
-  "_shasum": "61e36428147e95402c64eaf86e317378ffdb274f",
-  "_spec": "cordova-plugin-market",
-  "_where": "/media/DATA/dev/sigess/frontend/sigess_app",
+  "_spec": "1.2.0",
+  "_where": "/Users/apple/Documents/app/app",
   "author": {
     "name": "Xmartlabs"
   },
   "bugs": {
     "url": "https://github.com/xmartlabs/cordova-plugin-market/issues"
   },
-  "bundleDependencies": false,
   "cordova": {
     "id": "cordova-plugin-market",
     "platforms": [
@@ -37,7 +40,6 @@
       "ios"
     ]
   },
-  "deprecated": false,
   "description": "Cordova Plugin for access to Google Play and Apple Store within your app",
   "homepage": "https://github.com/xmartlabs/cordova-plugin-market#readme",
   "keywords": [

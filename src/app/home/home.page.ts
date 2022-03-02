@@ -47,7 +47,7 @@ export class HomePage {
     if (so == 'android') {
       this.market.open('co.sigess.app');
     } else if (so == 'ios') {
-      this.market.open('1473016574');
+      this.market.open('1562431304');
     } else {
       alert("Plataforma no detectada");
     }

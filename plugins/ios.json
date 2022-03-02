@@ -1,0 +1,48 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-plugin-app-version": {
+      "PACKAGE_NAME": "co.sigess.app"
+    },
+    "cordova-plugin-camera": {
+      "PACKAGE_NAME": "co.sigess.app"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "co.sigess.app"
+    },
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "co.sigess.app"
+    },
+    "cordova-plugin-file-opener2": {
+      "PACKAGE_NAME": "co.sigess.app"
+    },
+    "cordova-plugin-ionic-keyboard": {
+      "PACKAGE_NAME": "co.sigess.app"
+    },
+    "cordova-plugin-ionic-webview": {
+      "PACKAGE_NAME": "co.sigess.app"
+    },
+    "cordova-plugin-market": {
+      "PACKAGE_NAME": "co.sigess.app"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "co.sigess.app"
+    },
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "co.sigess.app"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "co.sigess.app"
+    },
+    "cordova-sqlite-storage": {
+      "PACKAGE_NAME": "co.sigess.app"
+    }
+  },
+  "dependent_plugins": {}
+}
