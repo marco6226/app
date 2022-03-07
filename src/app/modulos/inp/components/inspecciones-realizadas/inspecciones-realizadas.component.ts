@@ -8,6 +8,7 @@ import { TareaSeguimientoComponent } from '../../../sec/components/tarea-seguimi
 import { Inspeccion } from '../../entities/inspeccion';
 import { ListaInspeccion } from '../../entities/lista-inspeccion';
 import { InspeccionConsultarFormComponent } from '../inspeccion-consultar-form/inspeccion-consultar-form.component';
+import { FiltroPipeInspecciones } from './filtro/filtro.pipe';
 
 @Component({
     selector: 'sm-inspeccion-realizada',
@@ -108,8 +109,8 @@ export class InspeccionesRealizadasComponent implements OnInit {
     extraerUbicacion(){
           
           var hash = {};
-          if(this.inspList.length>0){
-            this.ListaUbicacion = this.inspList.filter(function(current) {
+          if(this.listaSecundaria.length>0){
+            this.ListaUbicacion = this.listaSecundaria.filter(function(current) {
                 if(current.area.nombre != null){
                     var exists = !hash[current.area.nombre];
                     hash[current.area.nombre] = true;
@@ -125,10 +126,20 @@ export class InspeccionesRealizadasComponent implements OnInit {
           console.log('Done');
           this.topLimit +=10;
           event.target.complete();
-          this.inspList = this.listaSecundaria.slice(0,this.topLimit);
+          this.inspList = this.filtroInterno().slice(0,this.topLimit);
           if (this.inspList.length == this.listaSecundaria.length) {
             event.target.disabled = true;
           }
         }, 500);
     }
+
+    filtroInterno(){
+        let dataFilt =  new FiltroPipeInspecciones().transform(this.listaSecundaria,this.textoFilt,this.campoFilt,this.fechaDesde,this.fechaHasta,this.ubicaionFilt)
+        console.log(dataFilt)
+        return dataFilt;
+      }
+    
+      changeFilter(){
+        this.inspList = this.filtroInterno().slice(0,this.topLimit);
+      }
 }

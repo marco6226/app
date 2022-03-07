@@ -23,6 +23,7 @@
                     picker-format="DD, MMMM, YYYY"         
                     monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre"
                     [(ngModel)]="fechaDesde"
+                    (ionChange)="changeFilter()"
                     ></ion-datetime> 
             </ion-item>
 
@@ -36,25 +37,26 @@
                     picker-format="DD, MMMM, YYYY"         
                     monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre"
                     [(ngModel)]="fechaHasta"
+                    (ionChange)="changeFilter()"
                     ></ion-datetime> 
             </ion-item>
 
             <ion-item>
                 <ion-icon slot="start" name="git-commit"></ion-icon>
                 <ion-label position="floating">Código</ion-label>
-                <ion-input type="number" [(ngModel)]="textoFilt"></ion-input>
+                <ion-input type="number" [(ngModel)]="textoFilt" (ionChange)="changeFilter()"></ion-input>
             </ion-item>
 
             <ion-item>
                 <ion-icon slot="start" name="mail"></ion-icon>
                 <ion-label position="floating">Usuario Elabora</ion-label>          
-                <ion-input type="text" [(ngModel)]="campoFilt"></ion-input>
+                <ion-input type="text" [(ngModel)]="campoFilt" (ionChange)="changeFilter()"></ion-input>
             </ion-item>
 
             <ion-item>
                 <ion-icon slot="start" name="pin"></ion-icon>
                 <ion-label position="floating">Ubicación</ion-label>
-                <ion-select [(ngModel)]="ubicaionFilt">
+                <ion-select [(ngModel)]="ubicaionFilt" (ionChange)="changeFilter()">
                     <ion-select-option *ngFor="let cli of ListaUbicacion" [value]="cli.area.nombre">{{cli.area.nombre}}</ion-select-option>
                 </ion-select>
             </ion-item>
@@ -76,8 +78,13 @@
     </ion-card>    
 </ion-item>
 
+<!-- <ion-button (click)="filtroInterno()">
+  Ok
+</ion-button> -->
 
+<!-- <ion-card *ngFor="let inspeccion of inspList | filtroProg: textoFilt: campoFilt: fechaDesde: fechaHasta: ubicaionFilt"> -->
 <ion-card *ngFor="let inspeccion of inspList | filtroProg: textoFilt: campoFilt: fechaDesde: fechaHasta: ubicaionFilt">
+
     <ion-item>
         <ion-label>{{inspeccion?.area.nombre}} </ion-label>
         <ion-button shape="round" size="small" color="tertiary" slot="end" (click)="abrirInspeccion(inspeccion)">Consultar <ion-icon slot="icon-only" name="search" ></ion-icon></ion-button>

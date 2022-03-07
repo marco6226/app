@@ -6,6 +6,7 @@ import { OfflineService } from '../../../com/services/offline.service';
 import { StorageService } from '../../../com/services/storage.service';
 
 import { Criteria } from '../../../com/entities/filter';
+import { FiltroPipeInspeccionesListaProg } from '../inspecciones-realizadas/filtro/filtro.pipe';
 
 @Component({
     selector: 'sm-programacionInspecciones',
@@ -110,8 +111,8 @@ export class ProgramacionInspeccionesComponent implements OnInit {
     extraerUbicacion(){
           
         var hash = {};
-        if(this.programacionList.length>0){
-            this.ListaUbicacion = this.programacionList.filter(function(current) {
+        if(this.listaSecundaria.length>0){
+            this.ListaUbicacion = this.listaSecundaria.filter(function(current) {
                 if(current.area.nombre != null){
                     var exists = !hash[current.area.nombre];
                     hash[current.area.nombre] = true;
@@ -126,10 +127,20 @@ export class ProgramacionInspeccionesComponent implements OnInit {
       console.log('Done');
       this.topLimit +=10;
       event.target.complete();
-      this.programacionList = this.listaSecundaria.slice(0,this.topLimit);
+      this.programacionList = this.filtroInterno().slice(0,this.topLimit);
       if (this.programacionList.length == this.listaSecundaria.length) {
         event.target.disabled = true;
       }
     }, 500);
-}
+    }
+
+    filtroInterno(){
+        let dataFilt =  new FiltroPipeInspeccionesListaProg().transform(this.listaSecundaria,this.fechaDesde,this.fechaHasta,this.nombreFilt,this.ubicaionFilt)
+        console.log(dataFilt)
+        return dataFilt;
+      }
+    
+      changeFilter(){
+        this.programacionList = this.filtroInterno().slice(0,this.topLimit);
+      }
 }

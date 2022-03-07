@@ -13,6 +13,7 @@
                     picker-format="DD, MMMM, YYYY"         
                     monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre"
                     [(ngModel)]="fechaDesde"
+                    (ionChange)="changeFilter()"
                     ></ion-datetime> 
             </ion-item>
 
@@ -26,19 +27,20 @@
                     picker-format="DD, MMMM, YYYY"         
                     monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre"
                     [(ngModel)]="fechaHasta"
+                    (ionChange)="changeFilter()"
                     ></ion-datetime> 
             </ion-item>
 
             <ion-item>
                 <ion-icon slot="start" name="copy"></ion-icon>
                 <ion-label position="floating">Nombre</ion-label>          
-                <ion-input type="text" [(ngModel)]="nombreFilt"></ion-input>
+                <ion-input type="text" [(ngModel)]="nombreFilt" (ionChange)="changeFilter()"></ion-input>
             </ion-item>
 
             <ion-item>
                 <ion-icon slot="start" name="pin"></ion-icon>
                 <ion-label position="floating">Ubicación</ion-label>
-                <ion-select [(ngModel)]="ubicaionFilt">
+                <ion-select [(ngModel)]="ubicaionFilt" (ionChange)="changeFilter()">
                     <ion-select-option *ngFor="let cli of ListaUbicacion" [value]="cli.area.nombre">{{cli.area.nombre}}</ion-select-option>
                 </ion-select>
             </ion-item>

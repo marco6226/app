@@ -6,19 +6,19 @@
           <ion-item>
               <ion-icon slot="start" name="git-commit"></ion-icon>
               <ion-label position="floating">Código</ion-label>
-              <ion-input type="text" [(ngModel)]="codigoFilt"></ion-input>
+              <ion-input type="text" [(ngModel)]="codigoFilt" (ionChange)="changeFilter()"></ion-input>
           </ion-item>
 
           <ion-item>
               <ion-icon slot="start" name="copy"></ion-icon>
               <ion-label position="floating">Nombre</ion-label>          
-              <ion-input type="text" [(ngModel)]="nombreFilt"></ion-input>
+              <ion-input type="text" [(ngModel)]="nombreFilt" (ionChange)="changeFilter()"></ion-input>
           </ion-item>
 
           <ion-item>
             <ion-icon slot="start" name="document"></ion-icon>
             <ion-label position="floating">Descripción</ion-label>          
-            <ion-input type="text" [(ngModel)]="descripcionFilt"></ion-input>
+            <ion-input type="text" [(ngModel)]="descripcionFilt" (ionChange)="changeFilter()"></ion-input>
         </ion-item>
 
       </ion-card-content>
@@ -38,10 +38,6 @@
 
   </ion-card>    
 </ion-item>
-<!-- 
-<ion-button (click)="ok()">
-  Ok
-</ion-button> -->
 
 <div *ngIf="loading == true">
     <ion-spinner class="main-spinner" name="dots" color="primary"></ion-spinner>
@@ -54,7 +50,9 @@
     </p>
 </div>
 
-<ion-card *ngFor="let lista of listasInspeccion | filtroLista: codigoFilt: nombreFilt: descripcionFilt">
+<!-- <ion-card *ngFor="let lista of listasInspeccion | filtroLista: codigoFilt: nombreFilt: descripcionFilt"> -->
+<ion-card *ngFor="let lista of listasInspeccion">
+
     <ion-card-header>
         <ion-item>
             <h6>{{lista.nombre}}</h6>            

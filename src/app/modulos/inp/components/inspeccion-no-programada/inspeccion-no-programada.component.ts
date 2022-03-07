@@ -1,9 +1,10 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, PipeTransform } from '@angular/core';
 import { OfflineService } from '../../../com/services/offline.service';
 import { ListaInspeccion } from '../../entities/lista-inspeccion';
 
 import { Criteria } from '../../../com/entities/filter';
 import { FilterQuery } from '../../../com/entities/filter-query';
+import { FiltroPipeInspecciones, FiltroPipeInspeccionesLista } from '../inspecciones-realizadas/filtro/filtro.pipe';
 
 @Component({
   selector: 'sm-inspeccionNoProgramada',
@@ -178,6 +179,7 @@ export class InspeccionNoProgramadaComponent implements OnInit {
     this.codigoFilt='';
     this.nombreFilt='';
     this.descripcionFilt = '';
+    this.filtroInterno();
   }
 
   loadData(event) {
@@ -185,11 +187,21 @@ export class InspeccionNoProgramadaComponent implements OnInit {
       console.log('Done');
       this.topLimit +=10;
       event.target.complete();
-      this.listasInspeccion = this.listaSecundaria.slice(0,this.topLimit);
+      this.listasInspeccion = this.filtroInterno().slice(0,this.topLimit);
       if (this.listasInspeccion.length == this.listaSecundaria.length) {
         event.target.disabled = true;
       }
     }, 500);
-}
+  }
+
+  filtroInterno(){
+    let dataFilt =  new FiltroPipeInspeccionesLista().transform(this.listaSecundaria, this.codigoFilt, this.nombreFilt, this.descripcionFilt)
+    console.log(dataFilt)
+    return dataFilt;
+  }
+
+  changeFilter(){
+    this.listasInspeccion = this.filtroInterno().slice(0,this.topLimit);
+  }
 
 }
