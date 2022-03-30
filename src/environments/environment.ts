@@ -3,8 +3,8 @@ export const environment = {
 };
 
 let protocol = 'http';
- // let host = '192.168.0.10';
-let host = 'localhost';
+ let host = '192.168.1.4';
+// let host = 'localhost';
 let port = '8080';
 //let protocol = 'https';
 //let host = 'sigess.app';
@@ -106,7 +106,7 @@ export const endPoints = {
     ActaService: path + 'acta/',
 
     ManualService: path + 'manual/',
-    
+    NumeroEconomico: path + 'numeroEconomico/',
     tareaService: path,
 };
 

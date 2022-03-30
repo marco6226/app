@@ -1,3 +1,4 @@
+import { NumeroEconomicoService } from './modulos/inp/services/numero-economico.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -85,6 +86,7 @@ import { AutoCompleteModule } from 'ionic4-auto-complete';
         SQLite,
         StorageService,
         AppVersion,
+        NumeroEconomicoService,
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
         // { provide: SQLite, useClass: SQLiteMock },
         { provide: HTTP_INTERCEPTORS, useClass: HttpAuthInterceptor, multi: true },
