@@ -442,22 +442,24 @@ export class InspeccionConsultarFormComponent implements OnInit {
             pk_inspeccion_id: Number.parseInt(this.inspeccion.id)
         };
 
-
-        this.inspeccionService.setBitacora(bit).then(resp=>{
-            if(resp){
-            this.loadBitacora();
-            this.FormBitacora.value.fecha=new Date();
-            this.FormBitacora.value.actividad=null;
+        if(this.idNumeroEconomico){
+            this.inspeccionService.setBitacora(bit).then(resp=>{
+                    if(resp){
+                    this.loadBitacora();
+                    this.FormBitacora.value.fecha=new Date();
+                    this.FormBitacora.value.actividad=null;
+                    }
+                });
             }
-        });
-    }
+        }
+        
 
     async loadBitacora(){
         this.bitacoraList=[];
         console.log(this.listaInspeccion.formulario.campoList,this.inspeccion.respuestasCampoList)
        
         this.listaInspeccion.formulario.campoList.forEach(element => {
-            if (element.nombre == "Número económico" || element.nombre == "Numero economico") {
+            if (element.nombre == "Número económico" || element.nombre == "Numero economico" || element.nombre == "Numero económico") {
                 this.inspeccion.respuestasCampoList.forEach(resp => {
                     if (resp.campoId == element.id) {
                         this.inspeccionService.getNumeroEconomicoByInspeccion(resp.valor).then(resp => {
