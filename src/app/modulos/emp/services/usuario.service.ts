@@ -7,19 +7,26 @@ import { Usuario } from '../entities/usuario';
 export class UsuarioService extends ServiceCRUD<Usuario>{
 
   aceptarTerminos(acepta: boolean): any {
-    return new Promise((resolve, reject) => {
-      this.httpInt.put(this.end_point + 'terminos/' + acepta, null)
-        .subscribe(
-          res => {
-            resolve(res);
-          }
-          ,
-          err => {
-            reject(err);
-            this.manageError(err)
-          }
-        )
-    });
+    try {
+      return new Promise((resolve, reject) => {
+        this.httpInt.put(this.end_point + 'terminos/' + acepta, null)
+          .subscribe(
+            res => {
+              setTimeout(() => {
+                resolve(res);                
+              }, 5000);
+            }
+            ,
+            err => {
+              reject(err);
+              this.manageError(err)
+            }
+          )
+      });
+    } catch (error) {
+      
+    }
+    
   }
 
   consultarHistoriaLogin() {
