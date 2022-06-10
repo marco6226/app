@@ -32,6 +32,10 @@ import { Bitacora } from '../../entities/bitacora';
 })
 export class InspeccionConsultarFormComponent implements OnInit {
     @ViewChild('listaInspeccionForm') listaInspeccionForm: ListaInspeccionFormComponent;
+
+    idEmpresa: string;
+
+
     consultar: boolean;
     inspeccionId: string;
     inspeccion: Inspeccion;
@@ -134,6 +138,7 @@ export class InspeccionConsultarFormComponent implements OnInit {
         }
 
     async ngOnInit() {
+        this.idEmpresa = this.sesionService.getEmpresa().id;
         console.log(this.maxDateIngenieria)
         // this.empleado = this.empleado;
         await this.leerInspeccionSeleccionada();
