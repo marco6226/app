@@ -14,7 +14,7 @@ export class UsuarioService extends ServiceCRUD<Usuario>{
             res => {
               setTimeout(() => {
                 resolve(res);                
-              }, 5000);
+              }, 3000);
             }
             ,
             err => {
