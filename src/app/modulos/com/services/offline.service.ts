@@ -1,3 +1,4 @@
+import { NumeroEconomico } from './../../inp/entities/numero-economico';
 import { ObservacionService } from './../../auc/services/observacion.service';
 import { Inspeccion } from './../../inp/entities/inspeccion';
 import { ProgramacionService } from '../../inp/services/programacion.service';
@@ -44,7 +45,8 @@ export class OfflineService {
         private actaService: ActaService,
         private observacionService: ObservacionService,
         private inspeccionService: InspeccionService,
-        private platform: Platform
+        private platform: Platform,
+        // private numeroEconomico: NumeroEconomico
     ) {
         this.sessionService = this.storageService.getSessionService();
         platform.ready().then(() => {
