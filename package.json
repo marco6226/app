@@ -48,10 +48,16 @@
     "cordova-sqlite-storage": "^3.2.1",
     "core-js": "^2.5.4",
     "crypto-js": "^3.1.9-1",
+    "ionic4-auto-complete": "^2.9.9",
+    "primeicons": "^5.0.0",
     "rxjs": "~6.5.1",
+    "rxjs-compat": "^6.6.7",
+    "sass": "^1.44.0",
     "save": "^2.4.0",
+    "to": "^0.2.9",
     "tslib": "^1.9.0",
-    "zone.js": "~0.8.29"
+    "update": "^0.4.2",
+    "zone.js": "~0.10.2"
   },
   "devDependencies": {
     "@angular-devkit/architect": "~0.13.8",
