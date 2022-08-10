@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'co.sigess.app',
-  appName: 'Sigess',
+  appId: 'com.sigess.app',
+  appName: '-sigess',
   webDir: 'www',
   bundledWebRuntime: false,
   cordova: {
@@ -14,7 +14,7 @@ const config: CapacitorConfig = {
       FadeSplashScreenDuration: '300',
       SplashShowOnlyFirstTime: 'false',
       SplashScreen: 'screen',
-      SplashScreenDelay: '0',
+      SplashScreenDelay: '3000',
       iosPersistentFileLocation: 'Compatibility',
       WKWebViewOnly: 'true',
       iosExtraFilesystems: 'library,library-nosync,documents,documents-nosync,cache,bundle,root'

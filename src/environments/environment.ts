@@ -2,14 +2,14 @@ export const environment = {
     production: true,
 };
 
-// let protocol = 'http';
-//  let host = '192.168.0.10';
-//  //let host = '192.168.1.5'
-// // let host = 'localhost';
-// let port = '8080';
-let protocol = 'https';
-let host = 'sigess.app';
-let port = '5858';
+let protocol = 'http';
+let host = '192.168.0.9';
+//  let host = '192.168.1.5'
+// let host = 'localhost';
+let port = '8080';
+// let protocol = 'https';
+// let host = 'sigess.app';
+// let port = '5858';
 let path = protocol + "://" + host + ":" + port + "/sigess/api/";
 
 
