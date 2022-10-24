@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="app_name">-sigess</string>
-    <string name="title_activity_main">-sigess</string>
-    <string name="package_name">com.sigess.app</string>
-    <string name="custom_url_scheme">com.sigess.app</string>
-</resources>
