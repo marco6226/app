@@ -5,11 +5,13 @@
     </ion-row>
     <ion-row>
       <ng-template ngFor let-campo [ngForOf]="formulario.campoList" let-i="index">
+        <!-- size-xs="12" size-sm="6" size-md="6" size-lg="4" size-xl="3" -->
         <ion-col size-xs="12" size-sm="6" size-md="6" size-lg="4" size-xl="3">
           <ion-item [ngSwitch]="campo.tipo">
-            <ion-label [title]="campo.descripcion" position="stacked">
-              {{campo.nombre}}<ng-container *ngIf="campo.requerido">*</ng-container>
-            </ion-label>
+            <ion-label class="ion-text-wrap" [title]="campo.descripcion" position="stacked" *ngIf="campo.requerido; else noRequerido">{{campo.nombre}}*</ion-label>
+            <ng-template #noRequerido>
+              <ion-label class="ion-text-wrap" [title]="campo.descripcion" position="stacked">{{campo.nombre}}</ion-label>
+            </ng-template>
 
             <ng-container *ngSwitchCase="'text'">
               <ion-input [formControlName]="campo.id + '_' + campo.nombre"></ion-input>
