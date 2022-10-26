@@ -3,9 +3,9 @@ export const environment = {
 };
 
 let protocol = 'http';
-// let host = '192.168.0.9';
+let host = '192.168.0.10';
 //  let host = '192.168.1.5'
-let host = 'localhost';
+//let host = 'localhost';
 let port = '8080';
 // let protocol = 'https';
 // let host = 'sigess.app';
