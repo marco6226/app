@@ -157,7 +157,11 @@ export class LoginComponent implements OnInit {
         if(err.status === 400){
           res = {exit:"false"};
         }else{
-          res = {exit:""}
+          res = err;
+          res = {
+            ...res,
+            exit: ''
+          }
         }
       }
     );
@@ -270,7 +274,7 @@ export class LoginComponent implements OnInit {
         this.msgUsuarioService.showMessage({
           tipoMensaje: 'error',
           mensaje: 'ERROR',
-          detalle: 'Se ha generado un error no esperado'
+          detalle: 'Se ha generado un error no esperado: '+err
         });
         break;
     }
