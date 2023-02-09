@@ -274,11 +274,7 @@ export class LoginComponent implements OnInit {
         this.msgUsuarioService.showMessage({
           tipoMensaje: 'error',
           mensaje: 'ERROR',
-<<<<<<< HEAD
-          detalle: 'Se ha generado un error no esperado. : '+JSON.stringify(err)
-=======
           detalle: 'Se ha generado un error no esperado: '+err
->>>>>>> 6cc26517babf4e5273e696929d0fde74359fd795
         });
         break;
     }
