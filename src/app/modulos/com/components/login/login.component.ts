@@ -142,15 +142,30 @@ export class LoginComponent implements OnInit {
         this.sesionService.setConfiguracionMap(mapaConfig);
       });
   }
+
   private alert;
+  
   async validate(){
     let res;
-    try {
-     res = await this.authService.checkisLoginExist(this.form.value.email, this.form.value.passwd);
-    } catch (error) {
-      if(error.status === 400) return res = {exit:"false"};
-    }
-    console.log(res);
+    await this.authService.checkisLoginExist(this.form.value.email, this.form.value.passwd)
+      .then( result => {
+        // console.info('result: ' + JSON.stringify(result));
+        res = result;
+      })
+      .catch(err => {
+        // console.log('err: '+ JSON.stringify(err));
+        if(err.status === 400){
+          res = {exit:"false"};
+        }else{
+          res = err;
+          res = {
+            ...res,
+            exit: ''
+          }
+        }
+      }
+    );
+
     if(res.exit == "true"){
       console.log("abrir modal");
       let  alert = await this.alertController.create({
@@ -158,32 +173,28 @@ export class LoginComponent implements OnInit {
         subHeader: "",
         message: "se perderan los cambios no guardados en sus otras sesiones",
         buttons: [
-            {
-                text: 'Sí',
-                handler: () => {
-               
-                  this.onSubmit();
-                 
-                }
-            },
-            {
-                text: 'No',
-                handler: () => { 
-                  this.alertController.getTop();
-                }
+          {
+            text: 'Sí',
+            handler: () => {
+              this.onSubmit();
             }
+          },
+          {
+            text: 'No',
+            handler: () => { 
+              this.alertController.getTop();
+            }
+          }
         ]
-
-    }); 
-   
- await alert.present(); 
-    
-		}else{
+      });    
+      await alert.present();
+		}else if(res.exit == "false"){
 	    this.onSubmit();
+    }else{
+      this.manageError(res);
     }
-
-    
 	}
+
   onSubmit() {
     let loading = this.showLoading();
     this.authService.login(this.form.value.email, this.form.value.passwd, true, this.form.value.pin)
@@ -197,9 +208,11 @@ export class LoginComponent implements OnInit {
             this.visible = false;
             if (this.modal) {
               this.authService.onLogin(res);
-              loading.then(loadPop => loadPop.dismiss());
+              loading
+                .then(loadPop => loadPop.dismiss());
             } else {
-              loading.then(loadPop => loadPop.dismiss())
+              loading
+                .then(loadPop => loadPop.dismiss())
                 .then(resp => {
                   this.router.navigate([this.authService.redirectUrl])
                 });
@@ -228,7 +241,7 @@ export class LoginComponent implements OnInit {
         this.msgUsuarioService.showMessage({
           tipoMensaje: 'warn',
           mensaje: 'ERROR DE CONEXIÓN',
-          detalle: 'No se ha podido establecer conexión con el servidor. Por favor verifique que cuenta con conexión a internet.'
+          detalle: 'No se ha podido establecer conexión con el servidor. Por favor verifique que cuenta con conexión a internet. nnn'+JSON.stringify(err)
         });
         break;
       case 403:
@@ -261,7 +274,7 @@ export class LoginComponent implements OnInit {
         this.msgUsuarioService.showMessage({
           tipoMensaje: 'error',
           mensaje: 'ERROR',
-          detalle: 'Se ha generado un error no esperado'
+          detalle: 'Se ha generado un error no esperado. : '+JSON.stringify(err)
         });
         break;
     }

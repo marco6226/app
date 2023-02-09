@@ -8,40 +8,40 @@
   },
   "installed_plugins": {
     "cordova-plugin-app-version": {
-      "PACKAGE_NAME": "co.sigess.app"
+      "PACKAGE_NAME": "co.sigess"
     },
     "cordova-plugin-camera": {
-      "PACKAGE_NAME": "co.sigess.app"
+      "PACKAGE_NAME": "co.sigess"
     },
     "cordova-plugin-device": {
-      "PACKAGE_NAME": "co.sigess.app"
+      "PACKAGE_NAME": "co.sigess"
     },
     "cordova-plugin-file": {
-      "PACKAGE_NAME": "co.sigess.app"
+      "PACKAGE_NAME": "co.sigess"
     },
     "cordova-plugin-file-opener2": {
-      "PACKAGE_NAME": "co.sigess.app"
+      "PACKAGE_NAME": "co.sigess"
     },
     "cordova-plugin-ionic-keyboard": {
-      "PACKAGE_NAME": "co.sigess.app"
+      "PACKAGE_NAME": "co.sigess"
     },
     "cordova-plugin-ionic-webview": {
-      "PACKAGE_NAME": "co.sigess.app"
+      "PACKAGE_NAME": "co.sigess"
     },
     "cordova-plugin-market": {
-      "PACKAGE_NAME": "co.sigess.app"
+      "PACKAGE_NAME": "co.sigess"
     },
     "cordova-plugin-splashscreen": {
-      "PACKAGE_NAME": "co.sigess.app"
+      "PACKAGE_NAME": "co.sigess"
     },
     "cordova-plugin-statusbar": {
-      "PACKAGE_NAME": "co.sigess.app"
+      "PACKAGE_NAME": "co.sigess"
     },
     "cordova-plugin-whitelist": {
-      "PACKAGE_NAME": "co.sigess.app"
+      "PACKAGE_NAME": "co.sigess"
     },
     "cordova-sqlite-storage": {
-      "PACKAGE_NAME": "co.sigess.app"
+      "PACKAGE_NAME": "co.sigess"
     }
   },
   "dependent_plugins": {}

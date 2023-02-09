@@ -5,6 +5,7 @@ export const environment = {
 
 let protocol = 'https';
 let host = 'sigess.app';
+//let host='demo.sigess.app'
 let port = '5858';
 let path = protocol + "://" + host + ":" + port + "/sigess/api/";
 
