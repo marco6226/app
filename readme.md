@@ -54,3 +54,6 @@ ionic integrations enable cordova --add
 ## Sobre resources
 Se deben pegar el icon.png y splash.png de Sigess ya que ionic configura los suyos por defecto.
 También cargar las carpetas correspondientes en resources/android/ para icon y splash
+
+
+PROS Y CONTRAS DE MARCELA GERALD
