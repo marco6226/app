@@ -146,7 +146,11 @@ export class StorageService {
     }
 
     borrarInspeccionPendiente(inspeccion: Inspeccion): any {
-        return this.database.executeSql('DELETE FROM inp_inspeccion_realizada_v2 WHERE hashid = ?', [inspeccion['hash']]);
+        return new Promise((resolve, reject) => {
+        this.database.executeSql('DELETE FROM inp_inspeccion_realizada_v2 WHERE hashid = ?', [inspeccion['hash']])
+        .then(() => resolve())
+                .catch((err) => reject(err));
+        });
     }
 
     guardarInspeccionRealizada(inspeccion: Inspeccion): any {

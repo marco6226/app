@@ -146,7 +146,126 @@
           </ion-card>
         </ion-slide>
 
-      <ion-slide>
+        <ion-slide *ngIf="idEmpresa=='21'">
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <ion-card class="tarjeta">
+                  <ion-card-title>
+                      <ion-item>
+                          <ion-label class="tarjetaTitulo" color="primary">Bitacora de la maquina</ion-label>
+                      </ion-item>
+                  </ion-card-title>
+      
+                      <ion-card-content>
+                        <form style="width:95%" [formGroup]="FormBitacora">
+                          <ion-item>
+                          
+                            <ion-label position="stacked">Fecha</ion-label>
+                            <ion-datetime
+                              [readonly]="true"
+                              cancelText="Cancelar"
+                              doneText="Ok"                      
+                              displayFormat="DD/MM/YYYY HH:mm"
+                              monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre"
+                              [(ngModel)]="selectDateBitacora"
+                              [value]="selectDateBitacora | date:'yyyy/MM/dd HH:mm:ss'"
+                              firstDayOfWeek="1"
+                              formControlName="fecha" 
+                          ></ion-datetime>
+                          </ion-item>
+                          <ion-item>
+                            <ion-label position="stacked">Actividad</ion-label>
+                            <ion-input formControlName="actividad" [(ngModel)]="FormBitacora.value.actividad"></ion-input>
+                          </ion-item>
+                        </form>
+                        
+                        
+      
+                        <ion-button shape="round" slot="start" [disabled]="FormBitacora.invalid" color="primary" (click)="nuevoIngreso()">
+                          <ion-icon slot="start" name="save"></ion-icon>
+                          <ion-label>Añadir</ion-label>
+                        </ion-button>
+                      
+                      </ion-card-content>
+                      
+                </ion-card>
+              </ion-col>
+            </ion-row>
+            <ion-row *ngIf="bitacoraList.length>0">
+              <ion-col>
+                <ion-card class="tarjeta">
+                  <ion-card-title>
+                    <ion-item>
+                        <ion-label class="tarjetaTitulo" color="primary">Historial</ion-label>
+                    </ion-item>
+                </ion-card-title>
+      
+                    <ion-card-content *ngFor="let bitacora of bitacoraList" style="border-bottom-style: groove">
+                     <!-- <ion-card-subtitle> -->
+                       <ion-item>
+                        <ion-item>
+                          <ion-label position="stacked">Fecha</ion-label>
+                          <ion-datetime
+                              [readonly]="true"                   
+                              displayFormat="DD/MM/YYYY"
+                              monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre"
+                              [value]="bitacora.fecha | date:'yyyy/MM/dd'"
+                          ></ion-datetime>
+                         </ion-item>
+                    
+                        <ion-item>
+                          <ion-label position="stacked">Hora</ion-label>
+                          <ion-datetime
+                            [readonly]="true"                  
+                            displayFormat="HH:mm"
+                            monthNames="Enero, Febrero, Marzo, Abril, Mayo, Junio, Julio, Agosto, Septiembre, Octubre, Noviembre, Diciembre"
+                            [value]="bitacora.fecha | date:'HH:mm'"
+                        ></ion-datetime>
+                        </ion-item>
+                       </ion-item>
+                       
+                      <ion-item>
+                        <ion-label position="stacked">Actividad</ion-label>
+                        <ion-input [readonly]="true" [value]="bitacora.observacion"></ion-input>
+                      </ion-item>
+                    
+                    </ion-card-content>
+                </ion-card>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          
+
+          <!-- <ion-fab horizontal="end" vertical="bottom" slot="fixed" class="iconSup">
+            <ion-fab-button>
+              <ion-icon name="checkmark-circle-outline"></ion-icon>
+            </ion-fab-button>
+            <ion-fab-list side="top">
+              <ion-fab-button color="danger" class="ionfabDen">
+                <ion-icon name="close" (click)="guardarGestionObervacion('denegar')" color="light"></ion-icon>
+              </ion-fab-button>
+              <ion-label class="labelFloat">Denegar</ion-label>
+              <ion-fab-button color="success" class="ionfabAce">
+                <ion-icon name="checkmark" (click)="guardarGestionObervacion('aceptar')" color="light"></ion-icon>
+              </ion-fab-button>
+              <ion-label class="labelFloat">Aceptar</ion-label>    
+            </ion-fab-list>
+          </ion-fab>-->
+
+          <!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed" >
+            <ion-fab-button (click)="onTarjetaEdit()">
+              <ion-icon name="create"></ion-icon>
+            </ion-fab-button>
+          </ion-fab>  -->
+
+
+         
+
+
+        </ion-slide>
+
+      <ion-slide *ngIf="idEmpresa=='21'">
         <ion-grid>
           <ion-row>
             <ion-col>
@@ -155,7 +274,7 @@
           <ion-card class="tarjeta">
             <ion-card-title>
                 <ion-item>
-                    <ion-label class="tarjetaTitulo" color="primary">Visto Bueno HSE</ion-label>
+                    <ion-label class="tarjetaTitulo" color="primary">Visto Bueno Maquinaria</ion-label>
                 </ion-item>
             </ion-card-title>
             <ion-card-content class="tarjetaContenido">              
@@ -228,7 +347,7 @@
                   <ion-card class="tarjeta">
                     <ion-card-title>
                         <ion-item>
-                            <ion-label class="tarjetaTitulo" color="primary">Visto Bueno Supervisión/Ingenieria</ion-label>
+                            <ion-label class="tarjetaTitulo" color="primary">Área encargada</ion-label>
                         </ion-item>
                     </ion-card-title>
                     <ion-card-content class="tarjetaContenido">              

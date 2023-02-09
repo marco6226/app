@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -11,7 +11,7 @@ import { CambioPasswdService } from '../../services/cambio-passwd.service';
   styleUrls: ['terminos-condiciones.component.scss'],
   providers: [UsuarioService]
 })
-export class TerminosCondicionesComponent {
+export class TerminosCondicionesComponent implements OnInit{
 
   visible: boolean;
   safeHtml: any;
@@ -27,29 +27,39 @@ export class TerminosCondicionesComponent {
     public usuarioService: UsuarioService,
     public cambioPasswdService: CambioPasswdService
   ) {
+   
+  }
+
+  async ngOnInit(){
     this.loading = true;
-    this.authService.consultarPoliticaDatos()
+    await this.authService.consultarPoliticaDatos()
       .then(resp =>{
-        this.safeHtml = sanitizer.bypassSecurityTrustHtml(<any>resp['data']);
+        this.safeHtml = this.sanitizer.bypassSecurityTrustHtml(<any>resp['data']);
         this.loading = false;
       })
       .catch(err =>{
         this.loading = false;
       });
     
-    this.authService.getSubjectTerminos().asObservable()
-      .subscribe(visible => {
-        this.visible = visible;
-      });
+      try {
+        await this.authService.getSubjectTerminos().asObservable()
+          .subscribe(visible => {
+            this.visible = visible;
+        });
+      } catch (error) {
+        
+      }
+    
   }
 
   abrirConfirmacion(acepta: boolean) {
-    this.visibleConfDlg = true;
+    this.visibleConfDlg = true; 
     this.acepta = acepta;
   }
 
   marcarAceptacion(acepta: boolean) {
     this.usuarioService.aceptarTerminos(acepta)
+    // this.usuarioService.aceptarTerminos(null)
       .then(() => {
         this.visibleConfDlg = false;
         this.visible = false;
@@ -59,6 +69,8 @@ export class TerminosCondicionesComponent {
       })
       .catch(err => {
         alert("Error al realizar la petición");
+        this.visibleConfDlg = false;
+        this.visible = false;
       });
   }
 

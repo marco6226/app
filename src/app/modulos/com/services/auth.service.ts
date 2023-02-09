@@ -69,7 +69,6 @@ export class AuthService {
 
 
   logout(redirectLogin?: boolean) {
-    
     let isoffline = this.sesionService.getOfflineMode();
     this.sesionService.setOfflineMode(false);
     let refresh = this.sesionService.getRefreshToken();

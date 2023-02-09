@@ -181,7 +181,11 @@ public setEmpleado(empleado: Empleado) {
       this.app_version = localStorage.getItem("app_version");
 
     if (this.app_version == null)
+<<<<<<< HEAD
       this.app_version = "1.0.234";
+=======
+      this.app_version = "1.0.242";
+>>>>>>> 6cc26517babf4e5273e696929d0fde74359fd795
 
     return this.app_version;
   }

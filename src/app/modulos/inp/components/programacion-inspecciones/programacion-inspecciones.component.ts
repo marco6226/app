@@ -40,28 +40,27 @@ export class ProgramacionInspeccionesComponent implements OnInit {
 
     constructor(private storageService: StorageService, private offlineService: OfflineService) {}
 
-    ngOnInit() {
-        this.cargarProgramacion();
-        // setTimeout(() => {
-        //     this.extraerUbicacion();            
-        // }, 1000);
+    async ngOnInit() {
+        await this.cargarProgramacion();
+        this.changeFilter();
     }
 
-    cargarProgramacion() {
+    async cargarProgramacion() {
         this.loading = true;
         this.progCargada = null;
-        this.offlineService
+        await this.offlineService
             .queryProgramacionList()
             .then((resp) => {
                 this.programacionList = [];
                 this.listaSecundaria=[];
-                (<any[]>resp['data']).forEach((dto) => {
+                (<any[]>resp['data']).forEach(async (dto) => {
                     // console.log(resp);
-                    this.listaSecundaria.push(FilterQuery.dtoToObject(dto));
+                    await this.listaSecundaria.push(FilterQuery.dtoToObject(dto));
                 });
                 this.loading = false;
                 this.progCargada = true;
               this.programacionList = this.listaSecundaria.slice(0,this.topLimit);
+              console.log(this.programacionList)
             })
             .catch((err) => {
                 this.loading = false;

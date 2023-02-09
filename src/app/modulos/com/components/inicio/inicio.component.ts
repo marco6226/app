@@ -109,10 +109,10 @@ export class InicioComponent implements OnInit {
       .then(resp => {
         loading.then(loadPop => loadPop.dismiss());
         try {
-          if (navigator['app'] == null)
+          // if (navigator['app'] == null)
             this.router.navigate(['/login']).then(() => location.reload());
-          else
-            navigator['app'].exitApp();
+          // else
+          //   navigator['app'].exitApp();
         } catch (error) {
           console.log(error);
         }

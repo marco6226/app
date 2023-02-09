@@ -2,6 +2,7 @@ export const environment = {
     production: true,
 };
 
+<<<<<<< HEAD
 //let protocol = 'http';
  // let host = '192.168.0.10';
 //let host = 'localhost';
@@ -9,6 +10,16 @@ export const environment = {
 let protocol = 'https';
 let host = 'sigess.app';
 let port = '5858';
+=======
+let protocol = 'http';
+let host = '192.168.0.10';
+//  let host = '192.168.1.5'
+//let host = 'localhost';
+let port = '8080';
+// let protocol = 'https';
+// let host = 'sigess.app';
+// let port = '5858';
+>>>>>>> 6cc26517babf4e5273e696929d0fde74359fd795
 let path = protocol + "://" + host + ":" + port + "/sigess/api/";
 
 
@@ -106,7 +117,7 @@ export const endPoints = {
     ActaService: path + 'acta/',
 
     ManualService: path + 'manual/',
-    
+    NumeroEconomico: path + 'numeroEconomico/',
     tareaService: path,
 };
 

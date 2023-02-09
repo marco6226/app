@@ -20,6 +20,8 @@ import { ListaInspeccionFormComponent } from '../inspeccion-form/lista-inspeccio
 import { SesionService } from '../../../com/services/sesion.service';
 import { Usuario } from '../../../emp/entities/usuario';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NumeroEconomicoService } from '../../services/numero-economico.service';
+import { Bitacora } from '../../entities/bitacora';
 
 
 @Component({
@@ -30,12 +32,19 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class InspeccionConsultarFormComponent implements OnInit {
     @ViewChild('listaInspeccionForm') listaInspeccionForm: ListaInspeccionFormComponent;
+
+    idEmpresa: string;
+
+
     consultar: boolean;
     inspeccionId: string;
     inspeccion: Inspeccion;
     inspList: Inspeccion[];
     empleadoElabora: Empleado;
     
+    bitacoraList: Bitacora[]=[];
+    idNumeroEconomico;
+
     fechaActual = new Date();
     user: Usuario;
     empleado: Empleado;
@@ -48,6 +57,8 @@ export class InspeccionConsultarFormComponent implements OnInit {
     // Form: FormGroup;
     public FormHseq: FormGroup;
     public FormIng: FormGroup;
+    public FormBitacora: FormGroup;
+
     permisoHse:boolean=false;
     permisoIngenieria:boolean=false;
     estado:boolean=false;
@@ -56,6 +67,7 @@ export class InspeccionConsultarFormComponent implements OnInit {
     maxDateHse: string = new Date().toISOString();
     minDateHse: string = new Date().toISOString();
     selectDateHse;
+    selectDateBitacora: Date = new Date();
     maxDateIngenieria: string = new Date().toISOString();
     minDateIngenieria: string;
     selectDateIngenieria;
@@ -104,7 +116,8 @@ export class InspeccionConsultarFormComponent implements OnInit {
         private sistemaNivelRiesgoService: SistemaNivelRiesgoService,
         private domSanitizer: DomSanitizer,
         private sesionService: SesionService,
-        private fb: FormBuilder
+        private fb: FormBuilder,
+        private numeroEconomicoService: NumeroEconomicoService
         ) {
             this.FormHseq = this.fb.group({
                 concepto: [null,Validators.required],
@@ -118,14 +131,21 @@ export class InspeccionConsultarFormComponent implements OnInit {
                 cargo: [null,Validators.required],
                 fecha: [Date,Validators.required]
             });
+            this.FormBitacora = this.fb.group({
+                fecha: [Date, Validators.required],
+                actividad: [null, Validators.required]
+            })
         }
 
     async ngOnInit() {
+        this.idEmpresa = this.sesionService.getEmpresa().id;
         console.log(this.maxDateIngenieria)
         // this.empleado = this.empleado;
         await this.leerInspeccionSeleccionada();
         await this.selectUsuario();
-        this.cargaDatosLista();        
+        this.cargaDatosLista();  
+        
+            
     }
 
     async leerInspeccionSeleccionada() {
@@ -198,6 +218,7 @@ export class InspeccionConsultarFormComponent implements OnInit {
                 );
                 console.log(this.inspeccion)
                 this.vistoPermisos();
+                this.loadBitacora();
                 })
             .catch(err => {
             });
@@ -407,6 +428,60 @@ export class InspeccionConsultarFormComponent implements OnInit {
         console.log(this.observacion)
         console.log(this.equipo)
         this.guardarVistoBueno()
+    }
+
+
+    nuevoIngreso(){
+        // console.log(this.FormBitacora)
+        this.insertBitacora();
+        // this.loadBitacora();
+    }
+
+    insertBitacora(){
+
+        let bit: Bitacora={
+            // id: 4,
+            fecha:new Date(),
+            observacion: this.FormBitacora.value.actividad,
+            pk_numero_economico_id: this.idNumeroEconomico,
+            pk_inspeccion_id: Number.parseInt(this.inspeccion.id)
+        };
+
+        if(this.idNumeroEconomico){
+            this.inspeccionService.setBitacora(bit).then(resp=>{
+                    if(resp){
+                    this.loadBitacora();
+                    this.FormBitacora.value.fecha=new Date();
+                    this.FormBitacora.value.actividad=null;
+                    }
+                });
+            }
+        }
+        
+
+    async loadBitacora(){
+        this.bitacoraList=[];
+        console.log(this.listaInspeccion.formulario.campoList,this.inspeccion.respuestasCampoList)
+       
+        this.listaInspeccion.formulario.campoList.forEach(element => {
+            if (element.nombre == "Número económico" || element.nombre == "Numero economico" || element.nombre == "Numero económico") {
+                this.inspeccion.respuestasCampoList.forEach(resp => {
+                    if (resp.campoId == element.id) {
+                        this.inspeccionService.getNumeroEconomicoByInspeccion(resp.valor).then(resp => {
+                            console.log(resp);
+                            this.idNumeroEconomico=resp[0].id;
+                            this.inspeccionService.getBitacora(resp[0].id, this.inspeccion.id).then((respo: Bitacora[]) => {
+                                for (let index = 0; index < respo.length; index++) {
+                                    this.bitacoraList.push(respo[index]);
+                                }                               
+                            });
+                        });
+                    }
+                });
+
+            }
+        })
+      
     }
     
 }
