@@ -1,0 +1,1 @@
+{"plugins":["cordova-plugin-statusbar","cordova-plugin-device","cordova-plugin-splashscreen","cordova-plugin-ionic-webview","cordova-plugin-ionic-keyboard","cordova-plugin-camera","cordova-plugin-file","cordova-plugin-file-opener2","cordova-plugin-app-version","cordova-plugin-market","cordova-sqlite-storage","cordova-plugin-androidx-adapter"]}
