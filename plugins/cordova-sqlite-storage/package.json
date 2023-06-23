@@ -46,7 +46,7 @@
   "description": "Native interface to SQLite for PhoneGap/Cordova - cordova-sqlite-storage plugin version",
   "devDependencies": {
     "coffeescript": "1",
-    "cross-spawn": "^6.0.5",
+    "cross-spawn": "^7.0.3",
     "fs-extra": "^8.1.0"
   },
   "homepage": "https://github.com/xpbrew/cordova-sqlite-storage",
