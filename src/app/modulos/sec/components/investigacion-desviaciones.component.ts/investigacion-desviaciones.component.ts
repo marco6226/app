@@ -19,7 +19,7 @@ import { Documento } from '../../../ado/entities/documento';
 import { StorageService } from '../../../com/services/storage.service';
 import { FilterQuery } from '../../../com/entities/filter-query';
 import { Criteria } from '../../../com/entities/filter';
-
+import { SesionService } from '../../../com/services/sesion.service';
 @Component({
   selector: 'sm-investigacionDesviaciones',
   templateUrl: './investigacion-desviaciones.component.html',
@@ -62,6 +62,7 @@ export class InvestigacionDesviacionesComponent implements OnInit {
   guardando:boolean;
   loading: boolean = true;
   isTareaList: boolean = true;
+  idEmpresa: string;
 
   constructor(
     private storageService: StorageService,
@@ -74,12 +75,14 @@ export class InvestigacionDesviacionesComponent implements OnInit {
     private fileOpener: FileOpener,
     private file: FilePlugin,
     private modalController: ModalController,
-    private offlineService: OfflineService
+    private offlineService: OfflineService,
+    private sesionService: SesionService,
   ) {
 
   }
 
   ngOnInit() {
+    this.idEmpresa = this.sesionService.getEmpresa().id;
     this.modalController.getTop()
       .then(data => {
         this.consultar = (<any>data).componentProps.operacion == 'GET';

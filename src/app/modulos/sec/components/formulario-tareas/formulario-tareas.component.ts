@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators, FormsModule } from '@angular/forms'
 import { Tarea } from '../../entities/tarea';
 import { OfflineService } from '../../../com/services/offline.service';
 import { Area } from '../../../emp/entities/area';
-
+import { SesionService } from '../../../com/services/sesion.service';
 import { ToastController, AlertController, IonicModule } from '@ionic/angular';
 import { Empleado } from '../../../emp/entities/empleado';
 
@@ -29,6 +29,7 @@ export class FormularioTareasComponent implements OnInit {
     evento;
     selectionEmpleado: boolean = false;
     isEnabled:boolean=false;
+    idEmpresa: string;
 
     idxTareaEditar: number = -1;
     @Output('onEvent') onEvent = new EventEmitter();
@@ -47,6 +48,7 @@ export class FormularioTareasComponent implements OnInit {
         public toastController: ToastController,
         public offlineService: OfflineService,
         public fb: FormBuilder,
+        private sesionService: SesionService,
     ) {
         this.form = fb.group({
             'id': [null],
@@ -59,6 +61,7 @@ export class FormularioTareasComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.idEmpresa = this.sesionService.getEmpresa().id;
         this.cargarAreas();
     }
 

@@ -2,7 +2,7 @@
     <ion-card-content>
         <div *ngFor="let tarea of tareasList; let i = index" [id]="'taritem_' + i" class="tarea-content">
             <p style="margin-bottom: 10px">
-                <ion-button slot="end" (click)="cargarTarea(tarea, i)" color="success" fill="outline" size="small" *ngIf="readOnly != true && tarea.estado == 'NUEVO'">
+                <ion-button slot="end" (click)="cargarTarea(tarea, i)" color="success" fill="outline" size="small" *ngIf="readOnly != true && tarea.estado == 'NUEVO' && idEmpresa != '22'">
                     <ion-icon name="create"></ion-icon>
                     Modificar
                 </ion-button>
@@ -19,17 +19,17 @@
                 >{{ tarea.estado }}</ion-badge
             >
             <h2>{{ tarea?.nombre }}</h2>
-            <p>Descripción: {{ tarea?.descripcion }}</p>
-            <p>Tipo de acción: {{ tarea?.tipoAccion }}</p>
-            <p>Jerarquia de control: {{ tarea?.jerarquia }}</p>
+            <p *ngIf="idEmpresa != '22' ">Descripción: {{ tarea?.descripcion }}</p>
+            <p *ngIf="idEmpresa != '22' ">Tipo de acción: {{ tarea?.tipoAccion }}</p>
+            <p *ngIf="idEmpresa != '22' ">Jerarquia de control: {{ tarea?.jerarquia }}</p>
             <p>Empleado responsable: {{ tarea?.empResponsable?.primerNombre }} {{ tarea?.empResponsable?.primerApellido }}</p>
             <p>Fecha: {{ tarea?.fechaProyectada | date: 'dd/MM/yyyy' }}</p>
-            <p>Ubicación: {{ tarea.areaResponsable?.nombre }}</p>
+            <p *ngIf="idEmpresa != '22' ">Ubicación: {{ tarea.areaResponsable?.nombre }}</p>
         </div>
     </ion-card-content>
 </ion-card>
 
-<ion-card id="form-tareas" *ngIf="readOnly != true">
+<ion-card id="form-tareas" *ngIf="readOnly != true && idEmpresa != '22'">
     <ion-card-content>
         <ion-item>
             <ion-label position="stacked">Actividad*</ion-label>

@@ -826,7 +826,7 @@ public class CameraLauncher extends CordovaPlugin implements MediaScannerConnect
             if (resultCode == Activity.RESULT_OK && intent != null) {
                 final Intent i = intent;
                 final int finalDestType = destType;
-                cordova.getThreadPool().execute(new Runnable() {
+                this.cordova.getActivity().runOnUiThread (new Runnable() {
                     public void run() {
                         processResultFromGallery(finalDestType, i);
                     }

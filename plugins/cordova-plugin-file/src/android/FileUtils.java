@@ -385,7 +385,7 @@ public class FileUtils extends CordovaPlugin {
                 }
             }, rawArgs, callbackContext);
         } else if (action.equals("requestAllPaths")) {
-            cordova.getThreadPool().execute(
+            this.cordova.getActivity().runOnUiThread
                     new Runnable() {
                         public void run() {
                         	try {

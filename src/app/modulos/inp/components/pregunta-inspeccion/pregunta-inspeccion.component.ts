@@ -33,11 +33,13 @@ export class PreguntaInspeccionComponent implements OnInit {
 
 
   options: CameraOptions = {
-    quality: 75,
+    quality: 50,
     destinationType: this.camera.DestinationType.FILE_URI,
+    sourceType: this.camera.PictureSourceType.CAMERA,
     encodingType: this.camera.EncodingType.JPEG,
     correctOrientation: true,
     mediaType: this.camera.MediaType.PICTURE,
+    allowEdit: false,
     targetWidth: 960,
     targetHeight: 960,
   }
